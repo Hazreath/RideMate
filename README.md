@@ -1,4 +1,4 @@
-# RideMate
+![RideMate](./front/src/assets/imgs/logo.png)
 ## Special place for scooter riders around the world
 
 RideMate is a community website aiming to gather scooter riders.
