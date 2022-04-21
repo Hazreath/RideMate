@@ -1,0 +1,54 @@
+.new-trick-modal-container {
+    position: sticky;
+    left:90vw;
+    bottom:3vh;
+}
+.new-button {
+    position: sticky;
+    left:90vw;
+    bottom:3vh;
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width:64px;
+    height:64px;
+
+    border: 2px solid darkgoldenrod;
+    border-radius: 50px;
+    background-color : orange;
+    transition: 0.5s;
+    
+    cursor:pointer;
+}
+
+.new-modal-body {
+    display:flex;
+    justify-content: center;
+}
+.new-trick-form {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:80%;
+}
+.new-trick-form > input[type=text] {
+    margin-bottom:16px;
+}
+.new-trick-form > input[type=submit] {
+    margin-top:16px;
+}
+.new-trick-form > .select {
+    width:100%;
+}
+.new-trick-form > .select > select {
+    width:100%;
+}
+
+.new-button:hover {
+    background-color: brown;
+    transition: 0.5s;
+}
+

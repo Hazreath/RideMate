@@ -1,0 +1,45 @@
+.menu-container {
+    align-self: center;
+    max-width:80px;
+    
+}
+.menu {
+    position: fixed;
+    left:0;
+    
+    z-index: 99;
+    /* width:33%; */
+    height:100%;
+    background: white;
+    padding:8px;
+    border-right: 1px solid black;
+    border-top: 1px dotted grey;
+
+    /* animation: left-drawer 0.5s normal; */
+    animation: left-drawer 0.5s;
+}
+
+#open-menu:checked + .menu{
+    animation: left-drawer 0.5s reverse;
+    background:red;
+}
+.burger-menu {
+    max-width:80px !important;
+    /* height:50px; */
+
+}
+.menu-rider-tag-container {
+    display:none;
+    /* background: red; */
+}
+
+@keyframes left-drawer {
+    0%   {left: -1000px;}
+    100% {left: 0;}
+}
+
+@media screen and (max-width: 460px) {
+    .menu-rider-tag-container {
+        display:flex;
+    }
+}
