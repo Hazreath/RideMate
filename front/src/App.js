@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import Login from './components/Login'
 import Banner from './components/Banner';
 import ParkList from './components/ParkList';
 import Menu from './components/Menu'
@@ -10,12 +11,17 @@ function App() {
   // HTML element
   document.documentElement.style.overflow = 'hidden'
 
+  // let content = 
+  //   <div className='app-root'>
+  //     <Banner></Banner>
+      
+  //     <ParkList></ParkList>
+  //     <NewTrickModal></NewTrickModal>
+  //   </div>
+
   let content = 
     <div className='app-root'>
-      <Banner></Banner>
-      
-      <ParkList></ParkList>
-      <NewTrickModal></NewTrickModal>
+      <Login></Login>
     </div>
   return content
 }
