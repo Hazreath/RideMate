@@ -6,7 +6,6 @@
 ## Front
 - Passer sous un préprocesseur CSS (Sass de préférence)
 - Charte graphique plus stylée
-- Login <-
 
 ## Back
 - Router

@@ -1,0 +1,57 @@
+.login-background {
+    /* background-image: url("../assets/imgs/adrenaline-alley.jpg");
+    background-position:40%; */
+    position:absolute;
+    opacity: 0.5;
+
+    width:100%;
+    height:100%;
+    right:0;
+    bottom:0;
+
+    z-index:-10;
+
+    background-color: black;
+    
+}
+
+.login-page {
+    text-align: center;
+}
+
+
+.logo {
+    margin-bottom:32px;
+}
+
+.login-frame {
+    width:80vw;
+    min-height:40vh;
+    margin:auto;    
+}
+
+
+.login-form {
+    width:90%;
+    text-align:center;
+    margin:auto;
+    
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+input[type=text] {
+    margin:16px 0 16px 0;
+
+}
+input[type=submit] {
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.register {
+    color:blue;
+    font-size:small;
+}
