@@ -40,4 +40,5 @@ function displayLoginForm() {
     )
    
 }
+>>>>>>> 6d79eba51b297a29b517171f61b65985cded515b
 export default Login
