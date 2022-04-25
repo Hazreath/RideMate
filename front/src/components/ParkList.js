@@ -38,13 +38,13 @@ function displayParkList() {
 }
 function displayTricksWithPlatform(platform) {
     var c = 
-    <div class='parklist-platform box message is-info'>
+    <div className='parklist-platform box message is-info'>
         <h3 className='subtitle is-3 platform-name message-header'>{platform}</h3>
         <ul className='trick-bag'>
             {
                 tricks.filter(trick => trick.platform === platform)
                     .map(t => 
-                            <li key={t.name}>
+                            <li key={t.platform + " " + t.name}>
                                 <label className='checkbox'>
                                     <input type='checkbox' className='checkbox'/>{t.name}
                                 </label>

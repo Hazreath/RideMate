@@ -13,19 +13,19 @@ function NewTrickModal() {
     }
 
     let c = 
-        <div class='new-trick-modal-container'>
+        <div className='new-trick-modal-container'>
             <div className='new-button' onClick={() => openModal(changeOpenModal,!modalOpened)}>➕</div>
             <div className={modalClass}>
                 <div className='modal-background'></div>
                 <div className='modal-content'>
-                    <article class="message is-primary">
-                        <div class="message-header">
+                    <article className="message is-primary">
+                        <div className="message-header">
                             <p>New Item</p>
                             <button className="delete" aria-label="delete" 
                                 onClick={() => openModal(changeOpenModal,!modalOpened)}></button>
                         </div>
-                        <div class="message-body">
-                            <div class='tabs is-boxed is-centered is-full'>
+                        <div className="message-body">
+                            <div className='tabs is-boxed is-centered is-full'>
                                 <ul>
                                     <li className={newForm && 'is-active'}>
                                         <a onClick={() => changeForm(changeNewForm,!newForm)}>Trick</a>
@@ -35,7 +35,7 @@ function NewTrickModal() {
                                     </li>
                                 </ul>
                             </div>
-                            <div class='new-modal-body'>
+                            <div className='new-modal-body'>
                             {newForm ? displayNewTrickForm() : displayNewPlatformForm() }
                             
                             </div>
@@ -45,7 +45,7 @@ function NewTrickModal() {
                         
                     </article>
                 </div>
-                <button class="modal-close is-large" aria-label="close"></button>
+                <button className="modal-close is-large" aria-label="close"></button>
             </div>
         </div>
         

@@ -1,6 +1,7 @@
 import '../styles/RiderTag.css'
 import profile_stub from '../assets/imgs/profile.jpg'
 import React from 'react'
+import { Link } from 'react-router-dom'
 function RiderTag() {
     let c = 
     <React.Fragment>
@@ -17,7 +18,11 @@ function RiderTag() {
             </div>
             <div className='actions'>
                 <button className='profile button is-primary is-small'>Profil</button>
-                <button className='logout button is-warning is-small'>Déconnexion</button>
+                <Link to='/'>
+                    <button className='logout button is-warning is-small'>
+                        Déconnexion
+                    </button>
+                </Link>
             </div>
         </div>
         
