@@ -6,7 +6,7 @@ function Login() {
     <div className='login-page'>
         {/* <div className='login-background'></div> */}
         <video autoPlay muted loop className='login-background'>
-            <source src={background_video} type='video/mp4'></source>
+            <source src={background_video + '#t=23'} type='video/mp4'></source>
         </video>
         <div className='login-page'>
             <img className='logo' src={logo} />
