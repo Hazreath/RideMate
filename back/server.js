@@ -1,10 +1,12 @@
 const express = require('express')
 const mongoose = require('mongoose')
+
+const usersRoutes = require('./routes/users')
 const app = express()
 const port = 3001
 
 mongoose.connect('mongodb+srv://Hazreath:zFHBKgxe7ezsBDvl' +
-  '@ridemate.2poar.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  '@ridemate.2poar.mongodb.net/RideMate?retryWrites=true&w=majority',
         {   useNewUrlParser: true,
             useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -21,7 +23,7 @@ app.use((req,res,next) => { // HEADERS
 })
 
 app.use(express.json())// req.body etc
-
+app.use('/api/Users',usersRoutes)
 
 
 

@@ -2,19 +2,22 @@
 
 
 # Tricks ====================================================
+// TODO : SECURISER LES PASSWORDS ET SECRETS TOKENS
 
-
-## Front
+## Front ----------------------
 - Sass : Reformation et adaptation
 - Charte graphique plus stylée
+- Page d'accueil
+- Better loadspinner
+- Register GUI
+- Edit Profile GUI
+- BurgerMenu : animation de retour
+## Back -----------------------
+- Améliorer router et backend
 
-## Back
-- Choix SGBD + Schéma logique
-A priori Mongo ? Atlas pour dév, et instance à part entière pour la suite
-- Router (Express)
+- Vraie Authentification
 - Ajout d'une plateforme
 - Ajout d'un trick
-- Charger les infos du profil
 - Charger les tricks de l'utilisateur
-- Authentification
-
+- Register
+- Edit profile
