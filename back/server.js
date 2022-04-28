@@ -1,3 +1,4 @@
+const Settings = require('./settings')
 const express = require('express')
 const mongoose = require('mongoose')
 
@@ -5,8 +6,7 @@ const usersRoutes = require('./routes/users')
 const app = express()
 const port = 3001
 
-mongoose.connect('mongodb+srv://Hazreath:zFHBKgxe7ezsBDvl' +
-  '@ridemate.2poar.mongodb.net/RideMate?retryWrites=true&w=majority',
+mongoose.connect(Settings.DB_URL,
         {   useNewUrlParser: true,
             useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))

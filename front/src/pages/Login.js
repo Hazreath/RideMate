@@ -44,7 +44,7 @@ function displayLoginForm(navigate) {
             <input type='password' className='input is-rounded' placeholder='Password' name='password' value='Benji'/>
             <input type='submit' className='button is-rounded is-success' />
             <a href='#' className='register'>👉Register👈</a>
-            {/* <Link to='/tricklist'>tricklist</Link> */}
+            <Link to='/tricklist'>tricklist</Link>
         </form>
     )
    

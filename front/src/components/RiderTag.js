@@ -4,9 +4,11 @@ import User from '../models/User'
 import React, {useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
 import LoadSpinner from './LoadSpinner'
+import Settings from '../settings.js'
 
 const axios = require('axios').default
 const STUB_ID = ''
+const USERNAME_ERROR = 'none'
 
 function RiderTag() {
     const [userInfos, setUserInfos] = useState({})
@@ -53,13 +55,9 @@ function displayRiderTag(userInfos) {
         
             <img src={profile_stub} alt='profile pic' className='profile-pic'></img>
             <div className='rider-infos'>
-                <p className='name'>BenjiLeS</p>
-                <div className='level-xp'>
-                    <p className='level'>Lv. 4</p>
-                    
-                    <progress className='progress is-success progress-bar' max='60' value='24'></progress>
-                    <p className='xp'>XP : 24/60</p>
-                </div>
+                {userInfos.username !== USERNAME_ERROR ? displayUserInfos(userInfos) : displayError()}
+                
+                
             </div>
             <div className='actions'>
                 <button className='profile button is-primary is-small'>Profil</button>
@@ -78,9 +76,30 @@ function displayRiderTag(userInfos) {
 function displaySpinner() {
     return <LoadSpinner />
 }
+
+function displayUserInfos(userInfos) {
+    return (
+        <React.Fragment>
+            <p className='name'>{userInfos.username}</p>
+            <div className='level-xp'>
+                <p className='level'>Lv. {userInfos.level}</p>
+                
+                <progress className='progress is-success progress-bar' max={userInfos.xpToNextLv} value={userInfos.xp}></progress>
+                <p className='xp'>XP : 24/60</p>
+            </div>
+        </React.Fragment>
+    )
+    
+}
+function displayError() {
+    return (
+    <React.Fragment>
+        <p>Error when loading your data.</p>
+    </React.Fragment>)
+}
 function getUserInfos(id, uinfosSetter) {
     let user = null
-    axios.get('http://localhost:3001/api/users/' + id)
+    axios.get(Settings.API_URL + id)
     .then(function(res) {
         
         let data = res.data
@@ -89,11 +108,13 @@ function getUserInfos(id, uinfosSetter) {
          console.log(user.toString())
 
 
-        setTimeout(() => {uinfosSetter(user)}, 3000)
+        // setTimeout(() => {uinfosSetter(user)}, 3000)
+        uinfosSetter(user)
     })
     .catch(function(err) {
         console.log(err)
-        uinfosSetter(null)
+        user = new User(USERNAME_ERROR, 0,0)
+        uinfosSetter(user)
     })
     
     

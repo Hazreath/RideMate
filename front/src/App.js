@@ -15,7 +15,7 @@ function App() {
 
   // HTML element
   document.documentElement.style.overflow = 'hidden'
-
+  document.title = '🛴 RideMate'
   let c = 
   <div>
     {/* <nav>

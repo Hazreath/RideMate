@@ -5,13 +5,14 @@
 // TODO : SECURISER LES PASSWORDS ET SECRETS TOKENS
 
 ## Front ----------------------
-- Sass : Reformation et adaptation
+- Sass : Refactorisation et adaptation
 - Charte graphique plus stylée
 - Page d'accueil
 - Better loadspinner
 - Register GUI
 - Edit Profile GUI
 - BurgerMenu : animation de retour
+
 ## Back -----------------------
 - Améliorer router et backend
 
