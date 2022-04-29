@@ -3,7 +3,7 @@ import logo from '../assets/imgs/logo.png'
 import background_video from '../assets/videos/ransley.mp4'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
-
+import Settings from '../settings';
 const axios = require('axios').default
 
 
@@ -57,7 +57,7 @@ function login(e, navigate) {
     let username = formData.get('username')
     let password = formData.get('password')
     console.log('Logging in with: ' + username + '/' + password)
-    axios.post('http://127.0.0.1:3001/api/users/login', {
+    axios.post(Settings.getApiUrl('/users/login'), {
         params: {
             username: username,
             password: password

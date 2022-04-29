@@ -27,6 +27,7 @@ function App() {
           <Route index  element={<Login />} />
           <Route path='/login' element={<Login />} />
           <Route path='/tricklist' element={<TrickList />} />
+          
         </Route>
         
       </Routes>

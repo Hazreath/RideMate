@@ -99,7 +99,7 @@ function displayError() {
 }
 function getUserInfos(id, uinfosSetter) {
     let user = null
-    axios.get(Settings.API_URL + id)
+    axios.get(Settings.getApiUrl('/users/') + id)
     .then(function(res) {
         
         let data = res.data

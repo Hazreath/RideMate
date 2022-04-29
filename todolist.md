@@ -17,7 +17,6 @@
 - Améliorer router et backend
 
 - Vraie Authentification
-- Ajout d'une plateforme
 - Ajout d'un trick
 - Charger les tricks de l'utilisateur
 - Register

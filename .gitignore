@@ -1,7 +1,13 @@
 
 # misc
 /design
-/back/settings.js
-/back/node_modules
 todolist.md
 walkthrough.md
+
+# Back
+/back/settings.js
+/back/node_modules
+/back/playground.js
+
+# Playground
+/playground

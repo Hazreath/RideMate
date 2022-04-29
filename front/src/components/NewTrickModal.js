@@ -83,10 +83,8 @@ function displayNewTrickForm() {
 function displayNewPlatformForm() {
     let c =
         <form className='columns new-trick-form' method='POST'>
-            <input className="input is-info is-rounded is-full column" type="text" placeholder="Trick name..."></input>
-            
-            
-
+            <input className="input is-info is-rounded is-full column" type="text" 
+                placeholder="Module name..."></input>
             <input type='submit' className='button is-success is-rounded' value='Ajouter'></input>
         </form>
 
