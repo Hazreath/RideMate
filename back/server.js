@@ -5,6 +5,7 @@ const cors = require('cors')
 
 const usersRoutes = require('./routes/users')
 const platformsRoutes = require('./routes/platforms')
+const tricksRoutes = require('./routes/tricks')
 const app = express()
 const port = 3001
 
@@ -26,7 +27,7 @@ app.options('*', cors()); // include before other routes
 app.use((req,res,next) => { // HEADERS
   let req_origin = req.header('origin'.toLowerCase())
   let origin = ALLOWED_ORIGINS.includes(req_origin) ? req_origin : 'http://localhost:3000'
-  console.log("orig:" + req_origin + "  /  " + origin)
+  // console.log("orig:" + req_origin + "  /  " + origin)
   res.setHeader('Access-Control-Allow-Origin', origin);
   // res.setHeader('Access-Control-Allow-Origin', '*'); // TODO
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -37,7 +38,7 @@ app.use((req,res,next) => { // HEADERS
 app.use(express.json())// req.body etc
 app.use('/api/users',usersRoutes)
 app.use('/api/platforms',platformsRoutes)
-
+app.use('/api/tricks',tricksRoutes)
 
 
 

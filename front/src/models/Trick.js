@@ -7,13 +7,15 @@
 
 class Trick {
 
+    platform_id;
     name;
-    platform;
+    
+    // xp;
 
     constructor(name,platform) {
         this.name = name;
-        this.platform = platform;
-        
+        this.platform_id = platform;
+        // this.xp = xp
     }
 }
 

@@ -12,11 +12,10 @@ const USERNAME_ERROR = 'none'
 
 function RiderTag() {
     const [userInfos, setUserInfos] = useState({})
-    console.log("Called")
     // 
 
     useEffect(() => {
-        getUserInfos("6267cf41eafdff68f78ba148", setUserInfos)
+        getUserInfos("6267cf41eafdff68f78ba148", setUserInfos) // TODO STUB
     }, [])
     
     let c = 
@@ -105,8 +104,6 @@ function getUserInfos(id, uinfosSetter) {
         let data = res.data
         
         user = new User(data.username, data.level, data.xp)
-         console.log(user.toString())
-
 
         // setTimeout(() => {uinfosSetter(user)}, 3000)
         uinfosSetter(user)
