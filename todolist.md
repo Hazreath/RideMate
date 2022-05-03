@@ -1,19 +1,26 @@
 #################################################|== TODOLIST ==|###########################################################
-
+# Théorie
+Spread operator
+UseEffect
 
 # Tricks ====================================================
+SECURISER LES PASSWORDS ET SECRETS TOKENS
+ENTETES DE FONCTIONS
+PASSER L'USER EN STATE GLOBAL, ET LE FAIRE DESCENDRE DANS LES COMPOSANTS NECESSAIRES
 
-## Front
-- Passer sous un préprocesseur CSS (Sass de préférence)
+## Front ----------------------
+- Sass : Refactorisation et adaptation
 - Charte graphique plus stylée
+- Page d'accueil
+- Better loadspinner
+- Register GUI
+- Edit Profile GUI
+- BurgerMenu : animation de retour
+- Système de Toast pour feedback utilisateur
 
-## Back
-- Router
-- Choix SGBD + Schéma logique
-A priori Mongo ? Atlas pour dév, et instance à part entière pour la suite
-- Ajout d'une plateforme
-- Ajout d'un trick
-- Charger les infos du profil
-- Charger les tricks de l'utilisateur
-- Authentification
+## Back -----------------------
+- Améliorer router et backend
 
+- Vraie Authentification
+- Register
+- Edit profile

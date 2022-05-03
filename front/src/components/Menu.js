@@ -23,7 +23,6 @@ function Menu() {
 }
 
 function menuOpen(updater,v) {
-    console.log('value:' + v)
     updater(v)
     
 }
@@ -45,8 +44,8 @@ function displayMenu() {
             </ul>
             <p className='menu-label'>Support</p>
             <ul className='menu-list'>
-                <li key='1'><a>🐛 Report a bug</a></li>
-                <li key='2'><a>🤑 Gimme your money !</a></li>
+                <li key='01'><a>🐛 Report a bug</a></li>
+                <li key='02'><a>🤑 Gimme your money !</a></li>
             </ul>
             
         </aside>
