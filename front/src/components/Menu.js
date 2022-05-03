@@ -23,7 +23,6 @@ function Menu() {
 }
 
 function menuOpen(updater,v) {
-    console.log('value:' + v)
     updater(v)
     
 }

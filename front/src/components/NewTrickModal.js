@@ -38,10 +38,10 @@ function NewTrickModal() {
                         <div className="message-body">
                             <div className='tabs is-boxed is-centered is-full'>
                                 <ul>
-                                    <li className={newForm && 'is-active'}>
+                                    <li className={newForm ? 'is-active' : undefined}>
                                         <a onClick={() => changeForm(changeNewForm,!newForm)}>Trick</a>
                                     </li>
-                                    <li className={!newForm && 'is-active'}>
+                                    <li className={!newForm ? 'is-active' : undefined}>
                                         <a onClick={() => changeForm(changeNewForm,!newForm)}>Module</a>
                                     </li>
                                 </ul>
@@ -91,7 +91,7 @@ function displayNewTrickForm(platformList, plistSetter) {
             
             <div className="select is-rounded is-full">
                 <select name='platform'>
-                    {platformList.map(p => <option value={p._id}>{p.name}</option>)}
+                    {platformList.map(p => <option key={p.name} value={p._id}>{p.name}</option>)}
                 </select>
             </div>
 
@@ -106,7 +106,7 @@ function displayNewTrickForm(platformList, plistSetter) {
  * @param {function} plistSetter : Setter of platformList state
  */
 function fetchPlatformList(plistSetter) {
-    console.log('FETCHING PLATFORMS')
+    
     // Get all platforms to display in list
     let plist = []
     axios.get(Settings.getApiUrl("/platforms/"))
@@ -138,7 +138,7 @@ function displayNewPlatformForm() {
 function addNewTrick(e) {
     e.preventDefault()
     let formData = new FormData(e.target)
-    console.log(formData)
+    
     let select = e.target.getElementsByTagName("select")[0]
     let platformName = select[select.selectedIndex].text
     axios.post(Settings.getApiUrl('/tricks/'), {
@@ -155,6 +155,7 @@ function addNewTrick(e) {
         }
     })
     .then(function (res) {
+        // TODO TOASTS
         console.log('Created a new trick !')
         console.log(res)
     })

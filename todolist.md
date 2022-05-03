@@ -22,7 +22,5 @@ PASSER L'USER EN STATE GLOBAL, ET LE FAIRE DESCENDRE DANS LES COMPOSANTS NECESSA
 - Améliorer router et backend
 
 - Vraie Authentification
-- Ajout d'un trick
-- Charger les tricks de l'utilisateur
 - Register
 - Edit profile

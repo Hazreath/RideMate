@@ -6,6 +6,7 @@
 
  class User {
 
+    _id;
     username;
     level;
     xp;

@@ -9,7 +9,9 @@ const schema = mongoose.Schema({
     },
     
     name: {type: String, required:true},
-    xp: {type: Number, required:true}
+    xp: {type: Number, required:true},
+
+    
 })
 
 module.exports = mongoose.model('Trick',schema)
