@@ -1,75 +1,115 @@
-import '../styles/NewTrickModal.css'
-import { useState, useEffect } from 'react'
-import Trick from '../models/Trick'
-import Platform from '../models/Platform'
-import Settings from '../settings.js'
+import "../styles/NewTrickModal.css";
+import { useState, useEffect } from "react";
+import Trick from "../models/Trick";
+import Platform from "../models/Platform";
+import Settings from "../settings.js";
 
-const axios = require('axios').default
-
+const axios = require("axios").default;
 
 function NewTrickModal() {
-    const [modalOpened, changeOpenModal] = useState(false)
-    const [newForm, changeNewForm] = useState(true) // true : trick | false: module/platform
-    const [platformList, changePlatformList] = useState([])
+    const [modalOpened, changeOpenModal] = useState(false);
+    const [newForm, changeNewForm] = useState(true); // true : trick | false: module/platform
+    const [platformList, changePlatformList] = useState([]);
 
-    let modalClass = 'modal add-trick-modal'
-    
+    let modalClass = "modal add-trick-modal";
+
     if (modalOpened) {
-        modalClass += ' is-active'
+        modalClass += " is-active";
     }
 
     // FIRST RENDER ONLY
     useEffect(() => {
-        changePlatformList([])
-    }, [])
+        changePlatformList([]);
+    }, []);
 
-    let c = 
-        <div className='new-trick-modal-container'>
-            <div className='new-button' onClick={() => openModal(changeOpenModal,!modalOpened)}>➕</div>
+    let c = (
+        <div className="new-trick-modal-container">
+            <div
+                className="new-button"
+                onClick={() => openModal(changeOpenModal, !modalOpened)}
+            >
+                ➕
+            </div>
             <div className={modalClass}>
-                <div className='modal-background'></div>
-                <div className='modal-content'>
+                <div className="modal-background"></div>
+                <div className="modal-content">
                     <article className="message is-primary">
                         <div className="message-header">
                             <p>New Item</p>
-                            <button className="delete" aria-label="delete" 
-                                onClick={() => openModal(changeOpenModal,!modalOpened)}></button>
+                            <button
+                                className="delete"
+                                aria-label="delete"
+                                onClick={() =>
+                                    openModal(changeOpenModal, !modalOpened)
+                                }
+                            ></button>
                         </div>
                         <div className="message-body">
-                            <div className='tabs is-boxed is-centered is-full'>
+                            <div className="tabs is-boxed is-centered is-full">
                                 <ul>
-                                    <li className={newForm ? 'is-active' : undefined}>
-                                        <a onClick={() => changeForm(changeNewForm,!newForm)}>Trick</a>
+                                    <li
+                                        className={
+                                            newForm ? "is-active" : undefined
+                                        }
+                                    >
+                                        <a
+                                            onClick={() =>
+                                                changeForm(
+                                                    changeNewForm,
+                                                    !newForm
+                                                )
+                                            }
+                                        >
+                                            Trick
+                                        </a>
                                     </li>
-                                    <li className={!newForm ? 'is-active' : undefined}>
-                                        <a onClick={() => changeForm(changeNewForm,!newForm)}>Module</a>
+                                    <li
+                                        className={
+                                            !newForm ? "is-active" : undefined
+                                        }
+                                    >
+                                        <a
+                                            onClick={() =>
+                                                changeForm(
+                                                    changeNewForm,
+                                                    !newForm
+                                                )
+                                            }
+                                        >
+                                            Module
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
-                            <div className='new-modal-body'>
-                            {newForm ? displayNewTrickForm(platformList, changePlatformList) : displayNewPlatformForm() }
-                            
+                            <div className="new-modal-body">
+                                {newForm
+                                    ? displayNewTrickForm(
+                                          platformList,
+                                          changePlatformList
+                                      )
+                                    : displayNewPlatformForm()}
                             </div>
-                            
                         </div>
-                        
-                        
                     </article>
                 </div>
-                <button className="modal-close is-large" aria-label="close"></button>
+                <button
+                    className="modal-close is-large"
+                    aria-label="close"
+                ></button>
             </div>
         </div>
-        
-    return c
+    );
+
+    return c;
 }
 
 function openModal(updater, v) {
-    updater(v)
+    updater(v);
 }
 
-function changeForm(updater,v) {
+function changeForm(updater, v) {
     // console.log('form changed : ' + v ? 'trick' : 'platform')
-    updater(v)
+    updater(v);
 }
 
 /**
@@ -79,26 +119,42 @@ function changeForm(updater,v) {
  * @returns html
  */
 function displayNewTrickForm(platformList, plistSetter) {
-    
     if (platformList.length == 0) {
-        
-        fetchPlatformList(plistSetter)
+        fetchPlatformList(plistSetter);
     }
     // console.log(platformList)
-    let c =
-        <form className='columns new-trick-form' method='POST' onSubmit={addNewTrick}>
-            <input className="input is-info is-rounded is-full column" type="text" name='name' placeholder="Trick name..."></input>
-            
+    let c = (
+        <form
+            className="columns new-trick-form"
+            method="POST"
+            onSubmit={addNewTrick}
+        >
+            <input
+                className="input is-info is-rounded is-full column"
+                type="text"
+                name="name"
+                placeholder="Trick name..."
+            ></input>
+
             <div className="select is-rounded is-full">
-                <select name='platform'>
-                    {platformList.map(p => <option key={p.name} value={p._id}>{p.name}</option>)}
+                <select name="platform">
+                    {platformList.map((p) => (
+                        <option key={p.name} value={p._id}>
+                            {p.name}
+                        </option>
+                    ))}
                 </select>
             </div>
 
-            <input type='submit' className='button is-success is-rounded' value='Ajouter'></input>
+            <input
+                type="submit"
+                className="button is-success is-rounded"
+                value="Ajouter"
+            ></input>
         </form>
+    );
 
-    return c
+    return c;
 }
 
 /**
@@ -106,18 +162,18 @@ function displayNewTrickForm(platformList, plistSetter) {
  * @param {function} plistSetter : Setter of platformList state
  */
 function fetchPlatformList(plistSetter) {
-    
     // Get all platforms to display in list
-    let plist = []
-    axios.get(Settings.getApiUrl("/platforms/"))
-    .then(function(res) {
-        let data = res.data
-        plistSetter(data)
-    })
-    .catch(function(err) {
-        plist = [{name:'⚠ Error fetching data ⚠'}]
-        plistSetter(plist)
-    })
+    let plist = [];
+    axios
+        .get(Settings.getApiUrl("/platforms/"))
+        .then(function (res) {
+            let data = res.data;
+            plistSetter(data);
+        })
+        .catch(function (err) {
+            plist = [{ name: "⚠ Error fetching data ⚠" }];
+            plistSetter(plist);
+        });
 }
 
 /**
@@ -125,43 +181,52 @@ function fetchPlatformList(plistSetter) {
  * @returns html
  */
 function displayNewPlatformForm() {
-    let c =
-        <form className='columns new-trick-form' method='POST'>
-            <input className="input is-info is-rounded is-full column" type="text" 
-                placeholder="Module name..."></input>
-            <input type='submit' className='button is-success is-rounded' value='Ajouter'></input>
+    let c = (
+        <form className="columns new-trick-form" method="POST">
+            <input
+                className="input is-info is-rounded is-full column"
+                type="text"
+                placeholder="Module name..."
+            ></input>
+            <input
+                type="submit"
+                className="button is-success is-rounded"
+                value="Ajouter"
+            ></input>
         </form>
+    );
 
-    return c
+    return c;
 }
 
 function addNewTrick(e) {
-    e.preventDefault()
-    let formData = new FormData(e.target)
-    
-    let select = e.target.getElementsByTagName("select")[0]
-    let platformName = select[select.selectedIndex].text
-    axios.post(Settings.getApiUrl('/tricks/'), {
-        params: {
-            user_id:'6267cf41eafdff68f78ba148', // TODO STUB
-            platform : {
-                _id: formData.get('platform'),
-                name: platformName
+    e.preventDefault();
+    let formData = new FormData(e.target);
+
+    let select = e.target.getElementsByTagName("select")[0];
+    let platformName = select[select.selectedIndex].text;
+    axios
+        .post(Settings.getApiUrl("/tricks/"), {
+            params: {
+                user_id: "6267cf41eafdff68f78ba148", // TODO STUB
+                platform: {
+                    _id: formData.get("platform"),
+                    name: platformName,
+                },
+
+                // platform_name:
+                name: formData.get("name"),
+                xp: 10,
             },
-            
-            // platform_name: 
-            name: formData.get('name'),
-            xp : 10
-        }
-    })
-    .then(function (res) {
-        // TODO TOASTS
-        console.log('Created a new trick !')
-        console.log(res)
-    })
-    .catch(function(err) {
-        console.log('Failed to create a trick')
-        console.log(err)
-    })
+        })
+        .then(function (res) {
+            // TODO TOASTS
+            console.log("Created a new trick !");
+            console.log(res);
+        })
+        .catch(function (err) {
+            console.log("Failed to create a trick");
+            console.log(err);
+        });
 }
 export default NewTrickModal;
