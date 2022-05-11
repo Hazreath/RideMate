@@ -93,5 +93,5 @@ gestion duplicata pseudo et email OK
 Réalisation du système de Toast : NOPE
 Passage du plombier + carte bleue du frangin = journée niquée
 J'ai quand même bien avancé 😀
-
+PUTAIN GIT MARCHE BORDEL ALED AAAAAAAAAAAAAA (réparé)
 TODO regarder les toasts sur https://www.npmjs.com/package/react-toastify
