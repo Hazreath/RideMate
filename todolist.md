@@ -1,26 +1,34 @@
 #################################################|== TODOLIST ==|###########################################################
+
 # Théorie
+
 Spread operator
 UseEffect
 
 # Tricks ====================================================
+
 SECURISER LES PASSWORDS ET SECRETS TOKENS
 ENTETES DE FONCTIONS
 PASSER L'USER EN STATE GLOBAL, ET LE FAIRE DESCENDRE DANS LES COMPOSANTS NECESSAIRES
 
 ## Front ----------------------
-- Sass : Refactorisation et adaptation
-- Charte graphique plus stylée
-- Page d'accueil
-- Better loadspinner
-- Register GUI
-- Edit Profile GUI
-- BurgerMenu : animation de retour
-- Système de Toast pour feedback utilisateur
+
+### Mineur --
+
+-   Sass : Refactorisation et adaptation
+-   Charte graphique plus stylée
+-   Page d'accueil
+-   Better loadspinner
+-   BurgerMenu : animation de retour
+-   Résoudre problème partage state parent popup register
+
+### Majeur --
+
+-   Edit Profile GUI
+-   Système de Toast pour feedback utilisateur
 
 ## Back -----------------------
-- Améliorer router et backend
 
-- Vraie Authentification
-- Register
-- Edit profile
+-   Améliorer router et backend
+-   Vraie Authentification
+-   Edit profile

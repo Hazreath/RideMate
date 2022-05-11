@@ -1,13 +1,15 @@
 import "../styles/RegisterModal.css";
 import { useEffect, useState } from "react";
+import Settings from "../settings";
+const axios = require("axios").default;
 // import {changeOpenRegisterModalState} from '../pages/Login'
 function RegisterModal(openState, openStateChanger) {
-    console.log("openState: " + openState["openState"]);
+    // console.log("openState: " + openState["openState"]);
 
     const [modal, changeModal] = useState(true);
-    useEffect(() => {
-        console.log("MODAL: " + modal);
-    }, []);
+    // useEffect(() => {
+    //     // console.log("MODAL: " + modal);
+    // }, []);
 
     let display = openState && modal ? "flex" : "none";
     let c = (
@@ -61,35 +63,60 @@ function displayRegisterForm() {
             <input
                 className="input is-info is-rounded is-full column"
                 type="text"
-                name="name"
-                placeholder="Nickname"
+                name="username"
+                placeholder="Username"
+                required
             ></input>
             <input
                 className="input is-info is-rounded is-full column"
                 type="Email"
-                name="name"
+                name="email"
                 placeholder="Email"
+                required
             ></input>
             <input
-                className="input is-info is-rounded is-full column"
+                className="input is-info is-rounded is-full is-danger column"
                 type="password"
-                name="name"
+                name="password"
                 placeholder="Password"
+                minLength={8}
+                required
             ></input>
             <input
                 className="input is-info is-rounded is-full column"
                 type="password"
-                name="name"
-                placeholder="Retype password"
+                placeholder="Confirm password"
+                minLength={8}
+                required
             ></input>
 
             <input
                 type="submit"
                 className="button is-success is-rounded"
+                value={"Register"}
             ></input>
         </form>
     );
 }
 
-function register(e) {}
+function register(e) {
+    e.preventDefault();
+
+    let formData = new FormData(e.target);
+
+    axios
+        .post(Settings.getApiUrl("/users/register/"), {
+            params: {
+                username: formData.get("username"),
+                password: formData.get("password"),
+                email: formData.get("email"),
+            },
+        })
+        .then(function (res) {
+            console.log("Registered succesfully !");
+        })
+        .catch(function (err) {
+            console.log(e);
+        });
+}
 export default RegisterModal;
