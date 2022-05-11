@@ -11,7 +11,7 @@ h3 {
 .parklist-container {
     overflow-y: scroll;
     /* z-index: -1; */
-    height: 70vh;
+    height: 55vh;
 }
 .parklist-platform {
     position: relative;
