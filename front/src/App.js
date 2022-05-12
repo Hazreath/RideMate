@@ -10,12 +10,13 @@ import NewTrickModal from "./components/NewTrickModal";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import TrickList from "./pages/TrickList";
-import Toaster from "./components/Toaster";
-
+// import Toaster from "./components/Toaster";
+import { Toaster, toast } from "react-hot-toast";
 function App() {
     // HTML element
     document.documentElement.style.overflow = "hidden";
     document.title = "🛴 RideMate";
+
     let c = (
         <div>
             {/* <nav>
@@ -29,11 +30,16 @@ function App() {
                     <Route path="/tricklist" element={<TrickList />} />
                 </Route>
             </Routes>
-            {/* <Toaster /> */}
+            <Toaster position="bottom-center" />
+            {/* <button onClick={test}>aaaaa</button> */}
         </div>
     );
 
     return c;
+}
+
+function test() {
+    toast.success("oui");
 }
 
 export default App;

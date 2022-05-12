@@ -2,6 +2,7 @@ import "../styles/ParkList.css";
 import Trick from "../models/Trick";
 import React, { useState, useEffect } from "react";
 import Settings from "../settings";
+import toast from "react-hot-toast";
 // STUB
 var tricks = [
     new Trick("Bar to Finger", "Bowl"),
@@ -16,8 +17,9 @@ var currentUserId = "6267cf41eafdff68f78ba148"; // TODOOOO
 
 function ParkList() {
     // let platforms = trickList.map(t => t.platform).filter(uniquifier)
-
     const [trickList, changeTrickList] = useState([]);
+    const [tlUpdated, changeTLUpdated] = useState(false);
+    console.log("Rendered !");
 
     // FIRST RENDER ONLY
     useEffect(() => {
@@ -90,15 +92,20 @@ function displayTrickList(trickList) {
     return c;
 }
 
-function fetchTrickList(tListSetter) {
+function fetchTrickList(tListSetter, renderSetter) {
     axios
         .get(Settings.getApiUrl("/tricks/") + currentUserId)
         .then(function (res) {
             let tr = res.data;
             // tr = tr.sort(compareTrick)
             tListSetter(tr);
+            renderSetter(0);
         })
-        .catch(function (err) {});
+        .catch(function (err) {
+            toast.error(
+                "Failed to fetch your TrickList...\n(" + err.message + ")"
+            );
+        });
 }
 
 function compareTrick(a, b) {

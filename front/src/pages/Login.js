@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Settings from "../settings";
 import RegisterModal from "../components/RegisterModal";
+import toast from "react-hot-toast";
+import { showErrorToast } from "../utils/Toasting";
 const axios = require("axios").default;
 var bullshit = {};
 
@@ -83,7 +85,11 @@ function displayLoginForm(
                     placeholder="Password"
                     name="password"
                 />
-                <input type="submit" className="button is-rounded is-success" />
+                <input
+                    type="submit"
+                    className="button is-rounded is-success"
+                    value={"Login"}
+                />
                 <a
                     href="#"
                     className="register"
@@ -128,12 +134,11 @@ function login(e, navigate) {
             },
         })
         .then(function (res) {
-            console.log("ok: " + res.data.message);
             // Redirect to Tricklist
             navigate("/tricklist");
         })
         .catch(function (err) {
-            console.log("err: " + err.response.data.error);
+            showErrorToast("Login failed : ", err);
         });
 }
 

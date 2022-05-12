@@ -1,6 +1,8 @@
 import "../styles/RegisterModal.css";
 import { useEffect, useState } from "react";
 import Settings from "../settings";
+import toast from "react-hot-toast";
+import { showErrorToast } from "../utils/Toasting";
 const axios = require("axios").default;
 // import {changeOpenRegisterModalState} from '../pages/Login'
 function RegisterModal(openState, openStateChanger) {
@@ -113,10 +115,10 @@ function register(e) {
             },
         })
         .then(function (res) {
-            console.log("Registered succesfully !");
+            toast.success("Registered successfully !");
         })
         .catch(function (err) {
-            console.log(e);
+            showErrorToast("Register failed : ", err);
         });
 }
 export default RegisterModal;

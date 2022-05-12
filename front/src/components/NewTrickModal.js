@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import Trick from "../models/Trick";
 import Platform from "../models/Platform";
 import Settings from "../settings.js";
-
+import toast from "react-hot-toast";
+import { showErrorToast } from "../utils/Toasting";
 const axios = require("axios").default;
 
 function NewTrickModal() {
@@ -199,6 +200,10 @@ function displayNewPlatformForm() {
     return c;
 }
 
+/**
+ * Send post request to backend, in order to add the trick to DB
+ * @param {*} e Form submit event
+ */
 function addNewTrick(e) {
     e.preventDefault();
     let formData = new FormData(e.target);
@@ -206,7 +211,7 @@ function addNewTrick(e) {
     let select = e.target.getElementsByTagName("select")[0];
     let platformName = select[select.selectedIndex].text;
     axios
-        .post(Settings.getApiUrl("/tricks/"), {
+        .post(Settings.getApiUrl("/trickss/"), {
             params: {
                 user_id: "6267cf41eafdff68f78ba148", // TODO STUB
                 platform: {
@@ -221,12 +226,15 @@ function addNewTrick(e) {
         })
         .then(function (res) {
             // TODO TOASTS
-            console.log("Created a new trick !");
-            console.log(res);
+            // console.log("Created a new trick !");
+            toast.success("Trick added !");
+            // console.log(res);
         })
         .catch(function (err) {
-            console.log("Failed to create a trick");
-            console.log(err);
+            // console.log("Failed to create a trick");
+            // console.log(err);
+            showErrorToast("Failed to add trick : ", err);
+            // console.log(err);
         });
 }
 export default NewTrickModal;
