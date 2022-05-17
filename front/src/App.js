@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import TrickList from "./pages/TrickList";
 // import Toaster from "./components/Toaster";
 import { Toaster, toast } from "react-hot-toast";
+import Profile from "./pages/Profile";
 function App() {
     // HTML element
     document.documentElement.style.overflow = "hidden";
@@ -28,6 +29,7 @@ function App() {
                     <Route index element={<Login />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/tricklist" element={<TrickList />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Route>
             </Routes>
             <Toaster position="bottom-center" />

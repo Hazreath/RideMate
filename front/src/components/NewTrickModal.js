@@ -128,7 +128,7 @@ function displayNewTrickForm(platformList, plistSetter) {
         <form
             className="columns new-trick-form"
             method="POST"
-            onSubmit={addNewTrick}
+            onSubmit={(e) => addNewTrick(e, plistSetter)}
         >
             <input
                 className="input is-info is-rounded is-full column"
@@ -204,14 +204,14 @@ function displayNewPlatformForm() {
  * Send post request to backend, in order to add the trick to DB
  * @param {*} e Form submit event
  */
-function addNewTrick(e) {
+function addNewTrick(e, plistSetter) {
     e.preventDefault();
     let formData = new FormData(e.target);
 
     let select = e.target.getElementsByTagName("select")[0];
     let platformName = select[select.selectedIndex].text;
     axios
-        .post(Settings.getApiUrl("/trickss/"), {
+        .post(Settings.getApiUrl("/tricks/"), {
             params: {
                 user_id: "6267cf41eafdff68f78ba148", // TODO STUB
                 platform: {
@@ -225,10 +225,8 @@ function addNewTrick(e) {
             },
         })
         .then(function (res) {
-            // TODO TOASTS
-            // console.log("Created a new trick !");
             toast.success("Trick added !");
-            // console.log(res);
+            // TODO REACTUALISER LISTE TRICKS
         })
         .catch(function (err) {
             // console.log("Failed to create a trick");

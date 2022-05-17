@@ -3,6 +3,7 @@ import Trick from "../models/Trick";
 import React, { useState, useEffect } from "react";
 import Settings from "../settings";
 import toast from "react-hot-toast";
+import { showErrorToast } from "../utils/Toasting";
 // STUB
 var tricks = [
     new Trick("Bar to Finger", "Bowl"),
@@ -54,6 +55,11 @@ function uniquifier(v, i, array) {
     return array.indexOf(v) === i;
 }
 
+/**
+ * Displays users tricklist
+ * @param {*} trickList state containing users tricklist
+ * @returns HTML content
+ */
 function displayTrickList(trickList) {
     let platforms = trickList.map((t) => t.platform.name).filter(uniquifier);
     let c = (
@@ -92,19 +98,21 @@ function displayTrickList(trickList) {
     return c;
 }
 
-function fetchTrickList(tListSetter, renderSetter) {
+/**
+ * Fetches users tricklist from DB
+ * @param {*} tListSetter tricklist state setter
+ */
+function fetchTrickList(tListSetter) {
     axios
         .get(Settings.getApiUrl("/tricks/") + currentUserId)
         .then(function (res) {
             let tr = res.data;
             // tr = tr.sort(compareTrick)
             tListSetter(tr);
-            renderSetter(0);
+            // renderSetter(0);
         })
         .catch(function (err) {
-            toast.error(
-                "Failed to fetch your TrickList...\n(" + err.message + ")"
-            );
+            showErrorToast("Failed to fetch your TrickList : ", err);
         });
 }
 
