@@ -1,9 +1,12 @@
+const bcrypt = require("bcrypt");
 const User = require("../models/User");
-
+const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const Settings = require("../settings");
+// OPTIONS =========
 
 exports.getUser = (req, res, next) => {
-    console.log("getUser : " + req.params.id);
+    // console.log("getUser : " + req.params.id);
     User.findOne({ _id: req.params.id })
         .then((u) => res.status(200).json(u))
         .catch((e) => res.status(404).json(e));
@@ -17,11 +20,33 @@ exports.login = (req, res, next) => {
             if (!user) {
                 return res.status(401).json({ error: "User not found" });
             } else {
-                return user.password === password
-                    ? res
-                          .status(200)
-                          .json({ message: "Connected successfully !" })
-                    : res.status(401).json({ error: "Wrong password" });
+                bcrypt
+                    .compare(password, user.password)
+                    .then((valid) => {
+                        console.log(valid);
+                        if (!valid) {
+                            return res
+                                .status(401)
+                                .json({ error: "Invalid password" });
+                        }
+                        // let token = jwt.sign(
+                        //     { userId: user._id },
+                        //     Settings.SECRET_KEY,
+                        //     { expiresIn: "24h" }
+                        // );
+                        let token = jwt.sign(
+                            { userId: user._id },
+                            Settings.SECRET_KEY,
+                            { expiresIn: "24h" }
+                        );
+                        // res.set("Authorization", "Bearer " + token);
+                        res.status(200).json({
+                            // userId: user._id,
+                            token: token,
+                        });
+                    })
+                    .catch((error) => console.log(error));
+                // .catch((error) => res.status(500).json({ error }));
             }
         })
         .catch((e) => res.status(400).json(e));
@@ -36,18 +61,26 @@ exports.register = (req, res, next) => {
     User.findOne({ $or: [{ username: username }, { email: email }] }).then(
         (exists) => {
             if (!exists) {
-                let user = new User({
-                    username: username,
-                    password: password,
-                    email: email,
-                    level: 1,
-                    xp: 0,
-                });
-                user.save()
-                    .then((u) => res.status(200).json(u))
-                    .catch((e) => res.status(400).json(e));
+                // User creation, with encrypted pass
+                bcrypt
+                    .hash(password, Settings.HASH_ROUNDS)
+                    .then((hashedPass) => {
+                        let user = new User({
+                            username: username,
+                            password: hashedPass,
+                            email: email,
+                            level: 1,
+                            xp: 0,
+                        });
+                        user.save()
+                            .then((u) => res.status(200).json(u))
+                            .catch((e) => res.status(400).json(e));
+                    })
+                    //res.status(500).json({ error: error })
+                    .catch((error) => console.log(error));
             } else {
-                console.log("exists");
+                // TODO A REFAIRE
+
                 if (username == exists.username) {
                     res.status(400).json({
                         error: "Username is already taken",

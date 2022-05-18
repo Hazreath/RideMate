@@ -125,17 +125,18 @@ function login(e, navigate) {
     let formData = new FormData(e.target);
     let username = formData.get("username");
     let password = formData.get("password");
-    console.log("Logging in with: " + username + "/" + password);
+    console.log("Logging in with: " + username + "/" + password); // TODO
     axios
         .post(Settings.getApiUrl("/users/login"), {
             params: {
-                username: username,
-                password: password,
+                username: "bcrypt",
+                password: "aaaaaaaa",
             },
         })
         .then(function (res) {
             // Redirect to Tricklist
-            navigate("/tricklist");
+            // navigate("/tricklist");
+            console.log(res.data);
         })
         .catch(function (err) {
             showErrorToast("Login failed : ", err);
