@@ -5,6 +5,8 @@ import Platform from "../models/Platform";
 import Settings from "../settings.js";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
+import { useSelector } from "react-redux";
+import { postToApi } from "../utils/APICall";
 const axios = require("axios").default;
 
 function NewTrickModal() {
@@ -23,6 +25,7 @@ function NewTrickModal() {
         changePlatformList([]);
     }, []);
 
+    let token = useSelector((state) => state.token);
     let c = (
         <div className="new-trick-modal-container">
             <div
@@ -86,7 +89,8 @@ function NewTrickModal() {
                                 {newForm
                                     ? displayNewTrickForm(
                                           platformList,
-                                          changePlatformList
+                                          changePlatformList,
+                                          token.token
                                       )
                                     : displayNewPlatformForm()}
                             </div>
@@ -119,7 +123,7 @@ function changeForm(updater, v) {
  * @param {*} plistSetter platformList state modifier
  * @returns html
  */
-function displayNewTrickForm(platformList, plistSetter) {
+function displayNewTrickForm(platformList, plistSetter, token) {
     if (platformList.length == 0) {
         fetchPlatformList(plistSetter);
     }
@@ -128,7 +132,7 @@ function displayNewTrickForm(platformList, plistSetter) {
         <form
             className="columns new-trick-form"
             method="POST"
-            onSubmit={(e) => addNewTrick(e, plistSetter)}
+            onSubmit={(e) => addNewTrick(e, plistSetter, token)}
         >
             <input
                 className="input is-info is-rounded is-full column"
@@ -178,6 +182,7 @@ function fetchPlatformList(plistSetter) {
 }
 
 /**
+ * @deprecated
  * Displays the form to create a new platform
  * @returns html
  */
@@ -204,26 +209,29 @@ function displayNewPlatformForm() {
  * Send post request to backend, in order to add the trick to DB
  * @param {*} e Form submit event
  */
-function addNewTrick(e, plistSetter) {
+function addNewTrick(e, plistSetter, token) {
     e.preventDefault();
     let formData = new FormData(e.target);
-
     let select = e.target.getElementsByTagName("select")[0];
     let platformName = select[select.selectedIndex].text;
-    axios
-        .post(Settings.getApiUrl("/tricks/"), {
-            params: {
-                user_id: "6267cf41eafdff68f78ba148", // TODO STUB
-                platform: {
-                    _id: formData.get("platform"),
-                    name: platformName,
-                },
 
-                // platform_name:
-                name: formData.get("name"),
-                xp: 10,
+    let headers = {
+        Authorization: "Bearer " + token,
+    };
+    let data = {
+        params: {
+            user_id: "628631a1833c4175110820e3", // TODO STUB
+            platform: {
+                _id: formData.get("platform"),
+                name: platformName,
             },
-        })
+
+            // platform_name:
+            name: formData.get("name"),
+            xp: 10,
+        },
+    };
+    postToApi(Settings.getApiUrl("/tricks/"), data)
         .then(function (res) {
             toast.success("Trick added !");
             // TODO REACTUALISER LISTE TRICKS
@@ -234,5 +242,11 @@ function addNewTrick(e, plistSetter) {
             showErrorToast("Failed to add trick : ", err);
             // console.log(err);
         });
+    // axios
+    //     .post(
+    //         Settings.getApiUrl("/tricks/"),
+    //         ,
+    //         { headers: headers }
+    //     )
 }
 export default NewTrickModal;

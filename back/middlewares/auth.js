@@ -2,19 +2,32 @@ const jwt = require("jsonwebtoken");
 const Settings = require("../settings");
 
 /**
- * IDENTIFICATION MIDDLEWARE : Verifies that
+ * IDENTIFICATION MIDDLEWARE
+ * Verifies that current connected user is logged in.
+ * Allow the fullfilment of initial request ONLY IF userId in URL equals
+ * the one contained in JWT Token.
  */
 module.exports = (req, res, next) => {
     console.log("auth");
     try {
-        console.log(req.headers.authorization);
-        console.log(req.headers.get("Authorization"));
-        const token = req.headers.authorization.split(" ")[1];
-        console.log("after");
-        console.log(token);
+        // console.log(req.body.params);
+        let expectedUserId = "";
+        console.log(req.method);
+        if (req.method === "GET") {
+            expectedUserId = req.url.substring(1); // Strip initial '/'
+        } else if (req.method === "POST") {
+            console.log(req.body.params.user_id);
+            expectedUserId = req.body.params.user_id;
+        }
+        const token = req.headers.authorization.split(" ")[1]; // Strip "Bearer ", falls into catch if undefined
+
+        console.log("Token : " + token);
         const decodedToken = jwt.verify(token, Settings.SECRET_KEY);
         const userId = decodedToken.userId;
-        if (req.body.userId && req.body.userId !== userId) {
+        console.log("Decoded user ID : " + userId);
+        console.log("expected : " + expectedUserId);
+        console.log("Matching : " + expectedUserId === userId);
+        if (expectedUserId && expectedUserId !== userId) {
             throw "Invalid user ID : session expired";
         } else {
             next();

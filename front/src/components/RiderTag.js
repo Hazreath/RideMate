@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LoadSpinner from "./LoadSpinner";
 import Settings from "../settings.js";
+import { getFromApi } from "../utils/APICall";
 
 const axios = require("axios").default;
 const STUB_ID = "";
@@ -15,7 +16,7 @@ function RiderTag() {
     //
 
     useEffect(() => {
-        getUserInfos("6267cf41eafdff68f78ba148", setUserInfos); // TODO STUB
+        getUserInfos("628631a1833c4175110820e3", setUserInfos); // TODO STUB
     }, []);
 
     let c = (
@@ -110,11 +111,10 @@ function displayError() {
 }
 function getUserInfos(id, uinfosSetter) {
     let user = null;
-    axios
-        .get(Settings.getApiUrl("/users/") + id)
+    getFromApi(Settings.getApiUrl("/users/") + id)
         .then(function (res) {
             let data = res.data;
-
+            console.log(res.data);
             user = new User(data.username, data.level, data.xp);
 
             // setTimeout(() => {uinfosSetter(user)}, 3000)

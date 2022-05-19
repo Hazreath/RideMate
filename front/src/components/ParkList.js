@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import Settings from "../settings";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
+import { useSelector } from "react-redux";
+import { getFromApi } from "../utils/APICall";
 // STUB
 var tricks = [
     new Trick("Bar to Finger", "Bowl"),
@@ -14,18 +16,19 @@ var tricks = [
 ];
 
 const axios = require("axios").default;
-var currentUserId = "6267cf41eafdff68f78ba148"; // TODOOOO
+var currentUserId = "628631a1833c4175110820e3"; // TODOOOO
 
 function ParkList() {
     // let platforms = trickList.map(t => t.platform).filter(uniquifier)
     const [trickList, changeTrickList] = useState([]);
     const [tlUpdated, changeTLUpdated] = useState(false);
-    console.log("Rendered !");
+    // console.log("Rendered !");
 
     // FIRST RENDER ONLY
+    let token = useSelector((state) => state.token);
     useEffect(() => {
         if (trickList.length === 0) {
-            fetchTrickList(changeTrickList);
+            fetchTrickList(changeTrickList, token);
         }
     }, []);
 
@@ -102,9 +105,13 @@ function displayTrickList(trickList) {
  * Fetches users tricklist from DB
  * @param {*} tListSetter tricklist state setter
  */
-function fetchTrickList(tListSetter) {
-    axios
-        .get(Settings.getApiUrl("/tricks/") + currentUserId)
+function fetchTrickList(tListSetter, token) {
+    console.log(token);
+    let headers = {
+        Authorization: "Bearer " + token.token,
+    };
+
+    getFromApi(Settings.getApiUrl("/tricks/") + currentUserId)
         .then(function (res) {
             let tr = res.data;
             // tr = tr.sort(compareTrick)

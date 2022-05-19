@@ -1,5 +1,6 @@
 import React from "react";
 import Banner from "../components/Banner";
+import { useSelector } from "react-redux";
 function Profile() {
     let c = (
         <div className="profile-container">

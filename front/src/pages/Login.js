@@ -8,13 +8,24 @@ import Settings from "../settings";
 import RegisterModal from "../components/RegisterModal";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
+
+import { useSelector, useDispatch } from "react-redux";
+import { set } from "../stores/reducers/tokenReducer";
+import { setTokenCookie } from "../utils/Cookie";
+
 const axios = require("axios").default;
 var bullshit = {};
 
 function Login() {
     const navigate = useNavigate();
     const [openRegisterModal, changeOpenRegisterModal] = useState(false);
+    const dispatch = useDispatch();
     bullshit = changeOpenRegisterModal;
+
+    useEffect(() => {
+        dispatch(set()); // Delete token on first login visit
+    }, []);
+    console.log(useSelector((state) => state.token));
     // this.changeOpenRegisterModal = this.changeOpenRegisterModal.bind(this)
     // this.changeOpenRegisterModal = changeOpenRegisterModal.bind(this)
     let c = (
@@ -37,6 +48,7 @@ function Login() {
                     <div className="message-body">
                         {displayLoginForm(
                             navigate,
+                            dispatch,
                             openRegisterModal,
                             changeOpenRegisterModal
                         )}
@@ -52,12 +64,14 @@ function Login() {
 /**
  * Displays login from
  * @param {*} navigate to redirect to tricklist after successful login
+ * @param {*} dispatch store dispatcher to affect jwt token on successful login
  * @param {*} openRegisterModal register modal status
  * @param {*} changeOpenRegisterModal register modal status changer
  * @returns HTML content
  */
 function displayLoginForm(
     navigate,
+    dispatch,
     openRegisterModal,
     changeOpenRegisterModal
 ) {
@@ -71,19 +85,21 @@ function displayLoginForm(
             <form
                 className="login-form"
                 method="POST"
-                onSubmit={(e) => login(e, navigate)}
+                onSubmit={(e) => login(e, navigate, dispatch)}
             >
                 <input
                     type="text"
                     className="input is-rounded"
                     placeholder="Login"
                     name="username"
+                    value={"Benji"}
                 />
                 <input
                     type="password"
                     className="input is-rounded"
                     placeholder="Password"
                     name="password"
+                    value={"azertyuiop"}
                 />
                 <input
                     type="submit"
@@ -119,7 +135,7 @@ function displayLoginForm(
  * @param {*} e Event from form submit
  * @param {*} navigate navigate object to redirect to tricklist after login
  */
-function login(e, navigate) {
+function login(e, navigate, dispatch) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
@@ -129,14 +145,18 @@ function login(e, navigate) {
     axios
         .post(Settings.getApiUrl("/users/login"), {
             params: {
-                username: "bcrypt",
-                password: "aaaaaaaa",
+                username: username,
+                password: password,
             },
         })
         .then(function (res) {
-            // Redirect to Tricklist
-            // navigate("/tricklist");
             console.log(res.data);
+
+            // Save token to store
+            // dispatch(set(res.data.token));
+            setTokenCookie(res.data.token);
+            // Redirect to Tricklist
+            navigate("/tricklist");
         })
         .catch(function (err) {
             showErrorToast("Login failed : ", err);
