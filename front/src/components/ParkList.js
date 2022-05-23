@@ -26,8 +26,6 @@ function ParkList() {
     const [tlUpdated, changeTLUpdated] = useState(false);
     // console.log("Rendered !");
 
-    // FIRST RENDER ONLY
-    // let token = useSelector((state) => state.token);
     useEffect(() => {
         //
         if (trickList.length === 0) {
@@ -50,7 +48,7 @@ function ParkList() {
                 </div>
                 <div className="parklist-container">
                     {/* {platforms.map(p => displayTricksWithPlatform(trickList,p))} */}
-                    {trickList.length > 0 && displayTrickList(trickList)}
+                    {displayTrickList(trickList)}
                 </div>
             </form>
             <NewTrickModal updateNotifier={changeTLUpdated}></NewTrickModal>
@@ -71,38 +69,55 @@ function uniquifier(v, i, array) {
  */
 function displayTrickList(trickList) {
     let platforms = trickList.map((t) => t.platform.name).filter(uniquifier);
-    let c = (
-        <React.Fragment>
-            {platforms.map((pname) => (
-                <div
-                    key={pname}
-                    className="parklist-platform box message is-info"
-                >
-                    <h3
-                        key={pname + "-h3"}
-                        className="subtitle is-3 platform-name message-header"
+
+    let c = "";
+    if (trickList.length > 0) {
+        c = (
+            <React.Fragment>
+                {platforms.map((pname) => (
+                    <div
+                        key={pname}
+                        className="parklist-platform box message is-info"
                     >
-                        {pname}
-                    </h3>
-                    <ul key={pname + "-ul"} className="trick-bag">
-                        {trickList
-                            .filter((t) => t.platform.name === pname)
-                            .map((t) => (
-                                <li key={pname + " " + t.name}>
-                                    <label className="checkbox">
-                                        <input
-                                            type="checkbox"
-                                            className="checkbox"
-                                        />
-                                        {t.name}
-                                    </label>
-                                </li>
-                            ))}
-                    </ul>
+                        <h3
+                            key={pname + "-h3"}
+                            className="subtitle is-3 platform-name message-header"
+                        >
+                            {pname}
+                        </h3>
+                        <ul key={pname + "-ul"} className="trick-bag">
+                            {trickList
+                                .filter((t) => t.platform.name === pname)
+                                .map((t) => (
+                                    <li key={pname + " " + t.name}>
+                                        <label className="checkbox">
+                                            <input
+                                                type="checkbox"
+                                                className="checkbox"
+                                            />
+                                            {t.name}
+                                        </label>
+                                    </li>
+                                ))}
+                        </ul>
+                    </div>
+                ))}
+                {/* {trickList.length === 0 && <h3>coucou</h3>>} */}
+            </React.Fragment>
+        );
+    } else {
+        c = (
+            <React.Fragment>
+                <div className="message is-warning">
+                    <h3 className="message-header">You have no trick !</h3>
+                    <div className="message-body">
+                        Try adding a trick by clicking the ➕ button in the
+                        down-right corner !
+                    </div>
                 </div>
-            ))}
-        </React.Fragment>
-    );
+            </React.Fragment>
+        );
+    }
 
     return c;
 }

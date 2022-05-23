@@ -3,6 +3,9 @@
     left: 90vw;
     bottom: 3vh;
 }
+.add-trick-modal > .modal-content {
+    width: 80%;
+}
 .new-button {
     position: sticky;
     left: 90vw;
@@ -33,7 +36,7 @@
     justify-content: center;
     align-items: center;
     width: 80%;
-    margin-top: 16px;
+    margin-top: 16px !important;
 }
 .new-trick-form > input[type="text"] {
     margin-bottom: 16px;
