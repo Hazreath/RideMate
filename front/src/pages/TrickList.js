@@ -1,6 +1,5 @@
 import Banner from "../components/Banner";
 import ParkList from "../components/ParkList";
-import NewTrickModal from "../components/NewTrickModal";
 
 function TrickList() {
     // alert('ok')
@@ -9,7 +8,6 @@ function TrickList() {
             <Banner></Banner>
 
             <ParkList></ParkList>
-            <NewTrickModal></NewTrickModal>
         </div>
     );
     return content;

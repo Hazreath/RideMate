@@ -40,7 +40,7 @@ exports.login = (req, res, next) => {
                         );
                         // res.set("Authorization", "Bearer " + token);
                         res.status(200).json({
-                            // userId: user._id,
+                            userId: user._id,
                             token: token,
                         });
                     })

@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
 import { useSelector } from "react-redux";
 import { getFromApi } from "../utils/APICall";
+import { getTokenFromCookie, getUserIDFromCookie } from "../utils/Cookie";
+import NewTrickModal from "../components/NewTrickModal";
 // STUB
 var tricks = [
     new Trick("Bar to Finger", "Bowl"),
@@ -16,7 +18,7 @@ var tricks = [
 ];
 
 const axios = require("axios").default;
-var currentUserId = "628631a1833c4175110820e3"; // TODOOOO
+// var currentUserId = "628631a1833c4175110820e3"; // TODOOOO
 
 function ParkList() {
     // let platforms = trickList.map(t => t.platform).filter(uniquifier)
@@ -25,30 +27,34 @@ function ParkList() {
     // console.log("Rendered !");
 
     // FIRST RENDER ONLY
-    let token = useSelector((state) => state.token);
+    // let token = useSelector((state) => state.token);
     useEffect(() => {
+        //
         if (trickList.length === 0) {
-            fetchTrickList(changeTrickList, token);
+            fetchTrickList(changeTrickList);
         }
     }, []);
 
     var c = (
-        <form className="parklist" method="POST">
-            <div className="tabs is-centered is-boxed is-fullwidth is-medium">
-                <ul>
-                    <li className="is-active">
-                        <a className="subtitle is-3">Park</a>
-                    </li>
-                    <li>
-                        <a className="subtitle is-3">Street</a>
-                    </li>
-                </ul>
-            </div>
-            <div className="parklist-container">
-                {/* {platforms.map(p => displayTricksWithPlatform(trickList,p))} */}
-                {trickList.length > 0 && displayTrickList(trickList)}
-            </div>
-        </form>
+        <div className="parklist-root">
+            <form className="parklist" method="POST">
+                <div className="tabs is-centered is-boxed is-fullwidth is-medium">
+                    <ul>
+                        <li className="is-active">
+                            <a className="subtitle is-3">Park</a>
+                        </li>
+                        <li>
+                            <a className="subtitle is-3">Street</a>
+                        </li>
+                    </ul>
+                </div>
+                <div className="parklist-container">
+                    {/* {platforms.map(p => displayTricksWithPlatform(trickList,p))} */}
+                    {trickList.length > 0 && displayTrickList(trickList)}
+                </div>
+            </form>
+            <NewTrickModal updateNotifier={changeTLUpdated}></NewTrickModal>
+        </div>
     );
 
     return c;
@@ -105,12 +111,11 @@ function displayTrickList(trickList) {
  * Fetches users tricklist from DB
  * @param {*} tListSetter tricklist state setter
  */
-function fetchTrickList(tListSetter, token) {
-    console.log(token);
-    let headers = {
-        Authorization: "Bearer " + token.token,
-    };
+function fetchTrickList(tListSetter) {
+    // console.log("========t " + getTokenFromCookie());
 
+    let currentUserId = getUserIDFromCookie();
+    // console.log("=========ID: " + currentUserId);
     getFromApi(Settings.getApiUrl("/tricks/") + currentUserId)
         .then(function (res) {
             let tr = res.data;

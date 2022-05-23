@@ -11,7 +11,7 @@ import { showErrorToast } from "../utils/Toasting";
 
 import { useSelector, useDispatch } from "react-redux";
 import { set } from "../stores/reducers/tokenReducer";
-import { setTokenCookie } from "../utils/Cookie";
+import { setTokenCookie, setUserIDCookie } from "../utils/Cookie";
 
 const axios = require("axios").default;
 var bullshit = {};
@@ -25,7 +25,6 @@ function Login() {
     useEffect(() => {
         dispatch(set()); // Delete token on first login visit
     }, []);
-    console.log(useSelector((state) => state.token));
     // this.changeOpenRegisterModal = this.changeOpenRegisterModal.bind(this)
     // this.changeOpenRegisterModal = changeOpenRegisterModal.bind(this)
     let c = (
@@ -93,6 +92,7 @@ function displayLoginForm(
                     placeholder="Login"
                     name="username"
                     value={"Benji"}
+                    readOnly
                 />
                 <input
                     type="password"
@@ -100,6 +100,7 @@ function displayLoginForm(
                     placeholder="Password"
                     name="password"
                     value={"azertyuiop"}
+                    readOnly
                 />
                 <input
                     type="submit"
@@ -150,11 +151,12 @@ function login(e, navigate, dispatch) {
             },
         })
         .then(function (res) {
-            console.log(res.data);
+            // console.log(res.data);
 
-            // Save token to store
-            // dispatch(set(res.data.token));
             setTokenCookie(res.data.token);
+            setUserIDCookie(res.data.userId);
+            // console.log(res.data);
+
             // Redirect to Tricklist
             navigate("/tricklist");
         })

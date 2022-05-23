@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { postToApi } from "../utils/APICall";
 const axios = require("axios").default;
 
-function NewTrickModal() {
+function NewTrickModal(trickListSetter) {
     const [modalOpened, changeOpenModal] = useState(false);
     const [newForm, changeNewForm] = useState(true); // true : trick | false: module/platform
     const [platformList, changePlatformList] = useState([]);
@@ -25,7 +25,6 @@ function NewTrickModal() {
         changePlatformList([]);
     }, []);
 
-    let token = useSelector((state) => state.token);
     let c = (
         <div className="new-trick-modal-container">
             <div
@@ -39,7 +38,7 @@ function NewTrickModal() {
                 <div className="modal-content">
                     <article className="message is-primary">
                         <div className="message-header">
-                            <p>New Item</p>
+                            <p>Add a new trick...</p>
                             <button
                                 className="delete"
                                 aria-label="delete"
@@ -49,50 +48,11 @@ function NewTrickModal() {
                             ></button>
                         </div>
                         <div className="message-body">
-                            <div className="tabs is-boxed is-centered is-full">
-                                <ul>
-                                    <li
-                                        className={
-                                            newForm ? "is-active" : undefined
-                                        }
-                                    >
-                                        <a
-                                            onClick={() =>
-                                                changeForm(
-                                                    changeNewForm,
-                                                    !newForm
-                                                )
-                                            }
-                                        >
-                                            Trick
-                                        </a>
-                                    </li>
-                                    <li
-                                        className={
-                                            !newForm ? "is-active" : undefined
-                                        }
-                                    >
-                                        <a
-                                            onClick={() =>
-                                                changeForm(
-                                                    changeNewForm,
-                                                    !newForm
-                                                )
-                                            }
-                                        >
-                                            Module
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                             <div className="new-modal-body">
-                                {newForm
-                                    ? displayNewTrickForm(
-                                          platformList,
-                                          changePlatformList,
-                                          token.token
-                                      )
-                                    : displayNewPlatformForm()}
+                                {displayNewTrickForm(
+                                    platformList,
+                                    changePlatformList
+                                )}
                             </div>
                         </div>
                     </article>
@@ -132,7 +92,7 @@ function displayNewTrickForm(platformList, plistSetter, token) {
         <form
             className="columns new-trick-form"
             method="POST"
-            onSubmit={(e) => addNewTrick(e, plistSetter, token)}
+            onSubmit={(e) => addNewTrick(e, plistSetter)}
         >
             <input
                 className="input is-info is-rounded is-full column"
@@ -209,15 +169,12 @@ function displayNewPlatformForm() {
  * Send post request to backend, in order to add the trick to DB
  * @param {*} e Form submit event
  */
-function addNewTrick(e, plistSetter, token) {
+function addNewTrick(e, plistSetter) {
     e.preventDefault();
     let formData = new FormData(e.target);
     let select = e.target.getElementsByTagName("select")[0];
     let platformName = select[select.selectedIndex].text;
 
-    let headers = {
-        Authorization: "Bearer " + token,
-    };
     let data = {
         params: {
             user_id: "628631a1833c4175110820e3", // TODO STUB
@@ -234,6 +191,7 @@ function addNewTrick(e, plistSetter, token) {
     postToApi(Settings.getApiUrl("/tricks/"), data)
         .then(function (res) {
             toast.success("Trick added !");
+            // Close modal and refresh park list
             // TODO REACTUALISER LISTE TRICKS
         })
         .catch(function (err) {

@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import LoadSpinner from "./LoadSpinner";
 import Settings from "../settings.js";
 import { getFromApi } from "../utils/APICall";
-
+import { getUserIDFromCookie, getTokenFromCookie } from "../utils/Cookie";
 const axios = require("axios").default;
-const STUB_ID = "";
+
 const USERNAME_ERROR = "none";
 
 function RiderTag() {
@@ -16,7 +16,7 @@ function RiderTag() {
     //
 
     useEffect(() => {
-        getUserInfos("628631a1833c4175110820e3", setUserInfos); // TODO STUB
+        getUserInfos(setUserInfos); // TODO STUB
     }, []);
 
     let c = (
@@ -109,12 +109,14 @@ function displayError() {
         </React.Fragment>
     );
 }
-function getUserInfos(id, uinfosSetter) {
+function getUserInfos(uinfosSetter) {
     let user = null;
-    getFromApi(Settings.getApiUrl("/users/") + id)
+    let userId = getUserIDFromCookie();
+    // console.log(id);
+    getFromApi(Settings.getApiUrl("/users/") + userId)
         .then(function (res) {
             let data = res.data;
-            console.log(res.data);
+            // console.log(res.data);
             user = new User(data.username, data.level, data.xp);
 
             // setTimeout(() => {uinfosSetter(user)}, 3000)
