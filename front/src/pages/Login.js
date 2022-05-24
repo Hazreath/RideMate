@@ -19,11 +19,9 @@ var bullshit = {};
 function Login() {
     const navigate = useNavigate();
     const [openRegisterModal, changeOpenRegisterModal] = useState(false);
-    const dispatch = useDispatch();
-    bullshit = changeOpenRegisterModal;
 
     useEffect(() => {
-        dispatch(set()); // Delete token on first login visit
+        // Delete token on first login visit
     }, []);
     // this.changeOpenRegisterModal = this.changeOpenRegisterModal.bind(this)
     // this.changeOpenRegisterModal = changeOpenRegisterModal.bind(this)
@@ -47,7 +45,6 @@ function Login() {
                     <div className="message-body">
                         {displayLoginForm(
                             navigate,
-                            dispatch,
                             openRegisterModal,
                             changeOpenRegisterModal
                         )}
@@ -70,37 +67,41 @@ function Login() {
  */
 function displayLoginForm(
     navigate,
-    dispatch,
     openRegisterModal,
     changeOpenRegisterModal
 ) {
     // TODO remove autofilled credentials
-    // console.log(openRegisterModal)
-    // console.log(changeOpenRegisterModal)
-    // this.changeOpenRegisterModal.bind(this)
-
+    let debug = {
+        username: "Benji",
+        password: "azertyuiop",
+    };
+    let debug2 = {
+        username: "hazreath",
+        password: "aaaaaaaa",
+    };
+    let debugUser = debug2;
     return (
         <div className="login-form-container">
             <form
                 className="login-form"
                 method="POST"
-                onSubmit={(e) => login(e, navigate, dispatch)}
+                onSubmit={(e) => login(e, navigate)}
             >
                 <input
                     type="text"
                     className="input is-rounded"
                     placeholder="Login"
                     name="username"
-                    value={"Benji"}
-                    readOnly
+                    value={debugUser.username}
+                    onChange={() => console.log()}
                 />
                 <input
                     type="password"
                     className="input is-rounded"
                     placeholder="Password"
                     name="password"
-                    value={"azertyuiop"}
-                    readOnly
+                    value={debugUser.password}
+                    onChange={() => console.log()}
                 />
                 <input
                     type="submit"
@@ -110,7 +111,7 @@ function displayLoginForm(
                 <a
                     href="#"
                     className="register"
-                    onClick={() => changeOpenRegisterModal(!openRegisterModal)}
+                    onClick={(e) => changeOpenRegisterModal(!openRegisterModal)}
                 >
                     👉Register👈
                 </a>
@@ -136,7 +137,7 @@ function displayLoginForm(
  * @param {*} e Event from form submit
  * @param {*} navigate navigate object to redirect to tricklist after login
  */
-function login(e, navigate, dispatch) {
+function login(e, navigate) {
     e.preventDefault();
 
     let formData = new FormData(e.target);

@@ -3,17 +3,11 @@ import { useEffect, useState } from "react";
 import Settings from "../settings";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
+import { postToApi } from "../utils/APICall";
 const axios = require("axios").default;
-// import {changeOpenRegisterModalState} from '../pages/Login'
-function RegisterModal(openState, openStateChanger) {
-    // console.log("openState: " + openState["openState"]);
 
-    const [modal, changeModal] = useState(true);
-    // useEffect(() => {
-    //     // console.log("MODAL: " + modal);
-    // }, []);
-
-    let display = openState && modal ? "flex" : "none";
+function RegisterModal({ openState, openStateChanger }) {
+    let display = openState ? "flex" : "none";
     let c = (
         <div
             className="modal register-modal-container"
@@ -27,7 +21,7 @@ function RegisterModal(openState, openStateChanger) {
                         <button
                             className="delete"
                             aria-label="delete"
-                            onClick={() => changeModal(!modal)}
+                            onClick={() => openStateChanger(!openState)}
                         ></button>
                         {/* onClick={() => openModal(changeOpenModal,!modalOpened)} */}
                     </div>
@@ -47,14 +41,7 @@ function RegisterModal(openState, openStateChanger) {
 
     return c;
 }
-function closeModal(state, stateChanger) {
-    // console.log(stateChanger)
-    // state['stateChanger'](false)
-    // state(false)
-    // openStateChanger(false)
-    // changeOpenRegisterModalState(false)
-    stateChanger(!state);
-}
+
 function displayRegisterForm() {
     return (
         <form
@@ -106,14 +93,13 @@ function register(e) {
 
     let formData = new FormData(e.target);
 
-    axios
-        .post(Settings.getApiUrl("/users/register/"), {
-            params: {
-                username: formData.get("username"),
-                password: formData.get("password"),
-                email: formData.get("email"),
-            },
-        })
+    postToApi(Settings.getApiUrl("/users/register/"), {
+        params: {
+            username: formData.get("username"),
+            password: formData.get("password"),
+            email: formData.get("email"),
+        },
+    })
         .then(function (res) {
             toast.success("Registered successfully !");
         })

@@ -4,7 +4,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import Settings from "../settings";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { set } from "../stores/reducers/tricklistReducer";
 import { getFromApi } from "../utils/APICall";
 import { getTokenFromCookie, getUserIDFromCookie } from "../utils/Cookie";
 import NewTrickModal from "../components/NewTrickModal";
@@ -21,20 +22,12 @@ var tricks = [
 // var currentUserId = "628631a1833c4175110820e3"; // TODOOOO
 
 function ParkList() {
-    // let platforms = trickList.map(t => t.platform).filter(uniquifier)
-    const [trickList, changeTrickList] = useState([]);
+    const trickList = useSelector((state) => state.trickList.trickList);
+    const tlDispatcher = useDispatch();
     const [tlUpdated, changeTLUpdated] = useState(false);
-    // console.log("Rendered !");
-
-    const changeTrickListWrapper = (v) => {
-        changeTrickList(v);
-    };
 
     useEffect(() => {
-        //
-        if (trickList.length === 0) {
-            fetchTrickList(changeTrickList);
-        }
+        fetchTrickList(tlDispatcher);
     }, []);
 
     var c = (
@@ -55,10 +48,7 @@ function ParkList() {
                     {displayTrickList(trickList)}
                 </div>
             </form>
-            <NewTrickModal
-                tl={trickList}
-                tlSetter={changeTrickList}
-            ></NewTrickModal>
+            <NewTrickModal></NewTrickModal>
         </div>
     );
 
@@ -100,7 +90,11 @@ function displayTrickList(trickList) {
                             {trickList
                                 .filter((t) => t.platform.name === pname)
                                 .map((t) => (
-                                    <li key={pname + " " + t.name}>
+                                    <li
+                                        key={
+                                            pname + " " + t.name + Math.random()
+                                        }
+                                    >
                                         <label className="checkbox">
                                             <input
                                                 type="checkbox"
@@ -137,7 +131,7 @@ function displayTrickList(trickList) {
  * Fetches users tricklist from DB
  * @param {*} tListSetter tricklist state setter
  */
-function fetchTrickList(tListSetter) {
+function fetchTrickList(tlDispatcher) {
     // console.log("FETCHING TL");
 
     let currentUserId = getUserIDFromCookie();
@@ -147,7 +141,8 @@ function fetchTrickList(tListSetter) {
             let tr = res.data;
             // debugTrickList(tr);
             // tr = tr.sort(compareTrick)
-            tListSetter(tr);
+            // tListSetter(tr);
+            tlDispatcher(set(tr));
             // renderSetter(0);
         })
         .catch(function (err) {

@@ -5,12 +5,14 @@ import Platform from "../models/Platform";
 import Settings from "../settings.js";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { set } from "../stores/reducers/tricklistReducer";
 import { postToApi } from "../utils/APICall";
 import React from "react";
+import { getUserIDFromCookie } from "../utils/Cookie";
 const axios = require("axios").default;
-
-function NewTrickModal({ tl, tlSetter }) {
+var dispatcher = undefined;
+function NewTrickModal() {
     const [modalOpened, changeOpenModal] = useState(false);
     // const [newForm, changeNewForm] = useState(true); // true : trick | false: module/platform
     const [platformList, changePlatformList] = useState([]);
@@ -21,6 +23,10 @@ function NewTrickModal({ tl, tlSetter }) {
         modalClass += " is-active";
     }
 
+    const trickList = useSelector((state) => state.trickList.trickList);
+    const tlDispatcher = useDispatch();
+    dispatcher = useDispatch();
+    // console.log(tlDispatcher);
     // FIRST RENDER ONLY
     useEffect(() => {
         changePlatformList([]);
@@ -53,8 +59,8 @@ function NewTrickModal({ tl, tlSetter }) {
                                 {displayNewTrickForm(
                                     platformList,
                                     changePlatformList,
-                                    { tl },
-                                    { tlSetter }
+                                    trickList,
+                                    { tlDispatcher }
                                 )}
                             </div>
                         </div>
@@ -85,7 +91,7 @@ function changeForm(updater, v) {
  * @param {*} plistSetter platformList state modifier
  * @returns html
  */
-function displayNewTrickForm(platformList, plistSetter, tl, tlSetter) {
+function displayNewTrickForm(platformList, plistSetter, tl, tlDispatcher) {
     if (platformList.length == 0) {
         fetchPlatformList(plistSetter);
     }
@@ -94,7 +100,7 @@ function displayNewTrickForm(platformList, plistSetter, tl, tlSetter) {
         <form
             className="columns new-trick-form"
             method="POST"
-            onSubmit={(e) => addNewTrick(e, plistSetter, tl, tlSetter)}
+            onSubmit={(e) => addNewTrick(e, tl, tlDispatcher)}
         >
             <input
                 className="input is-info is-rounded is-full column"
@@ -176,11 +182,11 @@ function updateTL(tlUpdated, tlUpdatedSetter) {
  * Send post request to backend, in order to add the trick to DB
  * @param {*} e Form submit event
  */
-function addNewTrick(e, tl, tlSetter) {
+function addNewTrick(e, tl) {
     e.preventDefault();
 
     console.log(tl);
-    console.log(tlSetter);
+    // console.log(tlDispatcher);
 
     let formData = new FormData(e.target);
     let select = e.target.getElementsByTagName("select")[0];
@@ -188,7 +194,7 @@ function addNewTrick(e, tl, tlSetter) {
 
     let data = {
         params: {
-            user_id: "628631a1833c4175110820e3", // TODO STUB
+            user_id: getUserIDFromCookie(), // TODO STUB
             platform: {
                 _id: formData.get("platform"),
                 name: platformName,
@@ -199,22 +205,20 @@ function addNewTrick(e, tl, tlSetter) {
             xp: 10,
         },
     };
-    postToApi(Settings.getApiUrl("/tricks/"), data).then(function (res) {
-        toast.success("Trick added !");
-        // Close modal and refresh park list
-        console.log(res.data);
-        // let newTrick = { ...res.data };
-        // Deep copy + add new trick
-        let tricklist = { ...tl };
-        // tricklist.push(newTrick);
-        tlSetter({ tricklist });
-        // TODO REACTUALISER LISTE TRICKS
-    });
-    // .catch(function (err) {
-    //     // console.log("Failed to create a trick");
+    postToApi(Settings.getApiUrl("/tricks/"), data)
+        .then(function (res) {
+            toast.success("Trick added !");
 
-    //     showErrorToast("Failed to add trick : ", err);
-    //     // console.log(err);
-    // });
+            // Add new trick to tricklist, to refresh
+            let newTL = [...tl];
+            newTL.push(res.data);
+            dispatcher(set(newTL));
+        })
+        .catch(function (err) {
+            // console.log("Failed to create a trick");
+
+            showErrorToast("Failed to add trick : ", err);
+            // console.log(err);
+        });
 }
 export default NewTrickModal;

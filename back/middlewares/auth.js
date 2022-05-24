@@ -16,7 +16,6 @@ module.exports = (req, res, next) => {
         if (req.method === "GET") {
             expectedUserId = req.url.substring(1); // Strip initial '/'
         } else if (req.method === "POST") {
-            console.log(req.body.params.user_id);
             expectedUserId = req.body.params.user_id;
         }
         const token = req.headers.authorization.split(" ")[1]; // Strip "Bearer ", falls into catch if undefined
