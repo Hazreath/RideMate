@@ -1,6 +1,6 @@
 import "../styles/ParkList.css";
 import Trick from "../models/Trick";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Settings from "../settings";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
@@ -25,6 +25,10 @@ function ParkList() {
     const [trickList, changeTrickList] = useState([]);
     const [tlUpdated, changeTLUpdated] = useState(false);
     // console.log("Rendered !");
+
+    const changeTrickListWrapper = (v) => {
+        changeTrickList(v);
+    };
 
     useEffect(() => {
         //
@@ -52,15 +56,14 @@ function ParkList() {
                 </div>
             </form>
             <NewTrickModal
-                tlUpdated={tlUpdated}
-                tlUpdatedSetter={changeTLUpdated}
+                tl={trickList}
+                tlSetter={changeTrickList}
             ></NewTrickModal>
         </div>
     );
 
     return c;
 }
-
 function tlHasBeenUpdated() {}
 function uniquifier(v, i, array) {
     return array.indexOf(v) === i;
@@ -135,14 +138,14 @@ function displayTrickList(trickList) {
  * @param {*} tListSetter tricklist state setter
  */
 function fetchTrickList(tListSetter) {
-    console.log("FETCHING TL");
+    // console.log("FETCHING TL");
 
     let currentUserId = getUserIDFromCookie();
     // console.log("=========ID: " + currentUserId);
     getFromApi(Settings.getApiUrl("/tricks/") + currentUserId)
         .then(function (res) {
             let tr = res.data;
-            debugTrickList(tr);
+            // debugTrickList(tr);
             // tr = tr.sort(compareTrick)
             tListSetter(tr);
             // renderSetter(0);

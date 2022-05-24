@@ -10,7 +10,7 @@ const axios = require("axios").default;
  */
 export function getFromApi(url) {
     let token = getTokenFromCookie();
-    console.log("GET : " + url + ";\n Token : " + token);
+    // console.log("GET : " + url + ";\n Token : " + token);
     let headers = {
         authorization: "Bearer " + token,
     };
