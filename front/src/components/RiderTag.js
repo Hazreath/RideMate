@@ -97,7 +97,9 @@ function displayUserInfos(userInfos) {
                     max={userInfos.xpToNextLv}
                     value={userInfos.xp}
                 ></progress>
-                <p className="xp">XP : 24/60</p>
+                <p className="xp">
+                    XP : {userInfos.xp}/{userInfos.xpToNextLv}
+                </p>
             </div>
         </React.Fragment>
     );

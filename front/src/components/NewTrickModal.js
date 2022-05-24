@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { postToApi } from "../utils/APICall";
 const axios = require("axios").default;
 
-function NewTrickModal(trickListSetter) {
+function NewTrickModal({ tlUpdated, tlUpdatedSetter }) {
     const [modalOpened, changeOpenModal] = useState(false);
     const [newForm, changeNewForm] = useState(true); // true : trick | false: module/platform
     const [platformList, changePlatformList] = useState([]);
@@ -51,7 +51,9 @@ function NewTrickModal(trickListSetter) {
                             <div className="new-modal-body">
                                 {displayNewTrickForm(
                                     platformList,
-                                    changePlatformList
+                                    changePlatformList,
+                                    tlUpdated,
+                                    tlUpdatedSetter
                                 )}
                             </div>
                         </div>
@@ -83,16 +85,23 @@ function changeForm(updater, v) {
  * @param {*} plistSetter platformList state modifier
  * @returns html
  */
-function displayNewTrickForm(platformList, plistSetter, token) {
+function displayNewTrickForm(
+    platformList,
+    plistSetter,
+    tlUpdated,
+    tlUpdatedSetter
+) {
     if (platformList.length == 0) {
         fetchPlatformList(plistSetter);
     }
-    // console.log(platformList)
+
     let c = (
         <form
             className="columns new-trick-form"
             method="POST"
-            onSubmit={(e) => addNewTrick(e, plistSetter)}
+            onSubmit={(e) =>
+                addNewTrick(e, plistSetter, tlUpdated, tlUpdatedSetter)
+            }
         >
             <input
                 className="input is-info is-rounded is-full column"
@@ -115,6 +124,7 @@ function displayNewTrickForm(platformList, plistSetter, token) {
                 type="submit"
                 className="button is-success is-rounded"
                 value="Ajouter"
+                onClick={() => updateTL(tlUpdated, tlUpdatedSetter)}
             ></input>
         </form>
     );
@@ -165,11 +175,15 @@ function displayNewPlatformForm() {
     return c;
 }
 
+function updateTL(tlUpdated, tlUpdatedSetter) {
+    console.log("TL UPDATED");
+    tlUpdatedSetter({ tlUpdated: !tlUpdated });
+}
 /**
  * Send post request to backend, in order to add the trick to DB
  * @param {*} e Form submit event
  */
-function addNewTrick(e, plistSetter) {
+function addNewTrick(e, plistSetter, tlUpdated, tlUpdatedSetter) {
     e.preventDefault();
     let formData = new FormData(e.target);
     let select = e.target.getElementsByTagName("select")[0];
@@ -192,6 +206,7 @@ function addNewTrick(e, plistSetter) {
         .then(function (res) {
             toast.success("Trick added !");
             // Close modal and refresh park list
+
             // TODO REACTUALISER LISTE TRICKS
         })
         .catch(function (err) {
@@ -200,11 +215,5 @@ function addNewTrick(e, plistSetter) {
             showErrorToast("Failed to add trick : ", err);
             // console.log(err);
         });
-    // axios
-    //     .post(
-    //         Settings.getApiUrl("/tricks/"),
-    //         ,
-    //         { headers: headers }
-    //     )
 }
 export default NewTrickModal;

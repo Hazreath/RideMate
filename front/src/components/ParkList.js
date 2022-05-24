@@ -17,7 +17,7 @@ var tricks = [
     new Trick("Quad", "Fly"),
 ];
 
-const axios = require("axios").default;
+// const axios = require("axios").default;
 // var currentUserId = "628631a1833c4175110820e3"; // TODOOOO
 
 function ParkList() {
@@ -41,9 +41,9 @@ function ParkList() {
                         <li className="is-active">
                             <a className="subtitle is-3">Park</a>
                         </li>
-                        <li>
+                        {/* <li>
                             <a className="subtitle is-3">Street</a>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <div className="parklist-container">
@@ -51,17 +51,25 @@ function ParkList() {
                     {displayTrickList(trickList)}
                 </div>
             </form>
-            <NewTrickModal updateNotifier={changeTLUpdated}></NewTrickModal>
+            <NewTrickModal
+                tlUpdated={tlUpdated}
+                tlUpdatedSetter={changeTLUpdated}
+            ></NewTrickModal>
         </div>
     );
 
     return c;
 }
 
+function tlHasBeenUpdated() {}
 function uniquifier(v, i, array) {
     return array.indexOf(v) === i;
 }
 
+function debugTrickList(tricklist) {
+    let filtered = tricklist.map((t) => t.name);
+    console.log(filtered);
+}
 /**
  * Displays users tricklist
  * @param {*} trickList state containing users tricklist
@@ -127,13 +135,14 @@ function displayTrickList(trickList) {
  * @param {*} tListSetter tricklist state setter
  */
 function fetchTrickList(tListSetter) {
-    // console.log("========t " + getTokenFromCookie());
+    console.log("FETCHING TL");
 
     let currentUserId = getUserIDFromCookie();
     // console.log("=========ID: " + currentUserId);
     getFromApi(Settings.getApiUrl("/tricks/") + currentUserId)
         .then(function (res) {
             let tr = res.data;
+            debugTrickList(tr);
             // tr = tr.sort(compareTrick)
             tListSetter(tr);
             // renderSetter(0);
