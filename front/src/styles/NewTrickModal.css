@@ -2,6 +2,8 @@
     position: sticky;
     left: 90vw;
     bottom: 3vh;
+    /* BUG: div is over bottom part of parklist */
+    max-width: 64px;
 }
 .add-trick-modal > .modal-content {
     width: 80%;
