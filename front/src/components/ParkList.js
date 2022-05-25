@@ -5,10 +5,11 @@ import Settings from "../settings";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
 import { useDispatch, useSelector } from "react-redux";
-import { set } from "../stores/reducers/tricklistReducer";
-import { getFromApi } from "../utils/APICall";
+import { set, check } from "../stores/reducers/tricklistReducer";
+import { getFromApi, postToApi, patchToApi } from "../utils/APICall";
 import { getTokenFromCookie, getUserIDFromCookie } from "../utils/Cookie";
 import NewTrickModal from "../components/NewTrickModal";
+
 // STUB
 var tricks = [
     new Trick("Bar to Finger", "Bowl"),
@@ -22,9 +23,12 @@ var tricks = [
 // var currentUserId = "628631a1833c4175110820e3"; // TODOOOO
 
 function ParkList() {
+    // Retrieving tricklist from store
     const trickList = useSelector((state) => state.trickList.trickList);
     const tlDispatcher = useDispatch();
-    const [tlUpdated, changeTLUpdated] = useState(false);
+
+    // Show undone tricks, or done ones
+    const [todoMode, changeTodoMode] = useState(true);
 
     useEffect(() => {
         fetchTrickList(tlDispatcher);
@@ -43,9 +47,29 @@ function ParkList() {
                         </li> */}
                     </ul>
                 </div>
+                <div className="tabs is-centered is-small">
+                    <ul>
+                        <li className={todoMode ? "is-active" : undefined}>
+                            <a
+                                className="subtitle is-5"
+                                onClick={() => changeTodoMode(true)}
+                            >
+                                🥊 To do
+                            </a>
+                        </li>
+                        <li className={!todoMode ? "is-active" : undefined}>
+                            <a
+                                className="subtitle is-5"
+                                onClick={() => changeTodoMode(false)}
+                            >
+                                👌 Done
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 <div className="parklist-container">
                     {/* {platforms.map(p => displayTricksWithPlatform(trickList,p))} */}
-                    {displayTrickList(trickList)}
+                    {displayTrickList(trickList, todoMode, tlDispatcher)}
                 </div>
             </form>
             <NewTrickModal></NewTrickModal>
@@ -54,7 +78,7 @@ function ParkList() {
 
     return c;
 }
-function tlHasBeenUpdated() {}
+
 function uniquifier(v, i, array) {
     return array.indexOf(v) === i;
 }
@@ -68,17 +92,19 @@ function debugTrickList(tricklist) {
  * @param {*} trickList state containing users tricklist
  * @returns HTML content
  */
-function displayTrickList(trickList) {
-    let platforms = trickList.map((t) => t.platform.name).filter(uniquifier);
+function displayTrickList(trickList, todoMode, tlDispatcher) {
+    let todoTricks = trickList.filter((t) => t.done === !todoMode);
+    let platforms = todoTricks.map((t) => t.platform.name).filter(uniquifier);
 
     let c = "";
-    if (trickList.length > 0) {
+    if (todoTricks.length > 0) {
+        let theme = todoMode ? "is-info" : "is-success";
         c = (
             <React.Fragment>
                 {platforms.map((pname) => (
                     <div
                         key={pname}
-                        className="parklist-platform box message is-info"
+                        className={"parklist-platform box message " + theme}
                     >
                         <h3
                             key={pname + "-h3"}
@@ -87,18 +113,24 @@ function displayTrickList(trickList) {
                             {pname}
                         </h3>
                         <ul key={pname + "-ul"} className="trick-bag">
-                            {trickList
+                            {todoTricks
                                 .filter((t) => t.platform.name === pname)
                                 .map((t) => (
-                                    <li
-                                        key={
-                                            pname + " " + t.name + Math.random()
-                                        }
-                                    >
+                                    <li key={t._id}>
                                         <label className="checkbox">
                                             <input
                                                 type="checkbox"
                                                 className="checkbox"
+                                                value={t._id}
+                                                onClick={(e) => {
+                                                    if (todoMode)
+                                                        checkTrick(
+                                                            e,
+                                                            tlDispatcher
+                                                        );
+                                                }}
+                                                defaultChecked={!todoMode}
+                                                disabled={!todoMode}
                                             />
                                             {t.name}
                                         </label>
@@ -127,6 +159,25 @@ function displayTrickList(trickList) {
     return c;
 }
 
+function checkTrick(e, tlDispatcher) {
+    // console.log("checkTrick: " + e.target.value);
+    var trick_id = e.target.value;
+    let data = {
+        params: {
+            _id: trick_id,
+        },
+    };
+    // console.log(data);
+    patchToApi(Settings.getApiUrl("/tricks/check"), data)
+        .then((res) => {
+            toast.success("Trick done ! GG 👍");
+            // TODO refresh
+            tlDispatcher(check(trick_id));
+        })
+        .catch((err) => {
+            showErrorToast("Error when checking trick : ", err);
+        });
+}
 /**
  * Fetches users tricklist from DB
  * @param {*} tListSetter tricklist state setter
@@ -139,11 +190,7 @@ function fetchTrickList(tlDispatcher) {
     getFromApi(Settings.getApiUrl("/tricks/") + currentUserId)
         .then(function (res) {
             let tr = res.data;
-            // debugTrickList(tr);
-            // tr = tr.sort(compareTrick)
-            // tListSetter(tr);
             tlDispatcher(set(tr));
-            // renderSetter(0);
         })
         .catch(function (err) {
             showErrorToast("Failed to fetch your TrickList : ", err);

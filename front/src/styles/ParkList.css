@@ -6,12 +6,13 @@ h3 {
 }
 
 .parklist {
-    padding:8px;
+    padding: 8px;
 }
 .parklist-container {
     overflow-y: scroll;
     /* z-index: -1; */
-    height: 55vh;
+    height: 48vh;
+    /* height: 55vh; */
 }
 .parklist-platform {
     position: relative;
@@ -21,19 +22,19 @@ h3 {
     align-self: center;
 }
 .trick-bag {
-    margin-left:32px;
-    font-size:20px;
+    margin-left: 32px;
+    font-size: 20px;
     /* z-index: -1; */
 }
 
-.trick-bag > li > label  {
+.trick-bag > li > label {
     /* z-index: -1; */
 }
-.trick-bag > li > label > input[type=checkbox] {
-    margin-right:15px;
+.trick-bag > li > label > input[type="checkbox"] {
+    margin-right: 15px;
     transform: scale(2);
-    accent-color:limegreen;
-    color:yellow;
+    accent-color: limegreen;
+    color: yellow;
 }
 .parklist-platform > ul {
     list-style: none;

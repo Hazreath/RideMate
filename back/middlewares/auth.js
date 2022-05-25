@@ -8,11 +8,11 @@ const Settings = require("../settings");
  * the one contained in JWT Token.
  */
 module.exports = (req, res, next) => {
-    console.log("auth");
+    console.log("AUTH========================");
     try {
         // console.log(req.body.params);
         let expectedUserId = "";
-        console.log(req.method);
+        console.log("Method: " + req.method);
         if (req.method === "GET") {
             expectedUserId = req.url.substring(1); // Strip initial '/'
         } else if (req.method === "POST") {
@@ -25,13 +25,15 @@ module.exports = (req, res, next) => {
         const userId = decodedToken.userId;
         console.log("Decoded user ID : " + userId);
         console.log("expected : " + expectedUserId);
-        console.log("Matching : " + expectedUserId === userId);
+        console.log("Matching : " + (expectedUserId === userId));
         if (expectedUserId && expectedUserId !== userId) {
             throw "Invalid user ID : session expired";
         } else {
+            console.log("============================");
             next();
         }
     } catch {
+        console.log("============================");
         res.status(401).json({
             error: "Invalid user ID, session expired",
         });

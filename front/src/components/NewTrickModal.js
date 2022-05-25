@@ -6,12 +6,13 @@ import Settings from "../settings.js";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
 import { useDispatch, useSelector } from "react-redux";
-import { set } from "../stores/reducers/tricklistReducer";
+import { set, push } from "../stores/reducers/tricklistReducer";
 import { postToApi } from "../utils/APICall";
 import React from "react";
 import { getUserIDFromCookie } from "../utils/Cookie";
 const axios = require("axios").default;
 var dispatcher = undefined;
+
 function NewTrickModal() {
     const [modalOpened, changeOpenModal] = useState(false);
     // const [newForm, changeNewForm] = useState(true); // true : trick | false: module/platform
@@ -185,7 +186,7 @@ function updateTL(tlUpdated, tlUpdatedSetter) {
 function addNewTrick(e, tl) {
     e.preventDefault();
 
-    console.log(tl);
+    // console.log(tl);
     // console.log(tlDispatcher);
 
     let formData = new FormData(e.target);
@@ -210,9 +211,10 @@ function addNewTrick(e, tl) {
             toast.success("Trick added !");
 
             // Add new trick to tricklist, to refresh
-            let newTL = [...tl];
-            newTL.push(res.data);
-            dispatcher(set(newTL));
+            // let newTL = [...tl];
+            // newTL.push(res.data);
+            // dispatcher(set(newTL));
+            dispatcher(push(res.data));
         })
         .catch(function (err) {
             // console.log("Failed to create a trick");
