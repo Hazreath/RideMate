@@ -31,7 +31,7 @@ export const tlSlice = createSlice({
             state.trickList.forEach((t) => {
                 // console.log(t.name + " : " + t.done + "\t" + t._id);
                 if (t._id === checkedTrickId) {
-                    console.log("Found ! " + t.name);
+                    // console.log("Found ! " + t.name);
                     t.done = true;
                 }
             });

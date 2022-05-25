@@ -18,6 +18,7 @@ exports.getAllTricks = (req, res, next) => {
     //     .catch(e => res.status(404).json(e))
 };
 exports.addTrick = (req, res, next) => {
+    console.log("adddddd");
     let trick = new Trick({
         user_id: req.body.params.user_id,
         platform: {
@@ -28,10 +29,23 @@ exports.addTrick = (req, res, next) => {
         xp: 10, // TODO attribute XP to tricks
         done: false,
     });
-    trick
-        .save()
-        .then((t) => res.status(200).json(t))
-        .catch((e) => res.status(400).json(e));
+    // Checking if same trick has been added (same name & platform)
+    Trick.find({
+        $and: [
+            { name: req.body.params.name },
+            { platform_id: req.body.params.platform._id },
+        ],
+    }).then((t) => {
+        if (t.length == 0) {
+            // Not in DB !
+            trick
+                .save()
+                .then((t) => res.status(200).json(t))
+                .catch((e) => res.status(400).json(e));
+        } else {
+            res.status(400).json({ error: "Already in DB" });
+        }
+    });
 };
 
 exports.checkTrick = (req, res, next) => {

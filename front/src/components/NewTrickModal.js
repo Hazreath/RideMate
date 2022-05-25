@@ -192,35 +192,52 @@ function addNewTrick(e, tl) {
     let formData = new FormData(e.target);
     let select = e.target.getElementsByTagName("select")[0];
     let platformName = select[select.selectedIndex].text;
+    let name = formData.get("name");
+    let platform_id = formData.get("platform");
 
-    let data = {
-        params: {
-            user_id: getUserIDFromCookie(), // TODO STUB
-            platform: {
-                _id: formData.get("platform"),
-                name: platformName,
+    // Check if tricks does not exists (same name, platform)
+
+    let exists = tl.find(
+        (t) => t.name === name && t.platform._id === platform_id
+    );
+    // console.log(t);
+    if (!exists) {
+        // Send data to API
+        let data = {
+            params: {
+                user_id: getUserIDFromCookie(), // TODO STUB
+                platform: {
+                    _id: platform_id,
+                    name: platformName,
+                },
+
+                // platform_name:
+                name: name,
+                xp: 10,
             },
+        };
+        postToApi(Settings.getApiUrl("/tricks/"), data)
+            .then(function (res) {
+                toast.success("Trick added !");
 
-            // platform_name:
-            name: formData.get("name"),
-            xp: 10,
-        },
-    };
-    postToApi(Settings.getApiUrl("/tricks/"), data)
-        .then(function (res) {
-            toast.success("Trick added !");
+                // Add new trick to tricklist, to refresh
+                // let newTL = [...tl];
+                // newTL.push(res.data);
+                // dispatcher(set(newTL));
+                dispatcher(push(res.data));
+            })
+            .catch(function (err) {
+                // console.log("Failed to create a trick");
 
-            // Add new trick to tricklist, to refresh
-            // let newTL = [...tl];
-            // newTL.push(res.data);
-            // dispatcher(set(newTL));
-            dispatcher(push(res.data));
-        })
-        .catch(function (err) {
-            // console.log("Failed to create a trick");
-
-            showErrorToast("Failed to add trick : ", err);
-            // console.log(err);
-        });
+                showErrorToast("Failed to add trick : ", err);
+                // console.log(err);
+            });
+    } else {
+        // ERROR
+        let text = exists.done
+            ? "You've done this trick already !"
+            : "You already have to do this trick !";
+        showErrorToast(text);
+    }
 }
 export default NewTrickModal;
