@@ -1,0 +1,28 @@
+.modify-profile-container {
+    margin: 16px 0 0 32px;
+    width: 50%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 16px;
+}
+.form-password {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+
+input[type="submit"] {
+    margin-top: 16px;
+}
+
+.avatar-file-input {
+    margin-bottom: 32px;
+}

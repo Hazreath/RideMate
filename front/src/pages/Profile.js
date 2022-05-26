@@ -1,11 +1,49 @@
 import React from "react";
+import "../styles/Profile.css";
 import Banner from "../components/Banner";
+import { useState } from "react";
 import { useSelector } from "react-redux";
+
+const AVAILABLE_MODS = {
+    profile: 0,
+    modify: 1,
+};
 function Profile() {
-    let c = (
-        <div className="profile-container">
-            <form className="form-profile-pic">
-                <div className="file has-name">
+    const [selectedMode, changeSelectedMode] = useState(1);
+
+    let contentDisplayed;
+
+    // Display HTML content depending on current mode
+    switch (selectedMode) {
+        case AVAILABLE_MODS.profile:
+            contentDisplayed = displayProfile;
+            break; // TODO
+        case AVAILABLE_MODS.modify:
+            contentDisplayed = displayModifyProfile;
+            break;
+        default:
+            contentDisplayed = displayErrorNonExistentMode;
+    }
+
+    console.log(selectedMode);
+    console.log(contentDisplayed());
+    let c = <div className="profile-container">{contentDisplayed()}</div>;
+
+    return (
+        <React.Fragment>
+            <Banner />
+            {c}
+        </React.Fragment>
+    );
+}
+
+function displayModifyProfile() {
+    return (
+        <div className="modify-profile-container">
+            <h2 className="subtitle is-3">Modify profile</h2>
+            <form className="form-password">
+                <h3 className="subtitle is-4">Change avatar</h3>
+                <div className="file has-name avatar-file-input">
                     <label className="file-label">
                         <input
                             className="file-input"
@@ -20,9 +58,7 @@ function Profile() {
                         </span>
                     </label>
                 </div>
-            </form>
-            <form className="form-password">
-                <h3>Change password</h3>
+                <h3 className="subtitle is-4">Change password</h3>
                 <input
                     className="input"
                     type="password"
@@ -38,16 +74,22 @@ function Profile() {
                     type="password"
                     placeholder="Retype new password"
                 ></input>
+                <input
+                    className="button is-success"
+                    type="submit"
+                    value="Modify profile"
+                ></input>
             </form>
         </div>
     );
-
-    return (
-        <React.Fragment>
-            <Banner />
-            {c}
-        </React.Fragment>
-    );
 }
 
+function displayProfile() {
+    // TODO
+    return "";
+}
+
+function displayErrorNonExistentMode() {
+    return <h2>ERROR : non implemented mode</h2>;
+}
 export default Profile;
