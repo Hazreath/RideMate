@@ -95,6 +95,13 @@ exports.register = (req, res, next) => {
     // Check if mail is used
 };
 
+exports.modifyProfile = (req, res, next) => {
+    // TODO
+};
+
+exports.confirmPass = (req, res, next) => {
+    // TODO
+};
 getAllUsers = (req, res, next) => {
     console.log("AllUsers");
     Users.find()
