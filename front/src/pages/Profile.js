@@ -3,12 +3,13 @@ import "../styles/Profile.css";
 import Banner from "../components/Banner";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { getFromApi, postToApi } from "../utils/APICall";
+import { getFromApi, postFileToApi, postToApi } from "../utils/APICall";
 import Settings from "../settings";
 import { showErrorToast } from "../utils/Toasting";
 import toast from "react-hot-toast";
 import { patchToApi } from "../utils/APICall";
 import { getUserIDFromCookie } from "../utils/Cookie";
+import axios from "axios";
 
 const AVAILABLE_MODS = {
     profile: 0,
@@ -104,7 +105,7 @@ function modifyProfile(e) {
     e.preventDefault();
     console.log("MODIFY");
     let avatar = e.target.avatar.files[0];
-
+    let avatarElt = e.target.avatar;
     // console.log(avatar.files);
     // let oldPass = e.target.old_password.value;
     // let newPass1 = e.target.new_password1.value;
@@ -161,20 +162,30 @@ function modifyProfile(e) {
             };
             console.log(avatar);
             let dataAvatar = {
-                // params: {
-                //     avatar: avatar,
-                // },
-                avatar: avatar,
+                params: {
+                    avatar: avatar,
+                },
+                // avatar: avatar,
             };
             console.log(dataAvatar);
-            postToApi(
-                Settings.getApiUrl("/users/modifyProfile/avatar"),
-                // dataAvatar
-                //
-                dataAvatar.avatar,
-                customHeaders
-                //
-            )
+            // postToApi(
+            //     Settings.getApiUrl("/users/modifyProfile/avatar"),
+            //     // dataAvatar
+            //     //
+            //     dataAvatar.avatar,
+            //     customHeaders
+            //     //
+            // )
+            postFileToApi(Settings.getApiUrl("/users/modifyProfile/avatar"), {
+                avatar,
+            })
+                // axios.postForm(Settings.getApiUrl("/users/modifyProfile/avatar"), {
+                //     avatar,
+                // })
+                // .post(
+                //     Settings.getApiUrl("/users/modifyProfile/avatar"),
+                //     e.target.avatar.files
+                // )
                 .then(function (res) {
                     toast.success("Upload OK :)");
                 })

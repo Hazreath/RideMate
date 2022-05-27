@@ -111,6 +111,7 @@ exports.modifyAvatar = (req, res, next) => {
     console.log("AVATAR ===========");
     // console.log(req);
     console.log(req.body);
+    // console.log(req.body.formData.avatar);
     console.log("req.avatar: " + req.avatar);
     console.log("req.file:" + req.file);
     console.log("===================\n");

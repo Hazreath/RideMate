@@ -56,6 +56,9 @@ export function postToApi(url, data, customHeaders) {
     );
 }
 
+export function postFileToApi(url, file) {
+    return axios.postForm(url, file);
+}
 /**
  * Post data to argument API url
  * Includes JWT Token in request headers
