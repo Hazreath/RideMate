@@ -18,7 +18,7 @@ exports.getAllTricks = (req, res, next) => {
     //     .catch(e => res.status(404).json(e))
 };
 exports.addTrick = (req, res, next) => {
-    console.log("adddddd");
+    // console.log("adddddd");
     let trick = new Trick({
         user_id: req.body.params.user_id,
         platform: {

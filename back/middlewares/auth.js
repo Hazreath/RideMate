@@ -9,14 +9,23 @@ const Settings = require("../settings");
  */
 module.exports = (req, res, next) => {
     console.log("AUTH========================");
+    // console.log(req.body);
     try {
         // console.log(req.body.params);
         let expectedUserId = "";
         console.log("Method: " + req.method);
         if (req.method === "GET") {
-            expectedUserId = req.url.substring(1); // Strip initial '/'
         } else if (req.method === "POST") {
-            expectedUserId = req.body.params.user_id;
+        }
+        switch (req.method) {
+            case "GET":
+                expectedUserId = req.url.substring(1); // Strip initial '/'
+                break;
+            case "POST":
+            // falls through
+            case "PATCH":
+                expectedUserId = req.body.params.user_id;
+                break;
         }
         const token = req.headers.authorization.split(" ")[1]; // Strip "Bearer ", falls into catch if undefined
 

@@ -27,18 +27,26 @@ export function getFromApi(url) {
  * @param {*} data request body
  * @returns Axios promise
  */
-export function postToApi(url, data) {
+export function postToApi(url, data, customHeaders) {
     let token = getTokenFromCookie();
 
     let headers = {
-        Authorization: "Bearer " + token,
+        // Authorization: "Bearer " + token,
     };
 
+    if (customHeaders) {
+        // Add to req headers
+        for (let prop in customHeaders) {
+            headers[prop] = customHeaders[prop];
+        }
+        // console.log("Custom headers :");
+        // console.log(headers);
+    }
     // Including current user id for auth check
-    data.params.user_id = getUserIDFromCookie();
+    // data.params.user_id = getUserIDFromCookie();
 
-    // console.log("POST : " + url + ";\n Token:" + token + "\ndata:");
-    // console.log(data);
+    console.log("POST : " + url + ";\n Token:" + token + "\ndata:");
+    console.log(data);
     return axios.post(
         url,
         { ...data },
@@ -55,18 +63,28 @@ export function postToApi(url, data) {
  * @param {*} data request body
  * @returns Axios promise
  */
-export function patchToApi(url, data) {
+export function patchToApi(url, data, customHeaders) {
     let token = getTokenFromCookie();
 
     let headers = {
         Authorization: "Bearer " + token,
     };
 
+    if (customHeaders) {
+        // Add to req headers
+        for (let prop in customHeaders) {
+            headers[prop] = customHeaders[prop];
+        }
+        console.log("Custom headers :");
+        console.log(headers);
+    }
+
     // Including current user id for auth check
     data.params.user_id = getUserIDFromCookie();
 
-    // console.log("PATCH : " + url + ";\n Token:" + token + "\ndata:");
     // console.log(data);
+    // console.log("PATCH : " + url + ";\n Token:" + token + "\ndata:");
+    // console.log(data.get("avatar"));
     return axios.patch(
         url,
         { ...data },

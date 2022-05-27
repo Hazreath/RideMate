@@ -2,6 +2,9 @@ const Settings = require("./settings");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
+// const multer = require("multer");
+// const upload = multer({ dest: "public/" });
 var { expressjwt: jwt } = require("express-jwt");
 
 const usersRoutes = require("./routes/users");
@@ -45,9 +48,13 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.json()); // req.body etc
+app.use(express.json()); // req.body etc AKA. body-parser
 // app.use("/api/", jwt({ secret: Settings.SECRET_KEY, algorithms: ["HS256"] }));
 // app.use("/api", jwt({ secret: "shhhhhhared-secret", algorithms: ["HS256"] }));
+app.use(
+    "/public/avatars",
+    express.static(path.join(__dirname, "public/avatars"))
+);
 app.use("/api/users", usersRoutes);
 app.use("/api/platforms", platformsRoutes);
 app.use("/api/tricks", tricksRoutes);

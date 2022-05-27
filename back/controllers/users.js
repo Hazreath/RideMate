@@ -97,10 +97,24 @@ exports.register = (req, res, next) => {
 
 exports.modifyProfile = (req, res, next) => {
     // TODO
+    // console.log("modify");
+    // console.log(req.body.params);
+    // console.log(req.headers);
 };
 
 exports.confirmPass = (req, res, next) => {
     // TODO
+    return res.status(200).json();
+};
+exports.modifyAvatar = (req, res, next) => {
+    // TODO
+    console.log("AVATAR ===========");
+    // console.log(req);
+    console.log(req.body);
+    console.log("req.avatar: " + req.avatar);
+    console.log("req.file:" + req.file);
+    console.log("===================\n");
+    return res.status(200).json("FINI");
 };
 getAllUsers = (req, res, next) => {
     console.log("AllUsers");

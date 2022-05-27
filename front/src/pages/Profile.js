@@ -8,6 +8,7 @@ import Settings from "../settings";
 import { showErrorToast } from "../utils/Toasting";
 import toast from "react-hot-toast";
 import { patchToApi } from "../utils/APICall";
+import { getUserIDFromCookie } from "../utils/Cookie";
 
 const AVAILABLE_MODS = {
     profile: 0,
@@ -44,7 +45,11 @@ function displayModifyProfile() {
     return (
         <div className="modify-profile-container">
             <h2 className="subtitle is-3">Modify profile</h2>
-            <form className="form-password" onSubmit={(e) => modifyProfile(e)}>
+            <form
+                className="form-password"
+                // enctype="multipart/form-data"
+                onSubmit={(e) => modifyProfile(e)}
+            >
                 <h3 className="subtitle is-4">Change avatar</h3>
                 <div className="file has-name avatar-file-input">
                     <label className="file-label">
@@ -98,11 +103,15 @@ function displayProfile() {
 function modifyProfile(e) {
     e.preventDefault();
     console.log("MODIFY");
-    let avatar = e.target.avatar.value;
-    let oldPass = e.target.old_password.value;
-    let newPass1 = e.target.new_password1.value;
-    let newPass2 = e.target.new_password2.value;
+    let avatar = e.target.avatar.files[0];
 
+    // console.log(avatar.files);
+    // let oldPass = e.target.old_password.value;
+    // let newPass1 = e.target.new_password1.value;
+    // let newPass2 = e.target.new_password2.value;
+    let oldPass = "azertyuiop";
+    let newPass1 = oldPass;
+    let newPass2 = oldPass;
     if (newPass1 === newPass2) {
         // Verify that old password is correct TODO
         let dataPassConfirm = {
@@ -112,37 +121,72 @@ function modifyProfile(e) {
         };
 
         // Modify pass only if new pass 1 & 2 are equals
-        postToApi(Settings.getApiUrl("/users/passConfirm"), dataPassConfirm)
-            .then(function (res) {
-                // Old password OK : modifying profile infos...
-                let dataModify = {
-                    params: {
-                        avatar: avatar,
-                        oldPass: oldPass,
-                        newPass: newPass1,
-                    },
-                };
-                patchToApi(
-                    Settings.getApiUrl("/users/modifyProfile"),
-                    dataModify
-                )
-                    .then(function (res) {
-                        toast.success("Profile modified ! 😎");
-                    })
-                    .catch(function (err) {
-                        showErrorToast("Error when modifying profile :", err);
-                    });
-            })
-            .catch(function (err) {
-                showErrorToast(
-                    "❌ Error : old password does not match your current password ! "
-                );
-            });
+        // postToApi(Settings.getApiUrl("/users/confirmPass"), dataPassConfirm)
+        //     .then(function (res) {
+        //         // Old password OK : modifying profile infos...
+        //         let dataModify = {
+        //             params: {
+        //                 avatar: avatar,
+        //                 oldPass: oldPass,
+        //                 newPass: newPass1,
+        //             },
+        //         };
+        //         patchToApi(
+        //             Settings.getApiUrl("/users/modifyProfile"),
+        //             dataModify
+        //         )
+        //             .then(function (res) {
+        //                 toast.success("Profile modified ! 😎");
+        //             })
+        //             .catch(function (err) {
+        //                 showErrorToast("Error when modifying profile :", err);
+        //             });
+        //     })
+        //     .catch(function (err) {
+        //         showErrorToast(
+        //             "❌ Error : old password does not match your current password ! "
+        //         );
+        //     });
+
+        // Modify profile pic, only if supplied
+        if (avatar) {
+            let formData = new FormData();
+            formData.append("avatar", avatar);
+            let customHeaders = {
+                // enctype: "multipart/form-data",
+                // "Content-Type": "multipart/form-data; boundary=---",
+                // "Content-Disposition": "form-data",
+                "Content-type":
+                    "multipart/form-data" + ";boundary=xxRideMateBoundaryxx",
+            };
+            console.log(avatar);
+            let dataAvatar = {
+                // params: {
+                //     avatar: avatar,
+                // },
+                avatar: avatar,
+            };
+            console.log(dataAvatar);
+            postToApi(
+                Settings.getApiUrl("/users/modifyProfile/avatar"),
+                // dataAvatar
+                //
+                dataAvatar.avatar,
+                customHeaders
+                //
+            )
+                .then(function (res) {
+                    toast.success("Upload OK :)");
+                })
+                .catch(function (err) {
+                    showErrorToast("Error when uploading avatar :", err);
+                });
+        }
     } else {
         console.log(newPass1);
         console.log(newPass2);
         showErrorToast(
-            "❌ New password and new password confirmation does not match :"
+            "❌ New password and new password confirmation do not match :"
         );
     }
 }
