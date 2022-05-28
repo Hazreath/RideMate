@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const uniqueVal = require("mongoose-unique-validator");
+const Settings = require("../settings");
 
 const schema = mongoose.Schema({
     // auto _id
@@ -8,6 +9,12 @@ const schema = mongoose.Schema({
     email: { type: String, required: true, unique: true },
     level: { type: Number, required: true },
     xp: { type: Number, required: true },
+
+    avatar: {
+        type: String,
+        required: true,
+        default: Settings.DEFAULT_AVATAR_VALUE,
+    },
 });
 
 schema.plugin(uniqueVal);

@@ -7,14 +7,16 @@ const multer = require("multer");
 const uploadAvatar = require("../middlewares/multer-config");
 // router.get('/',controller.getAllUsers)
 router.get("/:id", controller.getUser);
+router.get("/avatar/:url", controller.getAvatar);
 router.post("/login", controller.login);
 router.post("/register", controller.register);
-router.post("/confirmPass", auth, controller.confirmPass);
+// router.post("/confirmPass", auth, controller.confirmPass);
 router.patch("/modifyProfile", auth, controller.modifyProfile);
 router.post(
     "/modifyProfile/avatar",
-    // auth,
-    // multer({ dest: "/public/avatars" }).single("avatar"),
+    auth,
+
+    controller.deleteOldAvatar,
     uploadAvatar.single("avatar"),
     controller.modifyAvatar
 );

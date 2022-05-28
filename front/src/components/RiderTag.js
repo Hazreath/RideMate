@@ -53,16 +53,10 @@ function RiderTag() {
 function displayRiderTag(userInfos) {
     let c = (
         <React.Fragment>
-            <img
-                src={profile_stub}
-                alt="profile pic"
-                className="profile-pic"
-            ></img>
-            <div className="rider-infos">
-                {userInfos.username !== USERNAME_ERROR
-                    ? displayUserInfos(userInfos)
-                    : displayError()}
-            </div>
+            {userInfos.username !== USERNAME_ERROR
+                ? displayUserInfos(userInfos)
+                : displayError()}
+
             <div className="actions">
                 <Link to="/profile">
                     <button className="profile button is-primary is-small">
@@ -88,18 +82,33 @@ function displaySpinner() {
 function displayUserInfos(userInfos) {
     return (
         <React.Fragment>
-            <p className="name">{userInfos.username}</p>
-            <div className="level-xp">
-                <p className="level">Lv. {userInfos.level}</p>
+            <img
+                src={Settings.getApiUrl("/users/avatar/" + userInfos.avatar)}
+                alt="profile pic"
+                className="profile-pic"
+                onError={
+                    ({ target }) => {
+                        target.src = Settings.getApiUrl(
+                            "/users/avatar/default.png"
+                        );
+                    }
+                    // (this.src = Settings.getApiUrl("/users/avatar/default.png"))
+                }
+            ></img>
+            <div className="rider-infos">
+                <p className="name">{userInfos.username}</p>
+                <div className="level-xp">
+                    <p className="level">Lv. {userInfos.level}</p>
 
-                <progress
-                    className="progress is-success progress-bar"
-                    max={userInfos.xpToNextLv}
-                    value={userInfos.xp}
-                ></progress>
-                <p className="xp">
-                    XP : {userInfos.xp}/{userInfos.xpToNextLv}
-                </p>
+                    <progress
+                        className="progress is-success progress-bar"
+                        max={userInfos.xpToNextLv}
+                        value={userInfos.xp}
+                    ></progress>
+                    <p className="xp">
+                        XP : {userInfos.xp}/{userInfos.xpToNextLv}
+                    </p>
+                </div>
             </div>
         </React.Fragment>
     );
@@ -120,7 +129,7 @@ function getUserInfos(uinfosSetter) {
             let data = res.data;
             // console.log(res.data);
             user = new User(data.username, data.level, data.xp);
-
+            user.avatar = res.data.avatar;
             // setTimeout(() => {uinfosSetter(user)}, 3000)
             uinfosSetter(user);
         })

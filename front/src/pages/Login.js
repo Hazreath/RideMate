@@ -77,7 +77,7 @@ function displayLoginForm(
     };
     let debug2 = {
         username: "hazreath",
-        password: "aaaaaaaa",
+        password: "azertyuiop",
     };
     let debugUser = debug2;
     return (

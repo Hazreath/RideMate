@@ -1,3 +1,4 @@
+import Settings from "../settings";
 import { getTokenFromCookie, getUserIDFromCookie } from "./Cookie";
 
 const axios = require("axios").default;
@@ -31,7 +32,7 @@ export function postToApi(url, data, customHeaders) {
     let token = getTokenFromCookie();
 
     let headers = {
-        // Authorization: "Bearer " + token,
+        Authorization: "Bearer " + token,
     };
 
     if (customHeaders) {
@@ -43,7 +44,7 @@ export function postToApi(url, data, customHeaders) {
         // console.log(headers);
     }
     // Including current user id for auth check
-    // data.params.user_id = getUserIDFromCookie();
+    data.params.user_id = getUserIDFromCookie();
 
     console.log("POST : " + url + ";\n Token:" + token + "\ndata:");
     console.log(data);
@@ -57,7 +58,12 @@ export function postToApi(url, data, customHeaders) {
 }
 
 export function postFileToApi(url, file) {
-    return axios.postForm(url, file);
+    // return axios.postForm(url, data);
+    let h = {
+        authorization:
+            "Bearer " + getTokenFromCookie() + " " + getUserIDFromCookie(),
+    };
+    return axios.postForm(url, file, { headers: h }); // WORKING
 }
 /**
  * Post data to argument API url

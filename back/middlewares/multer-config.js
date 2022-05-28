@@ -1,21 +1,31 @@
 const multer = require("multer");
+const Settings = require("../settings");
 const AVATARS_FOLDER = "public/avatars";
-const MIME_TYPES = {
-    "image/jpg": "jpg",
-    "image/jpeg": "jpg",
-    "image/png": "png",
-};
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, AVATARS_FOLDER);
+        callback(null, Settings.AVATARS_FOLDER);
     },
     filename: (req, file, callback) => {
         // TODO : filename = userId
+        console.log("-------------- MULTERRRR ----------");
+        let authorizationHeader = req.headers.authorization.split(" ");
+        if (authorizationHeader.length <= 2) {
+            // Error : userId missing in header
+        } else {
+            let userId = authorizationHeader[2];
 
-        const name = file.originalname.split(" ").join("_");
-        const extension = MIME_TYPES[file.mimetype];
-        callback(null, name + Date.now() + "." + extension);
+            const extension = Settings.AVATAR_MIME_TYPES[file.mimetype];
+            if (extension) {
+                const filename = userId + "." + extension;
+                console.log("created file " + filename);
+                callback(null, filename);
+            } else {
+                callback(new Error("Bad mime type"));
+            }
+        }
+
+        console.log("-----------------------------");
     },
 });
 

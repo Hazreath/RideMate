@@ -13,21 +13,32 @@ module.exports = (req, res, next) => {
     try {
         // console.log(req.body.params);
         let expectedUserId = "";
-        console.log("Method: " + req.method);
-        if (req.method === "GET") {
-        } else if (req.method === "POST") {
+        let authorizationHeader = [];
+
+        if (req.headers.authorization) {
+            authorizationHeader = req.headers.authorization.split(" ");
         }
+        console.log("Method: " + req.method);
         switch (req.method) {
             case "GET":
                 expectedUserId = req.url.substring(1); // Strip initial '/'
+
                 break;
             case "POST":
             // falls through
             case "PATCH":
-                expectedUserId = req.body.params.user_id;
+                console.log(authorizationHeader.length);
+                if (req.body.params && req.body.params.user_id) {
+                    console.log("bofy");
+                    expectedUserId = req.body.params.user_id;
+                } else if (authorizationHeader.length > 2) {
+                    // File upload : userId after token in headers authorization
+                    expectedUserId = authorizationHeader[2];
+                }
+
                 break;
         }
-        const token = req.headers.authorization.split(" ")[1]; // Strip "Bearer ", falls into catch if undefined
+        const token = authorizationHeader[1]; // Strip "Bearer ", falls into catch if undefined
 
         console.log("Token : " + token);
         const decodedToken = jwt.verify(token, Settings.SECRET_KEY);
