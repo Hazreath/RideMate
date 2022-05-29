@@ -8,7 +8,7 @@ import Settings from "../settings";
 import RegisterModal from "../components/RegisterModal";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
-
+import PresentationModal from "../components/PresentationModal";
 import { useSelector, useDispatch } from "react-redux";
 import { set } from "../stores/reducers/tokenReducer";
 import { setTokenCookie, setUserIDCookie } from "../utils/Cookie";
@@ -16,9 +16,13 @@ import { setTokenCookie, setUserIDCookie } from "../utils/Cookie";
 const axios = require("axios").default;
 var bullshit = {};
 
+const versionMessage = "v0.1 : Proof of concept & TrickList";
+
 function Login() {
     const navigate = useNavigate();
     const [openRegisterModal, changeOpenRegisterModal] = useState(false);
+    const [openPresentationModal, changeOpenPresentationModal] =
+        useState(false);
 
     useEffect(() => {
         // Delete token on first login visit
@@ -35,18 +39,22 @@ function Login() {
                 ></source>
             </video>
             <div className="login-page">
-                <img className="logo" src={logo} />
+                <div className="logo">
+                    <img className="img" src={logo} />
+                    <div className="logo-subtitle">{versionMessage}</div>
+                </div>
 
                 <article className="message login-frame">
-                    <div className="message-header">
+                    {/* <div className="message-header">
                         <p>Login</p>
-                        {/* <button class="delete" aria-label="delete"></button> */}
-                    </div>
+                    </div> */}
                     <div className="message-body">
                         {displayLoginForm(
                             navigate,
                             openRegisterModal,
-                            changeOpenRegisterModal
+                            changeOpenRegisterModal,
+                            openPresentationModal,
+                            changeOpenPresentationModal
                         )}
                     </div>
                 </article>
@@ -68,7 +76,9 @@ function Login() {
 function displayLoginForm(
     navigate,
     openRegisterModal,
-    changeOpenRegisterModal
+    changeOpenRegisterModal,
+    openPresentationModal,
+    changeOpenPresentationModal
 ) {
     // TODO remove autofilled credentials
     let debug = {
@@ -115,6 +125,15 @@ function displayLoginForm(
                 >
                     👉Register👈
                 </a>
+                <a
+                    href="#"
+                    className="presentation"
+                    onClick={(e) =>
+                        changeOpenPresentationModal(!openPresentationModal)
+                    }
+                >
+                    Where am I, What is RideMate ?
+                </a>
                 {/* onClick={changeOpenRegisterModal(true)} */}
                 {/* <Link to="/tricklist">tricklist</Link> */}
             </form>
@@ -123,6 +142,13 @@ function displayLoginForm(
                     openState={openRegisterModal}
                     openStateChanger={changeOpenRegisterModal}
                 ></RegisterModal>
+            )}
+
+            {openPresentationModal && (
+                <PresentationModal
+                    openState={openPresentationModal}
+                    openStateChanger={changeOpenPresentationModal}
+                ></PresentationModal>
             )}
             {/* openRegisterModal */}
         </div>

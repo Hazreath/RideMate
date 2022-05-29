@@ -35,6 +35,7 @@ function RegisterModal({ openState, openStateChanger }) {
             <button
                 className="modal-close is-large"
                 aria-label="close"
+                onClick={() => openStateChanger(!openState)}
             ></button>
         </div>
     );
