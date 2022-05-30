@@ -12,9 +12,8 @@ import PresentationModal from "../components/PresentationModal";
 import { useSelector, useDispatch } from "react-redux";
 import { set } from "../stores/reducers/tokenReducer";
 import { setTokenCookie, setUserIDCookie } from "../utils/Cookie";
-
+import { AESEncrypt } from "../utils/Encryption";
 const axios = require("axios").default;
-const aesjs = require("aes-js");
 
 const versionMessage = "v0.1 : Proof of concept & TrickList";
 
@@ -96,7 +95,11 @@ function displayLoginForm(
         username: "hazreath",
         password: "azertyuiop",
     };
-    let debugUser = debug2;
+    let debugAES = {
+        username: "AES",
+        password: "eeeeeeee",
+    };
+    let debugUser = debugAES;
     return (
         <div className="login-form-container">
             <form
@@ -179,7 +182,7 @@ function login(e, navigate) {
 
     // Crypting password before sending request
     let cryptedPass = AESEncrypt(password);
-    console.log("crypted pass : " + aesjs.utils.hex.fromBytes(cryptedPass));
+    // console.log("crypted pass : " + aesjs.utils.hex.fromBytes(cryptedPass));
 
     // console.log("Logging in with: " + username + "/" + password); // TODO
     axios
@@ -204,19 +207,4 @@ function login(e, navigate) {
         });
 }
 
-/**
- * Encrypts argument string using AES Algorithm
- * @param {string} toCrypt string to crypt
- * @returns encrypted string (string, hexadecimal)
- */
-function AESEncrypt(toCrypt) {
-    let bytes = aesjs.utils.utf8.toBytes(toCrypt);
-    let aesCtr = new aesjs.ModeOfOperation.ctr(
-        Settings.AES_KEY,
-        new aesjs.Counter(Settings.AES_ROUNDS)
-    );
-    let encryptedBytes = aesCtr.encrypt(bytes);
-
-    return aesjs.utils.hex.fromBytes(encryptedBytes);
-}
 export default Login;

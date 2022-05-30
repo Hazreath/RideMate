@@ -4,6 +4,7 @@ import Settings from "../settings";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
 import { postToApi } from "../utils/APICall";
+import { AESEncrypt } from "../utils/Encryption";
 const axios = require("axios").default;
 
 function RegisterModal({ openState, openStateChanger }) {
@@ -94,10 +95,11 @@ function register(e) {
 
     let formData = new FormData(e.target);
 
+    let encryptedPass = AESEncrypt(formData.get("password"));
     postToApi(Settings.getApiUrl("/users/register/"), {
         params: {
             username: formData.get("username"),
-            password: formData.get("password"),
+            password: encryptedPass,
             email: formData.get("email"),
         },
     })

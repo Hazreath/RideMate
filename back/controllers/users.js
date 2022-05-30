@@ -78,13 +78,15 @@ exports.register = (req, res, next) => {
     let password = req.body.params.password;
     let email = req.body.params.email;
 
+    console.log("REGISTER\npassword : " + password);
+
     // Check if user exists, or if someone did use same email
     User.findOne({ $or: [{ username: username }, { email: email }] }).then(
         (exists) => {
             if (!exists) {
                 // User creation, with encrypted pass
                 bcrypt
-                    .hash(password, Settings.HASH_ROUNDS)
+                    .hash(AESDecrypt(password), Settings.HASH_ROUNDS)
                     .then((hashedPass) => {
                         let user = new User({
                             username: username,
@@ -98,7 +100,9 @@ exports.register = (req, res, next) => {
                             .catch((e) => res.status(400).json(e));
                     })
                     //res.status(500).json({ error: error })
-                    .catch((error) => console.log(error));
+                    .catch((error) => {
+                        res.status(500).json({ error: error });
+                    });
             } else {
                 // TODO A REFAIRE
 
@@ -185,7 +189,17 @@ exports.deleteOldAvatar = (req, res, next) => {
                         }
                     } catch (e) {
                         // Did not found user, or default avatar => nothing to delete
+                        console.log("------------------------");
+
+                        next();
                     } finally {
+                        console.log("------------------------");
+
+                        next();
+                    }
+                } else {
+                    // No avatar or default avatar
+                    if (u) {
                         console.log("------------------------");
 
                         next();
