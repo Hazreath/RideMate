@@ -36,6 +36,7 @@ h1 {
         width: 100%;
         display: flex;
         justify-content: space-between;
+        /* background-color: red; */
     }
     h1 {
         max-width: 100px;
@@ -48,11 +49,33 @@ h1 {
 
 @media screen and (max-width: 460px) {
     .banner-container {
+        /* background-color: blue; */
         width: 100%;
         display: flex;
         justify-content: center;
     }
 
+    .banner-rider-tag-container {
+        display: none;
+    }
+}
+
+@media screen and (max-height: 500px) {
+    .banner-container {
+        /* background-color: blue; */
+        width: 100%;
+        /* display: flex;
+        align-items: center;
+        justify-content: center; */
+    }
+
+    .banner-container > .logo {
+        /* align-self: start; */
+        /* align-items: center; */
+        margin: auto;
+    }
+    .menu-container {
+    }
     .banner-rider-tag-container {
         display: none;
     }

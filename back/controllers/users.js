@@ -5,6 +5,8 @@ const fs = require("fs");
 const path = require("path");
 const Settings = require("../settings");
 const AVATARS_FOLDER = "./public/avatars";
+
+const aesjs = require("aes-js");
 // OPTIONS =========
 
 exports.getUser = (req, res, next) => {
@@ -29,14 +31,18 @@ exports.getAvatar = (req, res, next) => {
 exports.login = (req, res, next) => {
     let username = req.body.params.username;
     let password = req.body.params.password;
-    console.log(password);
+    // console.log(password);
+
+    // Password decrypt
+    let decryptedPass = AESDecrypt(password);
+    // console.log("Decrypted pass: " + decryptedPass);
     User.findOne({ username: username })
         .then((user) => {
             if (!user) {
                 return res.status(401).json({ error: "User not found" });
             } else {
                 bcrypt
-                    .compare(password, user.password)
+                    .compare(decryptedPass, user.password)
                     .then((valid) => {
                         if (!valid) {
                             return res
@@ -48,6 +54,7 @@ exports.login = (req, res, next) => {
                         //     Settings.SECRET_KEY,
                         //     { expiresIn: "24h" }
                         // );
+                        // console.log("login ok");
                         let token = jwt.sign(
                             { userId: user._id },
                             Settings.SECRET_KEY,
@@ -228,3 +235,20 @@ getAllUsers = (req, res, next) => {
         .then((u) => res.status(200).json(u))
         .catch((e) => res.status(400).json(e));
 };
+
+/**
+ * Decrypt AES encrypted argument string (hex format) into plain utf8 text
+ * @param {string} toDecrypt AES Encrypted hex string to decrypt
+ * @returns decrypted string, utf8 encoded
+ */
+function AESDecrypt(toDecrypt) {
+    let encryptedBytes = aesjs.utils.hex.toBytes(toDecrypt);
+    let aesCtr = new aesjs.ModeOfOperation.ctr(
+        Settings.AES_KEY,
+        new aesjs.Counter(Settings.AES_ROUNDS)
+    );
+    let decryptedBytes = aesCtr.decrypt(encryptedBytes);
+    let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
+
+    return decryptedText;
+}

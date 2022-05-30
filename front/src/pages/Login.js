@@ -14,7 +14,7 @@ import { set } from "../stores/reducers/tokenReducer";
 import { setTokenCookie, setUserIDCookie } from "../utils/Cookie";
 
 const axios = require("axios").default;
-var bullshit = {};
+const aesjs = require("aes-js");
 
 const versionMessage = "v0.1 : Proof of concept & TrickList";
 
@@ -59,6 +59,13 @@ function Login() {
                     </div>
                 </article>
             </div>
+            <footer>
+                🎬
+                <a href="https://www.youtube.com/watch?v=ajAgR_nqKt4">
+                    Video
+                </a>{" "}
+                : Connor Ransley (@c_ransleyy)
+            </footer>
         </div>
     );
 
@@ -169,12 +176,17 @@ function login(e, navigate) {
     let formData = new FormData(e.target);
     let username = formData.get("username");
     let password = formData.get("password");
-    console.log("Logging in with: " + username + "/" + password); // TODO
+
+    // Crypting password before sending request
+    let cryptedPass = AESEncrypt(password);
+    console.log("crypted pass : " + aesjs.utils.hex.fromBytes(cryptedPass));
+
+    // console.log("Logging in with: " + username + "/" + password); // TODO
     axios
         .post(Settings.getApiUrl("/users/login"), {
             params: {
                 username: username,
-                password: password,
+                password: cryptedPass,
             },
         })
         .then(function (res) {
@@ -192,4 +204,19 @@ function login(e, navigate) {
         });
 }
 
+/**
+ * Encrypts argument string using AES Algorithm
+ * @param {string} toCrypt string to crypt
+ * @returns encrypted string (string, hexadecimal)
+ */
+function AESEncrypt(toCrypt) {
+    let bytes = aesjs.utils.utf8.toBytes(toCrypt);
+    let aesCtr = new aesjs.ModeOfOperation.ctr(
+        Settings.AES_KEY,
+        new aesjs.Counter(Settings.AES_ROUNDS)
+    );
+    let encryptedBytes = aesCtr.encrypt(bytes);
+
+    return aesjs.utils.hex.fromBytes(encryptedBytes);
+}
 export default Login;

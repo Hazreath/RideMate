@@ -1,12 +1,13 @@
 .new-trick-modal-container {
-    position: sticky;
-    left: 90vw;
-    bottom: 3vh;
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
     /* BUG: div is over bottom part of parklist */
     max-width: 64px;
 }
 .add-trick-modal > .modal-content {
     width: 80%;
+    margin-top: 64px;
 }
 .new-button {
     position: sticky;
@@ -20,12 +21,24 @@
     width: 64px;
     height: 64px;
 
-    border: 2px solid darkgoldenrod;
+    /* border: 2px solid darkgoldenrod; */
     border-radius: 50px;
-    background-color: orange;
+    background-color: rgb(15, 169, 17);
     transition: 0.5s;
 
     cursor: pointer;
+}
+.new-button > span {
+    /* width: 64px; */
+    /* background-color: transparent; */
+    display: flex;
+    font-weight: bold;
+    color: white;
+    align-items: self-end;
+    height: 100%;
+    font-size: 50px;
+    vertical-align: middle;
+    /* align-self: baseline; */
 }
 
 .new-modal-body {

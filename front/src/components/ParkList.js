@@ -37,17 +37,20 @@ function ParkList() {
     var c = (
         <div className="parklist-root">
             <form className="parklist" method="POST">
-                <div className="tabs is-centered is-boxed is-fullwidth is-medium">
+                {/* <div className="tabs is-centered is-boxed is-fullwidth is-medium">
                     <ul>
                         <li className="is-active">
                             <a className="subtitle is-3">Park</a>
                         </li>
-                        {/* <li>
+                        <li>
                             <a className="subtitle is-3">Street</a>
-                        </li> */}
+                        </li>
                     </ul>
-                </div>
-                <div className="tabs is-centered is-small">
+                </div> */}
+                <div
+                    id="tabs-todomode"
+                    className="tabs is-centered is-small tabs-todomode"
+                >
                     <ul>
                         <li className={todoMode ? "is-active" : undefined}>
                             <a

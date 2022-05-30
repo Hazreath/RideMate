@@ -39,7 +39,7 @@ function NewTrickModal() {
                 className="new-button"
                 onClick={() => openModal(changeOpenModal, !modalOpened)}
             >
-                ➕
+                <span>+</span>
             </div>
             <div className={modalClass}>
                 <div className="modal-background"></div>
@@ -78,6 +78,9 @@ function NewTrickModal() {
     return c;
 }
 function openModal(updater, v) {
+    // Fixes bug where todomode tabs are not grayed on modal displaying
+    let tabsZ = v ? 0 : 1;
+    document.getElementById("tabs-todomode").style.zIndex = tabsZ;
     updater(v);
 }
 

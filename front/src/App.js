@@ -13,13 +13,20 @@ import TrickList from "./pages/TrickList";
 // import Toaster from "./components/Toaster";
 import { Toaster, toast } from "react-hot-toast";
 import Profile from "./pages/Profile";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 function App() {
     // HTML element
-    document.documentElement.style.overflow = "hidden";
+    // document.documentElement.style.overflow = "hidden";
     document.title = "🛴 RideMate";
 
     let c = (
-        <div>
+        <HelmetProvider>
+            <Helmet>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1, minimum-scale=1"
+                />
+            </Helmet>
             {/* <nav>
       <Link to='login'>Login</Link>
       <Link to='tricklist'>Tricks</Link>
@@ -34,7 +41,7 @@ function App() {
             </Routes>
             <Toaster position="bottom-center" />
             {/* <button onClick={test}>aaaaa</button> */}
-        </div>
+        </HelmetProvider>
     );
 
     return c;

@@ -56,37 +56,39 @@ function displayMenu(menuClass, menuOpened) {
                 <RiderTag></RiderTag>
             </div>
 
-            <p className="menu-label">General</p>
-            <ul className="menu-list">
-                {/* <li key="1">
+            <div className="menu-options">
+                <p className="menu-label">General</p>
+                <ul className="menu-list">
+                    {/* <li key="1">
                     <Link>
                         <a>🏠 Home</a>
                     </Link>
                 </li> */}
-                <li key="1">
-                    <Link
-                        to="/tricklist"
-                        className={isOnTricklist() ? "is-active" : ""}
-                    >
-                        🛴 TrickList
-                    </Link>
-                </li>
-                <li key="2">
-                    <a className="disabled">🗣 Forum</a>
-                </li>
-                <li key="3">
-                    <a className="disabled">🏆 Clash</a>
-                </li>
-            </ul>
-            <p className="menu-label">Support</p>
-            <ul className="menu-list">
-                <li key="01">
-                    <a className="disabled">🐛 Report a bug</a>
-                </li>
-                <li key="02">
-                    <a className="disabled">🤑 Gimme your money !</a>
-                </li>
-            </ul>
+                    <li key="1">
+                        <Link
+                            to="/tricklist"
+                            className={isOnTricklist() ? "is-active" : ""}
+                        >
+                            🛴 TrickList
+                        </Link>
+                    </li>
+                    <li key="2">
+                        <a className="disabled">🗣 Forum</a>
+                    </li>
+                    <li key="3">
+                        <a className="disabled">🏆 Clash</a>
+                    </li>
+                </ul>
+                <p className="menu-label">Support</p>
+                <ul className="menu-list">
+                    <li key="01">
+                        <a className="disabled">🐛 Report a bug</a>
+                    </li>
+                    <li key="02">
+                        <a className="disabled">🤑 Gimme your money !</a>
+                    </li>
+                </ul>
+            </div>
         </aside>
     );
     return c;

@@ -4,14 +4,43 @@ h2 {
 h3 {
     /* border-bottom: 2px dotted gray; */
 }
+.tabs-todomode {
+    /* background-color: red; */
+    position: sticky;
+    position: -webkit-sticky;
+    top: 137px;
+    left: 0;
+    align-self: flex-start;
+    z-index: 1;
+    background-color: white;
+}
 
+@media screen and (max-width: 460px) {
+    .tabs-todomode {
+        /* background-color: blue; */
+        top: 102.33px;
+    }
+}
+
+@media screen and (max-height: 500px) {
+    .tabs-todomode {
+        /* background-color: blue; */
+        top: 102.33px;
+    }
+}
+.parklist-root {
+    height: 100%;
+}
 .parklist {
-    padding: 8px;
+    overflow: visible;
+    padding: 0 8px 0 8px;
+    height: 100%;
 }
 .parklist-container {
     overflow-y: scroll;
+    overflow: visible;
     /* z-index: -1; */
-    height: 48vh;
+
     /* height: 55vh; */
 }
 .parklist-platform {
