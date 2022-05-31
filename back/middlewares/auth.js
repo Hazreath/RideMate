@@ -12,12 +12,14 @@ module.exports = (req, res, next) => {
     // console.log(req.body);
     try {
         // console.log(req.body.params);
+
         let expectedUserId = "";
         let authorizationHeader = [];
 
         if (req.headers.authorization) {
             authorizationHeader = req.headers.authorization.split(" ");
         }
+        let token = authorizationHeader[1]; // Strip "Bearer ", falls into catch if undefined
         console.log("Method: " + req.method);
         switch (req.method) {
             case "GET":
@@ -37,8 +39,15 @@ module.exports = (req, res, next) => {
                 }
 
                 break;
+            case "DELETE":
+                // Axios does not send header with DELETE (github #509)
+                // console.log(req.body);
+                // if (req.body.params) {
+                //     expectedUserId = req.body.params.user_id;
+                //     token = req.body.params.token;
+                // }
+                break;
         }
-        const token = authorizationHeader[1]; // Strip "Bearer ", falls into catch if undefined
 
         console.log("Token : " + token);
         const decodedToken = jwt.verify(token, Settings.SECRET_KEY);

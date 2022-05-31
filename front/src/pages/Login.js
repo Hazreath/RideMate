@@ -99,7 +99,7 @@ function displayLoginForm(
         username: "AES",
         password: "eeeeeeee",
     };
-    let debugUser = debugAES;
+    let debugUser = debug2;
     return (
         <div className="login-form-container">
             <form

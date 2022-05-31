@@ -29,13 +29,16 @@ exports.addTrick = (req, res, next) => {
         xp: 10, // TODO attribute XP to tricks
         done: false,
     });
-    // Checking if same trick has been added (same name & platform)
+    // console.log(trick);
+    // Checking if same trick has been added (same user,name & platform)
     Trick.find({
         $and: [
+            { user_id: req.body.params.user_id },
             { name: req.body.params.name },
-            { platform_id: req.body.params.platform._id },
+            { "platform._id": req.body.params.platform._id },
         ],
     }).then((t) => {
+        console.log(t);
         if (t.length == 0) {
             // Not in DB !
             trick
@@ -49,10 +52,29 @@ exports.addTrick = (req, res, next) => {
 };
 
 exports.checkTrick = (req, res, next) => {
-    console.log("checked ! ");
+    // console.log("checked ! ");
     // console.log(req);
     // console.log("req: " + req.params._id + "\n" + req.params.user_id);
     Trick.updateOne(
+        {
+            $and: [
+                { _id: req.body.params._id },
+                { user_id: req.body.params.user_id },
+            ],
+        },
+        { done: true }
+    )
+        .then((t) => {
+            // console.log(res.modifiedCount);
+            res.status(200).json(t);
+        })
+        .catch((e) => res.status(400).json(e));
+};
+
+exports.deleteTrick = (req, res, next) => {
+    console.log("delete ! ");
+    console.log("req: " + req.body.params._id + "\n" + req.body.params.user_id);
+    Trick.deleteOne(
         {
             $and: [
                 { _id: req.body.params._id },

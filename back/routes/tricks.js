@@ -7,5 +7,6 @@ router.get("/:id", auth, controller.getTricksFromUser);
 router.get("/", auth, controller.getAllTricks);
 router.post("/", auth, controller.addTrick);
 router.patch("/check", auth, controller.checkTrick);
+router.patch("/delete", auth, controller.deleteTrick);
 
 module.exports = router;

@@ -219,6 +219,7 @@ function addNewTrick(e, tl) {
                 xp: 10,
             },
         };
+        // console.log(data);
         postToApi(Settings.getApiUrl("/tricks/"), data)
             .then(function (res) {
                 toast.success("Trick added !");

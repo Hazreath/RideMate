@@ -1,14 +1,21 @@
 import "../styles/ParkList.css";
 import Trick from "../models/Trick";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Settings from "../settings";
 import toast from "react-hot-toast";
 import { showErrorToast } from "../utils/Toasting";
 import { useDispatch, useSelector } from "react-redux";
-import { set, check } from "../stores/reducers/tricklistReducer";
-import { getFromApi, postToApi, patchToApi } from "../utils/APICall";
+import { set, check, remove } from "../stores/reducers/tricklistReducer";
+import {
+    getFromApi,
+    postToApi,
+    patchToApi,
+    deleteToApi,
+} from "../utils/APICall";
 import { getTokenFromCookie, getUserIDFromCookie } from "../utils/Cookie";
 import NewTrickModal from "../components/NewTrickModal";
+import { GenericModal, MODAL_TYPES } from "./GenericModal";
+import { generateModalId } from "../utils/Random";
 
 // STUB
 var tricks = [
@@ -25,6 +32,7 @@ var tricks = [
 function ParkList() {
     // Retrieving tricklist from store
     const trickList = useSelector((state) => state.trickList.trickList);
+    const [genericModalState, changeGenericModalState] = useState({});
     const tlDispatcher = useDispatch();
 
     // Show undone tricks, or done ones
@@ -72,10 +80,19 @@ function ParkList() {
                 </div>
                 <div className="parklist-container">
                     {/* {platforms.map(p => displayTricksWithPlatform(trickList,p))} */}
-                    {displayTrickList(trickList, todoMode, tlDispatcher)}
+                    {displayTrickList(
+                        trickList,
+                        todoMode,
+                        tlDispatcher,
+                        changeGenericModalState
+                    )}
                 </div>
             </form>
             <NewTrickModal></NewTrickModal>
+            <GenericModal
+                state={genericModalState}
+                stateSetter={changeGenericModalState}
+            ></GenericModal>
         </div>
     );
 
@@ -95,7 +112,12 @@ function debugTrickList(tricklist) {
  * @param {*} trickList state containing users tricklist
  * @returns HTML content
  */
-function displayTrickList(trickList, todoMode, tlDispatcher) {
+function displayTrickList(
+    trickList,
+    todoMode,
+    tlDispatcher,
+    changeGenericModalState
+) {
     let todoTricks = trickList.filter((t) => t.done === !todoMode);
     let platforms = todoTricks.map((t) => t.platform.name).filter(uniquifier);
 
@@ -137,6 +159,23 @@ function displayTrickList(trickList, todoMode, tlDispatcher) {
                                             />
                                             {t.name}
                                         </label>
+                                        <input
+                                            type="button"
+                                            className="button is-danger delete-button"
+                                            value="x"
+                                            onClick={(e) => {
+                                                // deleteTrick(e);
+                                                showDeleteModal(
+                                                    e,
+                                                    changeGenericModalState,
+                                                    tlDispatcher
+                                                );
+                                            }}
+                                        />
+                                        <input
+                                            type="hidden"
+                                            value={t._id}
+                                        ></input>
                                     </li>
                                 ))}
                         </ul>
@@ -162,6 +201,69 @@ function displayTrickList(trickList, todoMode, tlDispatcher) {
     return c;
 }
 
+function showDeleteModal(e, changeGenericModalState, tlDispatcher) {
+    let modalBody = (
+        <div>
+            <h2 style={{ textAlign: "center" }}>
+                Are you sure you want to delete that trick ?
+            </h2>
+            <div
+                className="yes-no-buttons"
+                style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                }}
+            >
+                <button
+                    className="button is-success yes-button"
+                    value=""
+                    onClick={() => deleteTrick(e, tlDispatcher)}
+                >
+                    {/* Yes */}
+                    <a className="yesButton">Yes</a>
+                </button>
+                <button className="button is-danger noButton">No</button>
+            </div>
+        </div>
+    );
+    let modalOptions = {
+        modal_id: generateModalId(),
+        title: "Delete trick ?",
+        modal_color_class: "is-warning",
+        body: modalBody,
+        buttonActions: {
+            noButton: "#closeModal",
+            yesButton: "#closeModal",
+        },
+    };
+
+    changeGenericModalState(modalOptions);
+}
+function deleteTrick(e, tlDispatcher) {
+    // console.log("DELETE");
+    let t_id = e.target.nextSibling.value;
+
+    let data = {
+        params: {
+            _id: t_id,
+        },
+    };
+
+    // TODO VALIDATION MODAL
+    patchToApi(Settings.getApiUrl("/tricks/delete"), data)
+        .then((res) => {
+            toast.success("Trick deleted .. 😥");
+            // Close modal and refresh tl
+            // changeGenericModalState({});
+            // TODO refresh
+
+            tlDispatcher(remove(t_id));
+        })
+        .catch((err) => {
+            showErrorToast("Error when checking trick : ", err);
+        });
+}
 function checkTrick(e, tlDispatcher) {
     // console.log("checkTrick: " + e.target.value);
     var trick_id = e.target.value;
@@ -174,7 +276,7 @@ function checkTrick(e, tlDispatcher) {
     patchToApi(Settings.getApiUrl("/tricks/check"), data)
         .then((res) => {
             toast.success("Trick done ! GG 👍");
-            // TODO refresh
+
             tlDispatcher(check(trick_id));
         })
         .catch((err) => {

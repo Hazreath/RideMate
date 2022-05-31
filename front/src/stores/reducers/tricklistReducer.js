@@ -17,8 +17,10 @@ export const tlSlice = createSlice({
             state.trickList = action.payload;
         },
         push: (state, action) => {
+            // console.log("PUSHING");
             state.trickList.push(action.payload);
         },
+
         /**
          *
          * @param {*} state
@@ -39,10 +41,26 @@ export const tlSlice = createSlice({
             // console.log(state.trickList.find((t) => t.))
             // console.log(trick);
         },
+        remove: (state, action) => {
+            // console.log("REMOVE IN REDUCER");
+            let deletedTrickId = action.payload;
+            let i;
+            for (
+                i = 0;
+                i < state.trickList.length &&
+                state.trickList[i]._id != deletedTrickId;
+                i++
+            );
+
+            if (i < state.trickList.length) {
+                // found
+                state.trickList.splice(i, 1);
+            }
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { set, push, check } = tlSlice.actions;
+export const { set, push, check, remove } = tlSlice.actions;
 
 export default tlSlice.reducer;

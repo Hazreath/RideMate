@@ -100,6 +100,8 @@ a.disabled:hover {
 
     .menu {
         top: 102.33px;
+    }
+    .menu-opened {
         display: flex;
     }
 }

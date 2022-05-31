@@ -1,7 +1,7 @@
 .new-trick-modal-container {
     position: fixed;
     right: 16px;
-    bottom: 16px;
+    bottom: 64px;
     /* BUG: div is over bottom part of parklist */
     max-width: 64px;
 }
@@ -67,6 +67,6 @@
 }
 
 .new-button:hover {
-    background-color: brown;
+    background-color: goldenrod;
     transition: 0.5s;
 }

@@ -2,7 +2,7 @@ import Settings from "../settings";
 import { getTokenFromCookie, getUserIDFromCookie } from "./Cookie";
 
 const axios = require("axios").default;
-
+// const fetch = require("fetch");
 /**
  * Get data from argument API url
  * Includes JWT Token in request headers, which contains encrypted current userId,
@@ -101,4 +101,34 @@ export function patchToApi(url, data, customHeaders) {
             headers: headers,
         }
     );
+}
+
+/**
+ * @deprecated read the following
+ * I WONT USE DELETE AS AXIOS IT DOES NOT SUPPORT BODY NEITHER HEADERS IN IT,
+ * PLUS HTTP SPECS ARE VAGUE ("request has body : MAY") AND YOU SHOULD NOT USE PAYLOAD/HEADERS BUT SOME
+ * THANKS
+ * FETCH IS ALSO BROKEN ON INSTALL
+ * DELETE corresponding data to argument API url
+ * Includes JWT Token in request headers
+ * @param {*} url where the data will be posted
+ * @param {*} data request body
+ * @returns Axios promise
+ */
+export function deleteToApi(url, data) {
+    let token = getTokenFromCookie();
+
+    // Including current user id for auth check
+    data.params.user_id = getUserIDFromCookie();
+    // Axios ignore headers on DELETE protocol (github #509)
+    data.params.token = token;
+
+    console.log("DELETE : " + url + ";\n Token:" + token + "\ndata:");
+    console.log(data);
+
+    // return axios.delete(url, {}, { data: data });
+    // return fetch(urlll, {
+    //     method: "DELETE",
+    //     body: { ...data },
+    // }).then((r) => r.json);
 }
