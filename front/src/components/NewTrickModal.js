@@ -13,6 +13,10 @@ import { getUserIDFromCookie } from "../utils/Cookie";
 const axios = require("axios").default;
 var dispatcher = undefined;
 
+/**
+ * Shows new trick modal
+ * @returns JSX content
+ */
 function NewTrickModal() {
     const [modalOpened, changeOpenModal] = useState(false);
     // const [newForm, changeNewForm] = useState(true); // true : trick | false: module/platform
@@ -77,6 +81,12 @@ function NewTrickModal() {
 
     return c;
 }
+
+/**
+ * Opens or closes new trick modal, by changing its state
+ * @param {*} updater open state setter
+ * @param {*} v value to affect
+ */
 function openModal(updater, v) {
     // Fixes bug where todomode tabs are not grayed on modal displaying
     let tabsZ = v ? 0 : 1;
@@ -84,6 +94,12 @@ function openModal(updater, v) {
     updater(v);
 }
 
+/**
+ * @deprecated cannot add platform anymore
+ * Switch from Trick form to Platform form
+ * @param {*} updater form status state setter
+ * @param {*} v value to affect
+ */
 function changeForm(updater, v) {
     // console.log('form changed : ' + v ? 'trick' : 'platform')
     updater(v);
@@ -178,11 +194,9 @@ function displayNewPlatformForm() {
     return c;
 }
 
-function updateTL(tlUpdated, tlUpdatedSetter) {
-    console.log("TL UPDATED");
-    tlUpdatedSetter({ tlUpdated: !tlUpdated });
-}
 /**
+ * Add new trick to users' tricklist
+ * Verifies if added trick is not already on your TL (store)
  * Send post request to backend, in order to add the trick to DB
  * @param {*} e Form submit event
  */

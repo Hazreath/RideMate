@@ -17,6 +17,10 @@ const axios = require("axios").default;
 
 const versionMessage = "v0.1 : Proof of concept & TrickList";
 
+/**
+ * Renders login page
+ * @returns JSX Content
+ */
 function Login() {
     const navigate = useNavigate();
     const [openRegisterModal, changeOpenRegisterModal] = useState(false);
@@ -87,9 +91,10 @@ function displayLoginForm(
     changeOpenPresentationModal
 ) {
     // TODO remove autofilled credentials
+    // Hey stranger, you can login to those, idc 😂
     let debug = {
-        username: "Benji",
-        password: "azertyuiop",
+        username: "Benjito",
+        password: "qsdfghjklm",
     };
     let debug2 = {
         username: "hazreath",
@@ -112,16 +117,16 @@ function displayLoginForm(
                     className="input is-rounded"
                     placeholder="Login"
                     name="username"
-                    value={debugUser.username}
-                    onChange={() => console.log()}
+                    // value={debugUser.username}
+                    // onChange={() => console.log()}
                 />
                 <input
                     type="password"
                     className="input is-rounded"
                     placeholder="Password"
                     name="password"
-                    value={debugUser.password}
-                    onChange={() => console.log()}
+                    // value={debugUser.password}
+                    // onChange={() => console.log()}
                 />
                 <input
                     type="submit"

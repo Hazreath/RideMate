@@ -7,6 +7,11 @@ import { postToApi } from "../utils/APICall";
 import { AESEncrypt } from "../utils/Encryption";
 const axios = require("axios").default;
 
+/**
+ * Shows register modal
+ * @param {*} param0 register modal open state, and its setter
+ * @returns JSX content
+ */
 function RegisterModal({ openState, openStateChanger }) {
     let display = openState ? "flex" : "none";
     let c = (
@@ -44,6 +49,11 @@ function RegisterModal({ openState, openStateChanger }) {
     return c;
 }
 
+/**
+ * Displays register form in register modal
+ * Verifies (FRONT) form completion, minimum size of password, email format, and password === password confirm
+ * @returns JSX Content
+ */
 function displayRegisterForm() {
     return (
         <form
@@ -90,6 +100,11 @@ function displayRegisterForm() {
     );
 }
 
+/**
+ * Registers new user
+ * Send Post to server with new user infos
+ * @param {*} e JS Form submit event
+ */
 function register(e) {
     e.preventDefault();
 

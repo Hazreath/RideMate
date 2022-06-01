@@ -1,11 +1,7 @@
 /**
- * ========= USER.JS =========
- * Représente un utilisateur de l'application
- * TODO : level, XP ...
+ * User front model
  */
-
- class User {
-
+class User {
     _id;
     username;
     level;
@@ -13,15 +9,24 @@
     xpToNextLv;
 
     constructor(username, level, xp) {
-        this.username = username
-        this.level = level
-        this.xp = xp
-        this.xpToNextLv = 69
+        this.username = username;
+        this.level = level;
+        this.xp = xp;
+        this.xpToNextLv = 69;
     }
 
-    toString = function() {
-        return this.username + ', Lv.' + this.level + ' (' + this.xp +  '/' + this.xpToNextLv + ').'
-    }
+    toString = function () {
+        return (
+            this.username +
+            ", Lv." +
+            this.level +
+            " (" +
+            this.xp +
+            "/" +
+            this.xpToNextLv +
+            ")."
+        );
+    };
 }
 
-export default User
+export default User;

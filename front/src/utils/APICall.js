@@ -46,8 +46,8 @@ export function postToApi(url, data, customHeaders) {
     // Including current user id for auth check
     data.params.user_id = getUserIDFromCookie();
 
-    console.log("POST : " + url + ";\n Token:" + token + "\ndata:");
-    console.log(data);
+    // console.log("POST : " + url + ";\n Token:" + token + "\ndata:");
+    // console.log(data);
     return axios.post(
         url,
         { ...data },
@@ -57,6 +57,13 @@ export function postToApi(url, data, customHeaders) {
     );
 }
 
+/**
+ * Post file to argument API url
+ * Includes JWT Token in request headers
+ * @param {*} url where the data will be posted
+ * @param {*} file file to transfer
+ * @returns Axios promise
+ */
 export function postFileToApi(url, file) {
     // return axios.postForm(url, data);
     let h = {
@@ -65,10 +72,11 @@ export function postFileToApi(url, file) {
     };
     return axios.postForm(url, file, { headers: h }); // WORKING
 }
+
 /**
- * Post data to argument API url
+ * Patch data to argument API url
  * Includes JWT Token in request headers
- * @param {*} url where the data will be posted
+ * @param {*} url where the data will be patched
  * @param {*} data request body
  * @returns Axios promise
  */

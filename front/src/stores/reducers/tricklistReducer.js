@@ -4,27 +4,36 @@ const initialState = {
     trickList: [],
 };
 
+/**
+ * TrickList (TL) store slice
+ * Allow global state for TL
+ */
 export const tlSlice = createSlice({
     name: "trickList",
     initialState,
     reducers: {
         /**
-         *
-         * @param {*} state
-         * @param {*} newTL
+         * Replace state by argument payload
+         * @param {*} state current state (redux), DO NOT DEFINE IT
+         * @param {*} action payload containing new tricklist
          */
         set: (state, action) => {
             state.trickList = action.payload;
         },
+        /**
+         * Push argument payload trick to state
+         * @param {*} state current state (redux), DO NOT DEFINE IT
+         * @param {*} action payload containing new trick
+         */
         push: (state, action) => {
             // console.log("PUSHING");
             state.trickList.push(action.payload);
         },
 
         /**
-         *
-         * @param {*} state
-         * @param {*} checkedTrickId
+         * Checks trick in tricklist, making its done=true if found
+         * @param {*} state current state (redux), DO NOT DEFINE IT
+         * @param {*} action payload containing trick_id
          */
         check: (state, action) => {
             let checkedTrickId = action.payload;
@@ -41,6 +50,12 @@ export const tlSlice = createSlice({
             // console.log(state.trickList.find((t) => t.))
             // console.log(trick);
         },
+
+        /**
+         * Delete trick in tricklist if found
+         * @param {*} state current state (redux), DO NOT DEFINE IT
+         * @param {*} action payload containing trick_id
+         */
         remove: (state, action) => {
             // console.log("REMOVE IN REDUCER");
             let deletedTrickId = action.payload;

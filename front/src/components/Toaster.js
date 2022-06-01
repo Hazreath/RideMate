@@ -6,6 +6,10 @@ var toastType = "success";
 var lock = false;
 var toastElement = undefined;
 
+/**
+ * Div where toasts will be displayed, for user feedback
+ * @returns JSX content
+ */
 function Toaster() {
     toastElement = (
         <div className={"notification toast " + toastType}>
@@ -17,6 +21,11 @@ function Toaster() {
     return c;
 }
 
+/**
+ * @deprecated
+ * Displays success toast
+ * @param {*} text text to print
+ */
 function displaySuccess(text) {
     lock = true;
     toastText = text;

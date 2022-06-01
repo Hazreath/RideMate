@@ -8,6 +8,12 @@ import store from "./stores/store";
 import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+/**
+ * RIDEMATE REACT CORE
+ * Comes before everything else
+ * Contains store provider, router, and App
+ */
 root.render(
     <React.StrictMode>
         <Provider store={store}>

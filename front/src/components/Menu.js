@@ -4,14 +4,21 @@ import burger_menu from "../assets/imgs/menu.png";
 import "../styles/Menu.css";
 import RiderTag from "./RiderTag";
 
+/**
+ * Menu available states
+ */
 const MENU_STATES = {
     opened: "menu-opened",
     closed: "menu-closed",
-    firstInit: "first-initialization",
+    firstInit: "first-initialization", // prevent menu from showing on page refresh
 };
 
 // False if first page init
 var hasBeenClicked = false;
+/**
+ * Shows navigation menu on right
+ * @returns JSX content
+ */
 function Menu() {
     const [menuOpened, setMenuOpened] = useState(false);
     // Handles menu css class, for css animations purposes
@@ -43,11 +50,22 @@ function Menu() {
     return c;
 }
 
+/**
+ * Opens menu : modifies opened state
+ * @param {*} updater menu opened state setter
+ * @param {*} v value to affect to opened state
+ */
 function menuOpen(updater, v) {
     hasBeenClicked = true;
     updater(v);
 }
 
+/**
+ * Show inner menu content
+ * @param {*} menuClass CSS Class to affect to .menu division
+ * @param {*} menuOpened Menu opened state
+ * @returns JSX content
+ */
 function displayMenu(menuClass, menuOpened) {
     // console.log("Display menu : " + menuClass);
     let c = (
@@ -94,6 +112,10 @@ function displayMenu(menuClass, menuOpened) {
     return c;
 }
 
+/**
+ * Returns true if current user is browsing tricklist page
+ * @returns true if user is on tricklist page, false otherwise
+ */
 function isOnTricklist() {
     return window.location.pathname === "/tricklist";
 }

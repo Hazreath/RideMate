@@ -13,17 +13,45 @@ import { getUserIDFromCookie } from "../utils/Cookie";
 const axios = require("axios").default;
 var dispatcher = undefined;
 
+/**
+ * Currently supported custom button actions
+ * - '#closeModal' : closes modal when click on targeted button
+ */
 const BUTTONS_ACTIONS = {
     closeModal: "#closeModal",
 };
+
 export const MODAL_TYPES = {
     Standard: "Standard",
 };
 
+/**
+ * Generic modal object
+ * To use it, render it at root of your page.
+ * Its open state changes if currentState.modalId is different from previous one
+ * @param {*} state Object containing modal parameters :
+ * ```
+ * {
+ *       modal_id: unique modal id, prevent it from staying open all time (use generateModalId() method please),
+ *       title: modal title,
+ *       modal_type: modal disposition type (currently unimplemented)
+ *       modal_color_class: modal bulma.css theme color (ex: 'is-info','is-warning'),
+ *       body: JSX modal body content,
+ *       buttonActions: {
+ *          // contains custom buttons actions, see BUTTONS_ACTIONS
+ *          // Keys are unique class selectors (id does not work :()
+ *          // Example below
+ *          button-unique-class: '#closeModal' // Will close the modal on button with unique class 'button-unique-class'
+ *       },
+ *   };
+ * ```
+ * @param {*} stateSetter Modal state setter
+ * @returns Generic modal JSX content
+ */
 export function GenericModal(state, stateSetter) {
     const [modalOpened, changeOpenModal] = useState(false);
     const [prevModalId, changePrevModalId] = useState(0.0);
-    const tlDispatcher = useDispatch();
+    // const tlDispatcher = useDispatch();
 
     let currentState = state.state;
 
@@ -76,7 +104,7 @@ export function GenericModal(state, stateSetter) {
                 // let target = messageBodyRef.current.getElementById(key);
                 switch (currentState.buttonActions[key]) {
                     case BUTTONS_ACTIONS.closeModal:
-                        console.log("SETTING ACTION FOR " + key);
+                        // console.log("SETTING ACTION FOR " + key);
                         target.onclick = function () {
                             openModal(changeOpenModal, false);
                         };
@@ -124,8 +152,12 @@ export function GenericModal(state, stateSetter) {
     return c;
 }
 
-export function ShowGenericModal() {}
-
+/**
+ * Open generic modal
+ * Fixes bug where tabs in ParkList where not grayed out
+ * @param {*} updater
+ * @param {*} v
+ */
 function openModal(updater, v) {
     // console.log("OPEN MODAL : " + v);
     // Fixes bug where todomode tabs are not grayed on modal displaying

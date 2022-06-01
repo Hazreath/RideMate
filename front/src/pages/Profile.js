@@ -11,11 +11,20 @@ import { patchToApi } from "../utils/APICall";
 import { getUserIDFromCookie } from "../utils/Cookie";
 import axios from "axios";
 
+/**
+ * Profile page available mods
+ * Currently only modify is available
+ */
 const AVAILABLE_MODS = {
     profile: 0,
     modify: 1,
 };
 const FILENAME_EMPTY = "Empty";
+
+/**
+ * Shows profile page, depending on selected mode
+ * @returns JSX Content
+ */
 function Profile() {
     const [selectedMode, changeSelectedMode] = useState(1);
     const [uploadedFilename, changeUploadedFilename] = useState(FILENAME_EMPTY);
@@ -126,11 +135,24 @@ function displayModifyProfile(filename, filenameSetter) {
     );
 }
 
+/**
+ * TODO
+ * Displays Profile dashboard
+ * @returns
+ */
 function displayProfile() {
     // TODO
     return "";
 }
 
+/**
+ * Modifies profile information
+ * - if password supplied, check that pass === passconfirm and sends password change
+ * PATCH request to server;
+ * - if avatar, send PATCH modifyAvatar to server
+ * (if both, do both OFC)
+ * @param {*} e JS Form submit event
+ */
 function modifyProfile(e) {
     e.preventDefault();
     // console.log("MODIFY");
@@ -218,6 +240,11 @@ function modifyProfile(e) {
     }, 3000);
 }
 
+/**
+ * Displays error if a non existent profile mode is selected
+ * See AVAILABLE_MODS for availables modes
+ * @returns JSX Content
+ */
 function displayErrorNonExistentMode() {
     return <h2>ERROR : non implemented mode</h2>;
 }

@@ -5,12 +5,13 @@
 import toast from "react-hot-toast";
 
 /**
- *
+ * Shows error toast in Toaster
+ * /!\ Many exceptions and uniques cases : check method body
  * @param {*} err
  */
 export function showErrorToast(prefix, err) {
     // console.log(err.response.data.error);
-    console.log(err);
+    // console.log(err);
     let toDisplay = "";
     if (!err) {
         // No supplied error message -> only prefix
@@ -32,5 +33,5 @@ export function showErrorToast(prefix, err) {
     }
 
     toast.error(toDisplay);
-    console.log("TOAST : " + toDisplay);
+    // console.log("TOAST : " + toDisplay);
 }

@@ -14,6 +14,12 @@ import TrickList from "./pages/TrickList";
 import { Toaster, toast } from "react-hot-toast";
 import Profile from "./pages/Profile";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+
+/**
+ * RideMate React app
+ * Contains <head> modifications, Router/Routes and Toaster
+ * @returns JSX Content
+ */
 function App() {
     // HTML element
     // document.documentElement.style.overflow = "hidden";
@@ -45,10 +51,6 @@ function App() {
     );
 
     return c;
-}
-
-function test() {
-    toast.success("oui");
 }
 
 export default App;

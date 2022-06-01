@@ -1,34 +1,31 @@
-import '../styles/Banner.css'
-import logo from '../assets/imgs/logo.png'
-import RiderTag from './RiderTag'
-import Menu from './Menu'
-
+import "../styles/Banner.css";
+import logo from "../assets/imgs/logo.png";
+import RiderTag from "./RiderTag";
+import Menu from "./Menu";
 
 /**
  * ============= BANNER.JS ===============
- * Bannière du site, contient le titre, le menu et le RiderTag de l'utilisateur
- * connecté
+ * Website 'memberzone' banner, containing menu, app logo and RiderTag of current user
+ * (RiderTag in Banner, or in Menu for mobiles)
  */
 
 function Banner() {
-    let c = 
+    let c = (
         <header>
-            <div className='columns banner-container'>
+            <div className="columns banner-container">
                 <Menu></Menu>
-                
+
                 {/* <h1 class='column'>Tricks</h1> */}
-                <img className='logo' src={logo}></img>
-                
-                <div className='banner-rider-tag-container'>
+                <img className="logo" src={logo}></img>
+
+                <div className="banner-rider-tag-container">
                     <RiderTag></RiderTag>
                 </div>
-                
             </div>
-            
-            
         </header>
+    );
 
-    return c
+    return c;
 }
 
-export default Banner
+export default Banner;

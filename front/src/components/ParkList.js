@@ -17,18 +17,10 @@ import NewTrickModal from "../components/NewTrickModal";
 import { GenericModal, MODAL_TYPES } from "./GenericModal";
 import { generateModalId } from "../utils/Random";
 
-// STUB
-var tricks = [
-    new Trick("Bar to Finger", "Bowl"),
-    new Trick("540", "Bowl"),
-    new Trick("540", "Fly"),
-    new Trick("Icepick", "Bowl"),
-    new Trick("Quad", "Fly"),
-];
-
-// const axios = require("axios").default;
-// var currentUserId = "628631a1833c4175110820e3"; // TODOOOO
-
+/**
+ * Shows ParkList, containing standard tricklist
+ * @returns JSX content
+ */
 function ParkList() {
     // Retrieving tricklist from store
     const trickList = useSelector((state) => state.trickList.trickList);
@@ -99,18 +91,36 @@ function ParkList() {
     return c;
 }
 
+/**
+ * Returns a modified version of arg array, containing only unique values
+ * DOES NOT ALTER ORIGINAL array IN ANY WAY
+ * Made to be supplied in a JS filter method,
+ * (ex : array.filter(uniquifier))
+ * @param {*} v current value (functionnal)
+ * @param {*} i current index (functionnal)
+ * @param {*} array array to
+ * @returns modified array (copy of original) containing only unique values
+ */
 function uniquifier(v, i, array) {
     return array.indexOf(v) === i;
 }
 
+/**
+ * @deprecated for test purposes only
+ * @param {*} tricklist
+ */
 function debugTrickList(tricklist) {
     let filtered = tricklist.map((t) => t.name);
     console.log(filtered);
 }
+
 /**
- * Displays users tricklist
- * @param {*} trickList state containing users tricklist
- * @returns HTML content
+ * Displays tricklist in parklist
+ * @param {*} trickList Tricklist content from store
+ * @param {*} todoMode Show tricks todo or done ones
+ * @param {*} tlDispatcher Dispatcher to store
+ * @param {*} changeGenericModalState Delete confirmation modal open state setter
+ * @returns JSX content
  */
 function displayTrickList(
     trickList,
@@ -201,6 +211,12 @@ function displayTrickList(
     return c;
 }
 
+/**
+ * Change generic modal state at root of ParkList, which triggers its refresh
+ * @param {*} e JS Click event on 'X' button
+ * @param {*} changeGenericModalState delete modal state changer
+ * @param {*} tlDispatcher tricklist dispatcher to store
+ */
 function showDeleteModal(e, changeGenericModalState, tlDispatcher) {
     let modalBody = (
         <div>
@@ -240,6 +256,13 @@ function showDeleteModal(e, changeGenericModalState, tlDispatcher) {
 
     changeGenericModalState(modalOptions);
 }
+/**
+ * Remove trick from tricklist
+ * Sends PATCH (not delete, see comment below) to server, remove trick in DB
+ * Also updates tricklist in store, which refreshes page
+ * @param {*} e JS event of click on 'X' button (contains trick id)
+ * @param {*} tlDispatcher tricklist dispatcher to store
+ */
 function deleteTrick(e, tlDispatcher) {
     // console.log("DELETE");
     let t_id = e.target.nextSibling.value;
@@ -264,6 +287,14 @@ function deleteTrick(e, tlDispatcher) {
             showErrorToast("Error when checking trick : ", err);
         });
 }
+
+/**
+ * Change trick done state to true
+ * Sends PATCH to server, change done attribute trick in DB
+ * Also updates tricklist in store, which refreshes page
+ * @param {*} e JS event of click on checkbox button (contains trick id)
+ * @param {*} tlDispatcher tricklist dispatcher to store
+ */
 function checkTrick(e, tlDispatcher) {
     // console.log("checkTrick: " + e.target.value);
     var trick_id = e.target.value;
@@ -302,6 +333,13 @@ function fetchTrickList(tlDispatcher) {
         });
 }
 
+/**
+ * @deprecated
+ * Compare method for trick
+ * @param {*} a
+ * @param {*} b
+ * @returns
+ */
 function compareTrick(a, b) {
     if (a.platform.name > b.platform.name) {
         return 1;

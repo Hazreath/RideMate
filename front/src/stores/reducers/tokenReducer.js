@@ -4,6 +4,12 @@ const initialState = {
     token: undefined,
 };
 
+/**
+ * @deprecated
+ * Store slice used for token, but as state is resetted on refresh, it was
+ * not usable (error on my side, was learning about stores XD)
+ * Token now uses Cookies
+ */
 export const tokenSlice = createSlice({
     name: "token",
     initialState,

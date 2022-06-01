@@ -13,6 +13,9 @@ const tricksRoutes = require("./routes/tricks");
 const app = express();
 const port = 3001;
 
+/**
+ * CONNECTION TO MONGODB ATLAS DATABASE
+ */
 mongoose
     .connect(Settings.DB_URL, {
         useNewUrlParser: true,
@@ -28,6 +31,10 @@ app.options("*", cors()); // include before other routes
 //   res.sendStatus(200);
 // });
 
+/**
+ * HEADERS MIDDLEWARE
+ * Handles everything CORS RELATED
+ */
 app.use((req, res, next) => {
     // HEADERS
     let req_origin = req.header("origin".toLowerCase());
@@ -49,8 +56,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json()); // req.body etc AKA. body-parser
-// app.use("/api/", jwt({ secret: Settings.SECRET_KEY, algorithms: ["HS256"] }));
-// app.use("/api", jwt({ secret: "shhhhhhared-secret", algorithms: ["HS256"] }));
+
+// Mouting the avatar folder as a static folder
 app.use(
     "/public/avatars",
     express.static(path.join(__dirname, "public/avatars"))
@@ -58,10 +65,6 @@ app.use(
 app.use("/api/users", usersRoutes);
 app.use("/api/platforms", platformsRoutes);
 app.use("/api/tricks", tricksRoutes);
-
-app.get("/", (req, res) => {
-    // res.send('banjour!')
-});
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);

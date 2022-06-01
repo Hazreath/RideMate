@@ -6,6 +6,11 @@ import { showErrorToast } from "../utils/Toasting";
 import { postToApi } from "../utils/APICall";
 const axios = require("axios").default;
 
+/**
+ * Shows presentation modal (answer to : What is tricklist ?)
+ * @param {} param0 presentation modal openState and setter
+ * @returns JSX content
+ */
 function PresentationModal({ openState, openStateChanger }) {
     let display = openState ? "flex" : "none";
     let c = (
@@ -39,6 +44,10 @@ function PresentationModal({ openState, openStateChanger }) {
     return c;
 }
 
+/**
+ * Displays presentation speech in presentation modal
+ * @returns JSX content
+ */
 function displayPresentationSpeech() {
     return (
         <React.Fragment>

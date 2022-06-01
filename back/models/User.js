@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 const uniqueVal = require("mongoose-unique-validator");
 const Settings = require("../settings");
 
+/**
+ * USER SCHEMA
+ * Represents the RideMate user, with an unique username and email, a password,
+ * a current level and xp amount, and an avatar (defined by its URL) to show people its swag :)
+ *
+ */
 const schema = mongoose.Schema({
     // auto _id
     username: { type: String, required: true, unique: true },

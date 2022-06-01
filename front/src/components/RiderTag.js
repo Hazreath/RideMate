@@ -11,6 +11,11 @@ const axios = require("axios").default;
 
 const USERNAME_ERROR = "none";
 
+/**
+ * Renders RiderTag of current user, which contains his avatar, name and level avancement
+ * Also contains Profile and Logout buttons
+ * @returns JSX Content
+ */
 function RiderTag() {
     const [userInfos, setUserInfos] = useState({});
     //
@@ -50,6 +55,11 @@ function RiderTag() {
     return c;
 }
 
+/**
+ * Displays RiderTag inner, or error RiderTag if userInfos were not fetched
+ * @param {*} userInfos current user User object
+ * @returns JSX Content
+ */
 function displayRiderTag(userInfos) {
     let c = (
         <React.Fragment>
@@ -75,10 +85,19 @@ function displayRiderTag(userInfos) {
 
     return c;
 }
+/**
+ * Displays LoadSpinner when loading userInfos from server
+ * @returns JSX Content
+ */
 function displaySpinner() {
     return <LoadSpinner />;
 }
 
+/**
+ * Displays usersInfos in RiderTag when loaded successfully
+ * @param {*} userInfos current user infos
+ * @returns JSX Content
+ */
 function displayUserInfos(userInfos) {
     return (
         <React.Fragment>
@@ -113,6 +132,11 @@ function displayUserInfos(userInfos) {
         </React.Fragment>
     );
 }
+
+/**
+ * Displays RiderTag error
+ * @returns JSX Content
+ */
 function displayError() {
     return (
         <React.Fragment>
@@ -120,6 +144,11 @@ function displayError() {
         </React.Fragment>
     );
 }
+
+/**
+ * Get user infos from server
+ * @param {*} uinfosSetter userInfos state setter
+ */
 function getUserInfos(uinfosSetter) {
     let user = null;
     let userId = getUserIDFromCookie();
