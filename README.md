@@ -4,6 +4,13 @@
 
 RideMate is a community website aiming to gather freestyle scooter riders around the world.
 It is for now a passion/fun project, aiming to bring the following functionalities :
-- TrickList : keep track of your personal progression and organize, to become better !
-- Community Place (aka. "Forum") : place where you can discuss anything related scootering, and make friends !
-- Online OUT with ranking system : be the best OUT player, like no one ever was.
+
+-   TrickList : keep track of your personal progression and organize, to become better !
+-   Community Place (aka. "Forum") : place where you can discuss anything related scootering, and make friends !
+-   Online OUT with ranking system : be the best OUT player, like no one ever was.
+
+### V0.1 IS OUT ! <url coming>
+
+This version is the first one, so it does not features a lot of things.  
+Currently, only the tricklist is available, with every necessary vital features
+(register, login, modify profile and avatar ...)
