@@ -23,9 +23,9 @@ exports.getTricksFromUser = (req, res, next) => {
  * @param {*} next forward request to next middleware
  */
 exports.getAllTricks = (req, res, next) => {
-    // Trick.find()
-    //     .then(t => res.status(200).json(t))
-    //     .catch(e => res.status(404).json(e))
+    Trick.find()
+    .then(t => res.status(200).json(t))
+    .catch(e => res.status(404).json(e))
 };
 
 /**
