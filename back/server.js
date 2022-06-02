@@ -11,7 +11,8 @@ const usersRoutes = require("./routes/users");
 const platformsRoutes = require("./routes/platforms");
 const tricksRoutes = require("./routes/tricks");
 const app = express();
-const port = 3001;
+// const port = 3001;
+const port = 80;
 
 /**
  * CONNECTION TO MONGODB ATLAS DATABASE
@@ -66,6 +67,9 @@ app.use("/api/users", usersRoutes);
 app.use("/api/platforms", platformsRoutes);
 app.use("/api/tricks", tricksRoutes);
 
+app.get("/api", (req, res) => {
+    res.send("Hey, that works");
+});
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
