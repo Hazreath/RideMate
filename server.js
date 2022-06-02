@@ -70,6 +70,6 @@ app.use("/api/tricks", tricksRoutes);
 app.get("/api", (req, res) => {
     res.send("Hey, that works");
 });
-app.listen(port, () => {
+app.listen(process.env.PORT || 8080, () => {
     console.log(`App listening on port ${port}`);
 });
