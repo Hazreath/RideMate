@@ -44,8 +44,8 @@ app.use((req, res, next) => {
         ? req_origin
         : "http://localhost:3000";
     // console.log("orig:" + req_origin + "  /  " + origin)
-    res.setHeader("Access-Control-Allow-Origin", origin);
-    // res.setHeader('Access-Control-Allow-Origin', '*'); // TODO
+    //res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader('Access-Control-Allow-Origin', '*'); // TODO
     res.setHeader(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
