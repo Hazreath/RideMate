@@ -17,7 +17,7 @@ const port = 80;
 /**
  * CONNECTION TO MONGODB ATLAS DATABASE
  */
-console.log('Connecting to MongoDB Atlas : ' + process.env.RIDEMATE_MONGODB)
+//console.log('Connecting to MongoDB Atlas : ' + process.env.RIDEMATE_MONGODB)
 mongoose
     .connect(/*Settings.DB_URL*/ process.env.RIDEMATE_MONGODB, {
         useNewUrlParser: true,
