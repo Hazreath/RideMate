@@ -1,0 +1,90 @@
+<html lang="en">
+    <head>
+        <meta charset="unicode" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title></title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+            rel="stylesheet"
+        />
+
+        <style>
+            article {
+                box-shadow: -1px 3px 12px 1px rgba(0, 0, 0, 0.77);
+                border-radius: 5px !important;
+            }
+
+            body {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                height: 100%;
+            }
+
+            .background-img {
+                background-image: url(https://soranews24.com/wp-content/uploads/sites/3/2015/07/tumblr_njlqclfisw1qze3hdo1_r2_500.gif);
+                opacity: 0.7;
+                z-index: -99;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            footer {
+                position: fixed;
+
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                text-align: center;
+
+                /* border-top: 1px solid black; */
+                box-shadow: -1px -7px 19px -3px rgba(0, 0, 0, 0.68);
+                font-weight: bold;
+
+                background: lightblue;
+                opacity: 0.8;
+            }
+            .signature {
+                margin-top: 16px;
+            }
+            .signature > p:first-child {
+                font-style: italic;
+            }
+            .signature > p {
+                font-weight: bold;
+            }
+            .signature > p:nth-child(2) {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="background-img"></div>
+        <article class="message is-info api-disclaimer">
+            <div class="message-header">
+                <h1 class="title">Hey, that's an API 😂</h1>
+            </div>
+            <div class="message-body">
+                Hello ! 😁 Welcome to RideMate API.
+                <p></p>
+                You're not meant to be there !
+                <p></p>
+                <div class="signature">
+                    <p>Much love and cute 8bit art,</p>
+                    <p>Benji 😎</p>
+                </div>
+            </div>
+        </article>
+        <footer>
+            2022 - BenjiSoft, all rights reserved
+            <p></p>
+            🎨 Art credit : <a href="https://1041uuu.tumblr.com/">1041uuu</a>
+        </footer>
+    </body>
+</html>
