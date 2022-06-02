@@ -18,7 +18,7 @@ const port = 80;
  * CONNECTION TO MONGODB ATLAS DATABASE
  */
 mongoose
-    .connect(Settings.DB_URL, {
+    .connect(/*Settings.DB_URL*/ process.env.RIDEMATE_MONGODB, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
