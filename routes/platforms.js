@@ -9,7 +9,7 @@ const auth = require("../middlewares/auth");
 router.get("/", controller.getAllPlatforms);
 router.get("/:id", controller.getPlatform);
 
-// @deprecated
+// @deprecated for test purposes only
 // router.post("/", controller.addPlatform);
 
 module.exports = router;

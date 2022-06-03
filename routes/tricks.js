@@ -10,7 +10,7 @@ const auth = require("../middlewares/auth"); // TODO
 router.get("/:id", auth, controller.getTricksFromUser);
 
 // @deprecated
-router.get("/",controller.getAllTricks);
+//router.get("/", auth, controller.getAllTricks);
 
 router.post("/", auth, controller.addTrick);
 router.patch("/check", auth, controller.checkTrick);
