@@ -33,15 +33,16 @@ exports.getAllPlatforms = (req, res, next) => {
  * @param {*} next forward request to next middleware
  */
 exports.addPlatform = (req, res, next) => {
-    // console.log(req.body)
-    // console.log(req.body.params)
-    // let platform = new Platforms({
-    //     name : req.body.params.name
-    // })
-    // platform.save()
-    // .then(p => res.status(200).json(p))
-    // .catch(e => {
-    //     res.status(404).json(e)
-    //     console.log(e)
-    // })
+    console.log(req.body);
+    console.log(req.body.params);
+    let platform = new Platforms({
+        name: req.body.params.name,
+    });
+    platform
+        .save()
+        .then((p) => res.status(200).json(p))
+        .catch((e) => {
+            res.status(404).json(e);
+            console.log(e);
+        });
 };
