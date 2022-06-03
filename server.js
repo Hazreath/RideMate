@@ -75,6 +75,6 @@ app.use("/api/users", usersRoutes);
 app.use("/api/platforms", platformsRoutes);
 app.use("/api/tricks", tricksRoutes);
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log(`App listening on port ${port}`);
 });
