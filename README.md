@@ -14,3 +14,6 @@ It is for now a passion/fun project, aiming to bring the following functionaliti
 This version is the first one, so it does not features a lot of things.  
 Currently, only the tricklist is available, with every necessary vital features
 (register, login, modify profile and avatar ...)
+
+You can use/test the website here : https://ridemate.netlify.app/  
+You may encounter some bugs, as it is still in active development, feel free to reach me on IG (@hazreath), or submit a git issue.
