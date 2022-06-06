@@ -9,9 +9,9 @@ It is for now a passion/fun project, aiming to bring the following functionaliti
 -   Community Place (aka. "Forum") : place where you can discuss anything related scootering, and make friends !
 -   Online OUT with ranking system : be the best OUT player, like no one ever was.
 
-Tech used : 
+Techs used : 
 - Front : React, Redux, Bulma CSS
-- Back : Express, Multer(File upload handling)
+- Back : Express, Multer (File upload handling)
 - DB : MongoDB
 ### V0.1 IS OUT ! <url coming>
 
