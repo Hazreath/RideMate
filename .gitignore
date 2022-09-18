@@ -6,6 +6,9 @@ walkthrough.md
 RideMate.code-workspace
 ideas.md
 
+node_modules
+
+/back/public/avatars
 # Back
 /back/settings.js
 /back/node_modules
