@@ -11,15 +11,16 @@ const usersRoutes = require("./routes/users");
 const platformsRoutes = require("./routes/platforms");
 const tricksRoutes = require("./routes/tricks");
 const app = express();
+require("dotenv").config();
 // const port = 3001;
-const port = process.env.RIDEMATE_API_PORT || 8080;
+console.log(process.env.BACK_PORT);
+const port = process.env.BACK_PORT || 3000;
 
 /**
  * CONNECTION TO MONGODB ATLAS DATABASE
  */
-console.log(process.env.RIDEMATE_API_DB);
 mongoose
-    .connect(process.env.RIDEMATE_API_DB, {
+    .connect(process.env.DB_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })

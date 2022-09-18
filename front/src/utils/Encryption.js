@@ -7,10 +7,12 @@ const aesjs = require("aes-js");
  * @returns encrypted string (string, hexadecimal)
  */
 export function AESEncrypt(toCrypt) {
+    console.log(Settings.AES_KEY);
+    console.log(Settings.AES_ROUNDS);
     let bytes = aesjs.utils.utf8.toBytes(toCrypt);
     let aesCtr = new aesjs.ModeOfOperation.ctr(
         Settings.AES_KEY,
-        new aesjs.Counter(Settings.AES_ROUNDS)
+        new aesjs.Counter(parseInt(Settings.AES_ROUNDS))
     );
     let encryptedBytes = aesCtr.encrypt(bytes);
 

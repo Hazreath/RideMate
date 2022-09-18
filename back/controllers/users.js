@@ -4,9 +4,14 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
 const Settings = require("../settings");
-const AVATARS_FOLDER = "./public/avatars";
+const AVATARS_FOLDER = process.env.AVATARS_FOLDER;
 
 const aesjs = require("aes-js");
+const {
+    getIntArrayFromEnvVar,
+    getStrArrayFromEnvVar,
+    getObjectFromEnvVar,
+} = require("../utils/Environment");
 // OPTIONS =========
 
 /**
@@ -105,14 +110,13 @@ exports.register = (req, res, next) => {
     let email = req.body.params.email;
 
     // console.log("REGISTER\npassword : " + password);
-
     // Check if user exists, or if someone did use same email
     User.findOne({ $or: [{ username: username }, { email: email }] }).then(
         (exists) => {
             if (!exists) {
                 // User creation, with encrypted pass
                 bcrypt
-                    .hash(AESDecrypt(password), Settings.HASH_ROUNDS)
+                    .hash(AESDecrypt(password), process.env.HASH_ROUNDS)
                     .then((hashedPass) => {
                         let user = new User({
                             username: username,
@@ -171,7 +175,7 @@ exports.modifyProfile = (req, res, next) => {
                 if (areEquals) {
                     // Update password
                     bcrypt
-                        .hash(newPass, Settings.HASH_ROUNDS)
+                        .hash(newPass, process.env.HASH_ROUNDS)
                         .then((hashedPass) => {
                             User.updateOne(
                                 { _id: userId },
@@ -236,10 +240,7 @@ exports.deleteOldAvatar = (req, res, next) => {
                 ) {
                     console.log(u.avatar);
                     try {
-                        let fileToDel = path.join(
-                            Settings.AVATARS_FOLDER,
-                            u.avatar
-                        );
+                        let fileToDel = path.join(AVATARS_FOLDER, u.avatar);
                         // Deletes only if file exists, does nothing otherwise
                         if (fs.existsSync(fileToDel)) {
                             fs.unlinkSync(fileToDel);
@@ -298,7 +299,10 @@ exports.modifyAvatar = (req, res, next) => {
     if (req.file && auth.length > 2) {
         let userId = auth[2];
         // Define avatar attribute
-        let extension = Settings.AVATAR_MIME_TYPES[req.file.mimetype];
+        let AVATAR_MIME_TYPES = getObjectFromEnvVar(
+            process.env.AVATAR_MIME_TYPES
+        );
+        let extension = AVATAR_MIME_TYPES[req.file.mimetype];
         // console.log(extension);
         let newAvatar = userId + "." + extension;
         User.updateOne({ _id: userId }, { avatar: newAvatar })
@@ -336,6 +340,7 @@ getAllUsers = (req, res, next) => {
  */
 function AESDecrypt(toDecrypt) {
     let encryptedBytes = aesjs.utils.hex.toBytes(toDecrypt);
+    let AES_Key = getIntArrayFromEnvVar(process.env.AES_KEY);
     let aesCtr = new aesjs.ModeOfOperation.ctr(
         Settings.AES_KEY,
         new aesjs.Counter(Settings.AES_ROUNDS)

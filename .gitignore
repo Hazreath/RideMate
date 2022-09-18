@@ -8,11 +8,17 @@ ideas.md
 
 node_modules
 
-/back/public/avatars
+
 # Back
+/back/public/avatars
 /back/settings.js
 /back/node_modules
 /back/playground.js
+/back/.env
+
+# Front
+/front/.env
+/front/build
 
 # Playground
 /playground

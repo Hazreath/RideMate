@@ -1,6 +1,7 @@
 const multer = require("multer");
 const Settings = require("../settings");
-const AVATARS_FOLDER = "public/avatars";
+const { getObjectFromEnvVar } = require("../utils/Environment");
+const AVATARS_FOLDER = process.env.AVATARS_FOLDER;
 
 /**
  * ======== MULTER MIDDLEWARE ==========
@@ -14,7 +15,7 @@ const storage = multer.diskStorage({
      * @param {*} callback
      */
     destination: (req, file, callback) => {
-        callback(null, Settings.AVATARS_FOLDER);
+        callback(null, AVATARS_FOLDER);
     },
 
     /**
@@ -34,8 +35,10 @@ const storage = multer.diskStorage({
             callback(new Error("Missing user_id"));
         } else {
             let userId = authorizationHeader[2];
-
-            const extension = Settings.AVATAR_MIME_TYPES[file.mimetype];
+            let AVATAR_MIME_TYPES = getObjectFromEnvVar(
+                process.env.AVATAR_MIME_TYPES
+            );
+            const extension = AVATAR_MIME_TYPES[file.mimetype];
             if (extension) {
                 const filename = userId + "." + extension;
                 // console.log("created file " + filename);
