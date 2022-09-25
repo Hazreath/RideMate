@@ -4,7 +4,7 @@
     },
     "scripts": {
         "start": "concurrently \"cd front/build; npm start\" \"cd back; npm start\"",
-        "build": "cd front; npm build",
+        "build": "cd front; npm run build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     }
