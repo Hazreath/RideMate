@@ -28,14 +28,6 @@ class Settings {
             console.log("Env set to : " + Settings.ENV);
         }
 
-        // switch (Settings.ENV) {
-        //     case "local":
-        //         url = "http://192.168.1.14:8080/api";
-        //         break;
-        //     case "prod":
-        //         url = "https://ridemate-api.herokuapp.com/api";
-        //         break;
-        // }
         url = process.env.REACT_APP_BACK_URL;
 
         // console.log("url: " + url + path)
