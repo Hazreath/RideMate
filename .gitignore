@@ -8,13 +8,14 @@ ideas.md
 
 node_modules
 
-
+.vscode/
 # Back
 /back/public/avatars
 /back/settings.js
 /back/node_modules
 /back/playground.js
 /back/.env
+/back/tests/
 
 # Front
 /front/.env
