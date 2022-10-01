@@ -8,7 +8,9 @@ const auth = require("../middlewares/auth"); // TODO
  * TRICKS ROUTES
  */
 router.get("/:id", auth, controller.getTricksFromUser);
-
+router.get("/", (req, res) => {
+    res.status("200").json({ message: "Back -> Tricks" });
+});
 // @deprecated
 //router.get("/", auth, controller.getAllTricks);
 
