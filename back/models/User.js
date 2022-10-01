@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const uniqueVal = require("mongoose-unique-validator");
-const Settings = require("../settings");
+// const Settings = require("../settings");
 
 /**
  * USER SCHEMA
@@ -19,7 +19,7 @@ const schema = mongoose.Schema({
     avatar: {
         type: String,
         required: true,
-        default: Settings.DEFAULT_AVATAR_VALUE,
+        default: process.env.DEFAULT_AVATAR_VALUE,
     },
 });
 
