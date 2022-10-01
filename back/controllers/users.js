@@ -3,7 +3,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
-const Settings = require("../settings");
+// const Settings = require("../settings");
 const AVATARS_FOLDER = process.env.AVATARS_FOLDER;
 
 const aesjs = require("aes-js");
@@ -81,7 +81,7 @@ exports.login = (req, res, next) => {
                         }
                         let token = jwt.sign(
                             { userId: user._id },
-                            Settings.SECRET_KEY,
+                            process.env.SECRET_KEY,
                             { expiresIn: "24h" }
                         );
                         // res.set("Authorization", "Bearer " + token);
@@ -236,7 +236,7 @@ exports.deleteOldAvatar = (req, res, next) => {
                 if (
                     u &&
                     u.avatar &&
-                    u.avatar != Settings.DEFAULT_AVATAR_VALUE
+                    u.avatar != process.env.DEFAULT_AVATAR_VALUE
                 ) {
                     console.log(u.avatar);
                     try {
@@ -342,8 +342,8 @@ function AESDecrypt(toDecrypt) {
     let encryptedBytes = aesjs.utils.hex.toBytes(toDecrypt);
     let AES_Key = getIntArrayFromEnvVar(process.env.AES_KEY);
     let aesCtr = new aesjs.ModeOfOperation.ctr(
-        Settings.AES_KEY,
-        new aesjs.Counter(Settings.AES_ROUNDS)
+        process.env.AES_KEY,
+        new aesjs.Counter(process.env.AES_ROUNDS)
     );
     let decryptedBytes = aesCtr.decrypt(encryptedBytes);
     let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
