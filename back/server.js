@@ -76,5 +76,5 @@ app.use("/api/tricks", tricksRoutes);
 
 app.listen(process.env.PORT || port, () => {
     console.log(`App listening on port ${port}`);
-    Logging.Info("Server launched !", "server.js");
+    Logging.Info("Server launched in prod !", "server.js");
 });
