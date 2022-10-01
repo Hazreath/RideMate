@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+const Logging = require("./utils/Logging");
 // const multer = require("multer");
 // const upload = multer({ dest: "public/" });
 var { expressjwt: jwt } = require("express-jwt");
@@ -30,9 +31,6 @@ mongoose
 // middlewares
 // const ALLOWED_ORIGINS = ["http://localhost:3000", "http://localhost:3003"];
 app.options("*", cors()); // include before other routes
-// app.options('/*', (_, res) => {
-//   res.sendStatus(200);
-// });
 
 /**
  * HEADERS MIDDLEWARE
@@ -78,4 +76,5 @@ app.use("/api/tricks", tricksRoutes);
 
 app.listen(process.env.PORT || port, () => {
     console.log(`App listening on port ${port}`);
+    Logging.Info("Server launched !", "server.js");
 });
