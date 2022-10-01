@@ -63,6 +63,9 @@ app.use(express.json()); // req.body etc AKA. body-parser
 app.get(["/", "/api"], (req, res) => {
     res.sendFile("./index.html", { root: __dirname });
 });
+app.get("/test", (req, res) => {
+    res.status(200).json("OUI");
+});
 
 // Mouting the avatar folder as a static folder
 app.use(
