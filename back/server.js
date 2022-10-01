@@ -1,4 +1,4 @@
-const Settings = require("./settings");
+// const Settings = require("./settings");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
