@@ -3,8 +3,9 @@
         "concurrently": "^7.4.0"
     },
     "scripts": {
-        "start": "concurrently \"cd\" \"cd .\\front; npm start\" \"cd .\\back; npm install;npm start\"",
-        "build": "cd front; npm run build",
+        "COMMENTAIRE": "POUR BACK HEROKU",
+        "start": "cd back; npm run prod",
+        "build": "cd back; npm install",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "osef": "osef"
