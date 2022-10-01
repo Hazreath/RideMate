@@ -1,5 +1,5 @@
 const multer = require("multer");
-const Settings = require("../settings");
+// const Settings = require("../settings");
 const { getObjectFromEnvVar } = require("../utils/Environment");
 const AVATARS_FOLDER = process.env.AVATARS_FOLDER;
 

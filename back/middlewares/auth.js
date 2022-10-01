@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const Settings = require("../settings");
+// const Settings = require("../settings");
 
 /**
  *
@@ -61,7 +61,7 @@ module.exports = (req, res, next) => {
         }
 
         // console.log("Token : " + token);
-        const decodedToken = jwt.verify(token, Settings.SECRET_KEY);
+        const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
         const userId = decodedToken.userId;
         // console.log("Decoded user ID : " + userId);
         // console.log("expected : " + expectedUserId);
