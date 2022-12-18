@@ -1,0 +1,44 @@
+.presentation-box {
+    position: fixed;
+    max-width: 70%;
+    height: auto;
+    top: 10vh;
+    left: 15vw;
+    width: 100%;
+    display: flex;
+    text-align: center;
+    max-height: 80vh;
+}
+
+.presentation-box-container {
+    position: fixed;
+    max-width: 70%;
+    height: auto;
+    top: 10vh;
+    left: 15vw;
+    width: 100%;
+    display: flex;
+    text-align: center;
+    overflow-y: scroll;
+    /* overflow: hidden; */
+}
+.presentation-footer {
+    margin-top: 16px;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid gray;
+    font-size: smaller;
+}
+.presentation-speech {
+    text-align: justify;
+    margin-bottom: 32px;
+    overflow-y: auto;
+}
+
+.presentation-speech > h2 {
+    margin-top: 16px;
+    margin-bottom: 16px !important;
+}

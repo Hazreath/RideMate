@@ -1,0 +1,96 @@
+h2 {
+    /* text-align: center; */
+}
+h3 {
+    /* border-bottom: 2px dotted gray; */
+}
+.tabs-todomode {
+    /* background-color: red; */
+    position: sticky;
+    position: -webkit-sticky;
+    top: 137px;
+    left: 0;
+    align-self: flex-start;
+    z-index: 1;
+    background-color: white;
+}
+
+@media screen and (max-width: 460px) {
+    .tabs-todomode {
+        /* background-color: blue; */
+        top: 102.33px;
+    }
+}
+
+@media screen and (max-height: 500px) {
+    .tabs-todomode {
+        /* background-color: blue; */
+        top: 102.33px;
+    }
+}
+.parklist-root {
+    height: 100%;
+}
+.parklist {
+    overflow: visible;
+    padding: 0 8px 0 8px;
+    height: 100%;
+}
+.parklist-container {
+    overflow-y: scroll;
+    overflow: visible;
+    /* z-index: -1; */
+
+    /* height: 55vh; */
+}
+.parklist-platform {
+    position: relative;
+    z-index: 0;
+}
+.platform-name {
+    align-self: center;
+}
+.trick-bag {
+    margin-left: 32px;
+    font-size: 20px;
+    /* z-index: -1; */
+}
+
+.trick-bag > li {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 4px;
+}
+
+.trick-bag > li > label {
+    /* z-index: -1; */
+}
+.trick-bag > li > label > input[type="checkbox"] {
+    margin-right: 15px;
+    transform: scale(2);
+    accent-color: limegreen;
+    color: yellow;
+}
+
+.delete-button {
+    /* border-radius: 100px !important; */
+    /* line-height: 10px !important;
+    font-size: 10px !important;
+    font-weight: 500;
+    width: 20px !important;
+    padding: 10px !important;
+    height: 20px !important;
+    vertical-align: middle !important;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: auto; */
+    margin-left: auto;
+    font-weight: 500;
+    /* align-self: flex-end; */
+}
+
+.parklist-platform > ul {
+    list-style: none;
+}

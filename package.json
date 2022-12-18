@@ -1,13 +1,20 @@
 {
     "dependencies": {
-        "concurrently": "^7.4.0"
+        "concurrently": "^7.4.0",
+        "create-next-app": "^13.0.7"
     },
-    "scripts": {
+    "old-scripts": {
         "COMMENTAIRE": "POUR BACK HEROKU",
         "start": "cd back; npm run prod",
         "build": "cd back; npm install",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "osef": "osef"
+    },
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
     }
 }

@@ -1,0 +1,109 @@
+.login-background {
+    /* background-image: url("../assets/imgs/adrenaline-alley.jpg");
+    background-position:40%; */
+    position: fixed;
+    opacity: 0.5;
+
+    width: 100%;
+    height: 100%;
+    right: 0;
+    bottom: 0;
+    /* background-repeat: repeat; */
+
+    z-index: -10;
+    transform: scale(1.5);
+    background-color: black;
+}
+
+@media screen and (max-width: 1200px) {
+    .login-background {
+        transform: scale(2);
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .login-background {
+        transform: scale(3);
+    }
+}
+
+.login-page {
+    text-align: center;
+}
+
+.login-page > .logo {
+    margin-bottom: 32px;
+}
+.login-page > .logo > img {
+    margin-bottom: -16px;
+}
+.login-page > .logo > .logo-subtitle {
+    width: auto;
+    color: black;
+    font-style: italic;
+    font-size: smaller;
+}
+
+.login-frame {
+    width: 80vw;
+    min-height: 40vh;
+    margin: auto;
+    box-shadow: 0px 0px 21px -2px rgba(0, 0, 0, 0.79);
+    opacity: 0.85;
+    /* border-top: 3px solid black;
+    border-bottom: 1px solid black; */
+}
+
+.login-form {
+    width: 90%;
+    text-align: center;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-form > input[type="text"] {
+    margin: 16px 0 16px 0;
+}
+.login-form > input[type="submit"] {
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+a.register {
+    color: blue;
+    font-size: small;
+}
+
+a.presentation::before {
+    content: "i";
+    padding: 0 7px 0 7px;
+    width: 8px;
+    height: 8px;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    background-color: rgb(101, 101, 230);
+    border-radius: 100px;
+    margin-right: 4px;
+}
+a.presentation {
+    margin-top: 32px;
+    font-size: smaller;
+    color: rgb(165, 159, 159) !important;
+    text-decoration: none !important;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-size: smaller;
+}
+
+footer > a {
+    text-decoration: underline;
+}

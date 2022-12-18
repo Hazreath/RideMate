@@ -1,0 +1,114 @@
+.menu-container {
+    align-self: center;
+    max-width: 80px;
+}
+.menu {
+    position: fixed;
+    left: 0;
+    top: 137px;
+    z-index: 99;
+    /* width:33%; */
+    height: 100%;
+    background: white;
+    padding: 8px;
+    border-right: 1px solid black;
+    border-top: 1px dotted grey;
+    overflow-y: visible;
+}
+
+.burger-menu {
+    max-width: 80px !important;
+    /* height:50px; */
+}
+.first-initialization {
+    display: none;
+    /* background: red; */
+}
+.menu-opened {
+    /* initial state */
+    /* left: -1000px; */
+
+    /* background-color: green; */
+    animation: open-drawer 0.5s forwards;
+}
+.menu-rider-tag-container {
+    display: none;
+}
+
+.menu-closed {
+    /* initial state */
+    /* left: -1000px; */
+    /* background-color: orange; */
+
+    animation: close-drawer 0.5s forwards;
+    /* width: 0; */
+}
+
+a.disabled {
+    background: lightgray;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+a.disabled:hover {
+    background: lightgray !important;
+}
+@keyframes open-drawer {
+    from {
+        /* opacity: 0;
+        visibility: hidden; */
+        left: -1000px;
+    }
+    to {
+        /* opacity: 1;
+        visibility: visible; */
+        left: 0;
+    }
+}
+@keyframes close-drawer {
+    from {
+        /* opacity: 0;
+        visibility: hidden; */
+        left: 0x;
+    }
+    to {
+        /* opacity: 1;
+        visibility: visible; */
+        left: -1000px;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .menu-rider-tag-container {
+        display: flex;
+    }
+    .menu {
+        top: 102.33px;
+    }
+}
+
+@media screen and (max-height: 500px) {
+    .menu-rider-tag-container {
+        display: flex;
+        /* max-height: 100px; */
+    }
+
+    .menu-options {
+        margin-left: 32px;
+        height: 60vh;
+        overflow-y: scroll;
+    }
+
+    .menu {
+        top: 102.33px;
+    }
+    .menu-opened {
+        display: flex;
+    }
+}
+
+@media screen and (max-height: 300px) {
+    .menu-rider-tag-container {
+        display: flex;
+        /* max-height: 100px; */
+    }
+}

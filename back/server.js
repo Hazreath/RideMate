@@ -14,7 +14,6 @@ const tricksRoutes = require("./routes/tricks");
 const app = express();
 require("dotenv").config();
 // const port = 3001;
-console.log(process.env);
 if (process.env.DEBUG_ENV_VARS === "true") {
     console.log("DEBUG_ENV_VARS");
     console.log(process.env);
